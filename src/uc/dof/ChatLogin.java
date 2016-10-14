@@ -1,4 +1,4 @@
-package ucc.view;
+package uc.dof;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -24,19 +24,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-
-
-
-
-
-
-
-
-
-
-import uc.common.ChatBean;
-import uc.common.ClientBean;
-import ucc.tool.ChatUtil;
+import uc.pub.UtilTool;
+import uc.pub.common.ChatBean;
+import uc.pub.common.ClientBean;
 
 public class ChatLogin extends JFrame {
 
@@ -169,57 +159,56 @@ public class ChatLogin extends JFrame {
 		});
 */
 		// ¼àÌýµÇÂ½°´Å¥
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String name = textField.getText();
-						String pwd = new String(passwordField.getPassword());
-						try {
-							Socket client = new Socket("localhost", 8520);
-							ObjectOutputStream oos=new ObjectOutputStream(client.getOutputStream());
-							ChatBean m= new ChatBean();
-							m.setType(11);
-							m.setName(name);
-							m.setPwd(pwd);
-							oos.writeObject(m);
-							//oos.flush();
-							ObjectInputStream ois=new ObjectInputStream(client.getInputStream());
-							ChatBean ms=(ChatBean)ois.readObject();
-							switch (ms.getType()) {						
-							case 110: {
-								btnNewButton.setEnabled(false);
-								Chatroom frame = new Chatroom(name,
-										client);
-								frame.setVisible(true);// ÏÔÊ¾ÁÄÌì½çÃæ
-								dispose();
-								//setVisible(false);// Òþ²ØµôµÇÂ½½çÃæ
-								break;
-							}
-							case 111: {
-								lblNewLabel.setText(" ÃÜÂë´íÎó£¡");
-								textField.setText("");
-								passwordField.setText("");
-								textField.requestFocus();
-								
-								break;
-							}
-							default: {
-								break;
-							}
-						}
-							
-						} catch (UnknownHostException e1) {
-							// TODO Auto-generated catch block
-							errorTip("The connection with the server is interrupted, please login again");
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							errorTip("The connection with the server is interrupted, please login again");
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textField.getText();
+				String pwd = new String(passwordField.getPassword());
+				try {
+					Socket client = new Socket("localhost", 8520);
+					ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
+					ChatBean m = new ChatBean();
+					m.setType(11);
+					m.setName(name);
+					m.setPwd(pwd);
+					oos.writeObject(m);
+					// oos.flush();
+					ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
+					ChatBean ms = (ChatBean) ois.readObject();
+					switch (ms.getType()) {
+					case 110: {
+						btnNewButton.setEnabled(false);
+						Chatroom frame = new Chatroom(name, client);
+						frame.setVisible(true);// ÏÔÊ¾ÁÄÌì½çÃæ
+						dispose();
+						// setVisible(false);// Òþ²ØµôµÇÂ½½çÃæ
+						break;
 					}
-				});
-		//×¢²á°´Å¥¼àÌý
+					case 111: {
+						lblNewLabel.setText(" ÃÜÂë´íÎó£¡");
+						textField.setText("");
+						passwordField.setText("");
+						textField.requestFocus();
+
+						break;
+					}
+					default: {
+						break;
+					}
+					}
+
+				} catch (UnknownHostException e1) {
+					// TODO Auto-generated catch block
+					errorTip("The connection with the server is interrupted, please login again");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					errorTip("The connection with the server is interrupted, please login again");
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		// ×¢²á°´Å¥¼àÌý
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnNewButton_1.setEnabled(false);

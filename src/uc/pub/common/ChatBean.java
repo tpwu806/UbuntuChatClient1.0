@@ -1,4 +1,4 @@
-package uc.common;
+package uc.pub.common;
 
 import java.io.Serializable;
 import java.util.HashMap;

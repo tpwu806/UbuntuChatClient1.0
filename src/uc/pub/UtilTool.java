@@ -1,4 +1,4 @@
-package ucc.tool;
+package uc.pub;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-public class ChatUtil {
+public class UtilTool {
 
 	// Properties加载文件信息
 	public static void loadPro(Properties pro, File file) {
@@ -31,7 +31,6 @@ public class ChatUtil {
 		}
 	}
 	
-	@SuppressWarnings("unused")
 	public static String getTimer() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(new Date());

@@ -1,4 +1,4 @@
-package ucc.view;
+package uc.dof;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
@@ -48,9 +48,9 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import uc.common.ChatBean;
-import ucc.tool.ChatUtil;
-import ucc.model.*;
+import uc.dal.model.*;
+import uc.pub.UtilTool;
+import uc.pub.common.ChatBean;
 
 public class Chatroom extends JFrame {
 
@@ -193,7 +193,7 @@ public class Chatroom extends JFrame {
 			ChatBean bean = new ChatBean();
 			bean.setType(0);
 			bean.setName(name);
-			bean.setTimer(ChatUtil.getTimer());
+			bean.setTimer(UtilTool.getTimer());
 			oos.writeObject(bean);
 			oos.flush();
 
@@ -237,7 +237,7 @@ public class Chatroom extends JFrame {
 				ChatBean clientBean = new ChatBean();
 				clientBean.setType(1);
 				clientBean.setName(name);
-				String time = ChatUtil.getTimer();
+				String time = UtilTool.getTimer();
 				clientBean.setTimer(time);
 				clientBean.setInfo(info);
 				HashSet set = new HashSet();
@@ -265,7 +265,7 @@ public class Chatroom extends JFrame {
 				ChatBean clientBean = new ChatBean();
 				clientBean.setType(-1);
 				clientBean.setName(name);
-				clientBean.setTimer(ChatUtil.getTimer());
+				clientBean.setTimer(UtilTool.getTimer());
 				sendMessage(clientBean);
 				}
 			}
@@ -287,7 +287,7 @@ public class Chatroom extends JFrame {
 					ChatBean clientBean = new ChatBean();
 					clientBean.setType(-1);
 					clientBean.setName(name);
-					clientBean.setTimer(ChatUtil.getTimer());
+					clientBean.setTimer(UtilTool.getTimer());
 					sendMessage(clientBean);
 				}
 				}
@@ -329,7 +329,7 @@ public class Chatroom extends JFrame {
 						clientBean.setType(2);// 请求发送文件
 						clientBean.setSize(new Long(file.length()).intValue());
 						clientBean.setName(name);
-						clientBean.setTimer(ChatUtil.getTimer());
+						clientBean.setTimer(UtilTool.getTimer());
 						clientBean.setFileName(file.getName()); // 记录文件的名称
 						clientBean.setInfo("请求发送文件");
 
@@ -414,7 +414,7 @@ public class Chatroom extends JFrame {
 									ChatBean clientBean = new ChatBean();
 									clientBean.setType(3);
 									clientBean.setName(name);  //接收文件的客户名字
-									clientBean.setTimer(ChatUtil.getTimer());
+									clientBean.setTimer(UtilTool.getTimer());
 									clientBean.setFileName(saveFilePath);
 									clientBean.setInfo("确定接收文件");
 
@@ -439,7 +439,7 @@ public class Chatroom extends JFrame {
 										isReceiveFile=true;
 										//等待文件来源的客户，输送文件....目标客户从网络上读取文件，并写在本地上
 										Socket sk = ss.accept();
-                                        textArea.append(ChatUtil.getTimer() + "  " + bean.getFileName()
+                                        textArea.append(UtilTool.getTimer() + "  " + bean.getFileName()
 												+ "文件保存中.\r\n");
 										DataInputStream dis = new DataInputStream(  //从网络上读取文件
 												new BufferedInputStream(sk.getInputStream()));
@@ -474,7 +474,7 @@ public class Chatroom extends JFrame {
 										
 										//给文件来源客户发条提示，文件保存完毕
 										PrintWriter out = new PrintWriter(sk.getOutputStream(),true);
-										out.println(ChatUtil.getTimer() + " 发送给"+name+"的文件[" + bean.getFileName()+"]"
+										out.println(UtilTool.getTimer() + " 发送给"+name+"的文件[" + bean.getFileName()+"]"
 												+ "文件保存完毕.\r\n");
 										out.flush();
 										dos.flush();
@@ -483,7 +483,7 @@ public class Chatroom extends JFrame {
 										dis.close();
 										sk.close();
 										ss.close();
-										textArea.append(ChatUtil.getTimer() + "  " + bean.getFileName()
+										textArea.append(UtilTool.getTimer() + "  " + bean.getFileName()
 												+ "文件保存完毕.存放位置为:"+saveFilePath+"\r\n");
 										isReceiveFile = false;
 									} catch (Exception e) {
@@ -496,9 +496,9 @@ public class Chatroom extends JFrame {
 									ChatBean clientBean = new ChatBean();
 									clientBean.setType(4);
 									clientBean.setName(name);  //接收文件的客户名字
-									clientBean.setTimer(ChatUtil.getTimer());
+									clientBean.setTimer(UtilTool.getTimer());
 									clientBean.setFileName(bean.getFileName());
-									clientBean.setInfo(ChatUtil.getTimer() + "  "
+									clientBean.setInfo(UtilTool.getTimer() + "  "
 											+ name + "取消接收文件["
 											+ bean.getFileName() + "]");
 

@@ -1,4 +1,4 @@
-package ucc.model;
+package uc.dof;
 
 import java.awt.Color;
 import java.awt.Component;

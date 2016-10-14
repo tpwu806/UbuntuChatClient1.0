@@ -1,4 +1,4 @@
-package ucc.view;
+package uc.dof;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -23,8 +23,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import uc.common.ChatBean;
-import ucc.tool.ChatUtil;
+import uc.pub.UtilTool;
+import uc.pub.common.ChatBean;
 
 public class ChatResign extends JFrame {
 
