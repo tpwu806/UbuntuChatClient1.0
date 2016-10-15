@@ -10,12 +10,17 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-public class CellRenderer extends JLabel implements ListCellRenderer {
+public class CellRenderer extends JLabel implements ListCellRenderer<Object> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public CellRenderer() {
 		setOpaque(true);
 	}
 
-	public Component getListCellRendererComponent(JList list, Object value,
+	public Component getListCellRendererComponent(JList<?> list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));// 加入宽度为5的空白边框

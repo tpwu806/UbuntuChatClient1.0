@@ -4,20 +4,22 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class ChatBean implements Serializable {
+public class MessageBean implements Serializable {
 	
-	private String info;
-	private String timer;
-	private String name;
-	private String pwd;
-	private String fileName;
-	private String ip;
-	private int size;
-	private int port;
+	private String name;//登录名
+	private String pwd;//密码
 	private int type; // 1私聊 0上下线更新 -1下线请求 2请求发送文件 3.确定接收文件
+	
 	private HashSet<String> clients; // 存放选中的客户
 	private HashSet<String> to;	
-	public HashMap<String, ClientBean> onlines;
+	
+	private String info;//内容
+	private String timer;//时间	
+	private String fileName;//文件名称
+	private String ip;//ip地址
+	private int size;//大小
+	private int port;//端口号	
+		
 
 	public String getPwd() {
 		return pwd;
@@ -106,15 +108,5 @@ public class ChatBean implements Serializable {
 	public void setPort(int port) {
 		this.port = port;
 	}
-
-	public HashMap<String, ClientBean> getOnlines() {
-		return onlines;
-	}
-
-	public void setOnlines(HashMap<String, ClientBean> onlines) {
-		this.onlines = onlines;
-	}
-
-	
 	
 }
