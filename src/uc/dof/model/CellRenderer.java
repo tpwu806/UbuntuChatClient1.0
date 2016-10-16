@@ -1,4 +1,4 @@
-package uc.dof;
+package uc.dof.model;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -20,6 +20,7 @@ public class CellRenderer extends JLabel implements ListCellRenderer<Object> {
 		setOpaque(true);
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 

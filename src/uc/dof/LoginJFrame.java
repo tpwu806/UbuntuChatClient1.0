@@ -123,23 +123,25 @@ public class LoginJFrame extends JFrame {
 		String pwd = new String(passwordField.getPassword());
 						
 		MessageBean m = new MessageBean();
-		m.setType(MessageType.CLIENT_SIGN_IN);
+		m.setType(MessageType.SIGN_IN);
 		m.setName(name);
 		m.setPwd(pwd);
 			
 		MessageBean ms = server.sendUserInfoToServer(m);
 					
 		switch (ms.getType()) {
-		case MessageType.SERVER_SIGN_IN_SUCCESS: {
+		case MessageType.SIGN_IN_SUCCESS: {
 			System.out.println("登录成功");
 			loginButton.setEnabled(false);
-			frame = new ChatroomJFrame(name, server.getSocket());
-			frame.setVisible(true);// 显示聊天界面
+			//frame = new ChatroomJFrame(name, server.getSocket());
+			//frame.setVisible(true);// 显示聊天界面
+			FriendListJFrame friendJFrame = new FriendListJFrame(name, server.getSocket());
+			friendJFrame.setVisible(true);
 			dispose();
 			//setVisible(false);// 隐藏掉登陆界面
 			break;
 		}
-		case MessageType.SERVER_SIGN_IN_FALSE: {
+		case MessageType.SIGN_IN_FALSE: {
 			errorLabel.setText(" 密码错误！");
 			textField.setText("");
 			passwordField.setText("");

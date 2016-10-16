@@ -38,6 +38,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import uc.dal.model.ClientInputThread;
+import uc.dof.model.CellRenderer;
+import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;
 import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
@@ -233,7 +235,6 @@ public class ChatroomJFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Actionlist(e);
-
 			}
 		});
 	}

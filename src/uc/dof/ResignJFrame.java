@@ -152,18 +152,18 @@ public class ResignJFrame extends JFrame {
 		}		
 					
 		MessageBean m = new MessageBean();
-		m.setType(MessageType.CLIENT_SIGN_OUT);
+		m.setType(MessageType.SIGN_UP);
 		m.setName(u_name);
 		m.setPwd(u_pwd);
 		
 		MessageBean ms = server.sendUserInfoToServer(m);
 					
 		switch (ms.getType()) {
-		case MessageType.SERVER_SIGN_UP_SUCCESS: {
+		case MessageType.SIGN_UP_SUCCESS: {
 			lblNewLabel.setText("注册成功！");
 			break;
 		}
-		case MessageType.SERVER_SIGN_UP_FALSE: {
+		case MessageType.SIGN_UP_FALSE: {
 			lblNewLabel.setText("此帐号已注册！");
 			break;
 		}

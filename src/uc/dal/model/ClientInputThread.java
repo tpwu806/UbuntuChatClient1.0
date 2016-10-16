@@ -22,7 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import uc.dof.ChatroomJFrame;
-import uc.dof.OnlineListModel;
+import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;
 import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
@@ -39,20 +39,16 @@ public class ClientInputThread implements Runnable {
 		this.name=name;
 		this.socket = socket;
 		this.RoomWindow=RoomWindow;	
-		System.out.println(name+"线程开启了");
 	}
 	
 	volatile boolean running = true;
 	@Override
 	public void run() {
-		System.out.println("ClientInputThread running");
 		try {
 			// 不停的从服务器接收信息
 			while (running) {
-				System.out.println("while running");
 				ois = new ObjectInputStream(socket.getInputStream());
 				final MessageBean bean = (MessageBean) ois.readObject();
-				System.out.println("bean.getType()"+bean.getType());
 				switch (bean.getType()) {
 				case MessageType.SERVER_UPDATE_FRIENDS: {
 					System.out.println(bean.getType());
@@ -72,7 +68,7 @@ public class ClientInputThread implements Runnable {
 					RoomWindow.listmodel = new OnlineListModel(RoomWindow.onlines);
 					RoomWindow.list.setModel(RoomWindow.listmodel);
 					RoomWindow.aau2.play();
-					RoomWindow.chartextArea.append(bean.getInfo() + "\r\n");
+					//RoomWindow.chartextArea.append(bean.getInfo() + "\r\n");
 					RoomWindow.chartextArea.selectAll();
 					break;
 				}
@@ -81,7 +77,6 @@ public class ClientInputThread implements Runnable {
 					return;
 				}
 				case MessageType.CLIENT_CHAR: {
-					System.out.println("HHHHHHHHHHHHHH");
 					String info = bean.getTimer() + "  " + bean.getName() + " 对 " + bean.getClients() + "说:\r\n";
 					System.out.println(info);
 					if (info.contains(name)) {
@@ -92,17 +87,13 @@ public class ClientInputThread implements Runnable {
 					RoomWindow.chartextArea.selectAll();
 					break;
 				}
-				case MessageType.SERVER_NOTICE: {
-					System.out.println("HHHHHHHHHHHHHH");
-					String info =  "UbuntuChat服务器:\r\n";
-					System.out.println(info);
-					
+				case MessageType.SERVER_BROADCAST: {
 					RoomWindow.aau.play();
-					RoomWindow.chartextArea.append(info + bean.getInfo() + "\r\n");
+					RoomWindow.chartextArea.append( bean.getInfo() + "\r\n");
 					RoomWindow.chartextArea.selectAll();
 					break;
 				}
-				case 2: {
+				case MessageType.FILE_REQUESTION: {
 					// 由于等待目标客户确认是否接收文件是个阻塞状态，所以这里用线程处理
 					new Thread() {
 						public void run() {
@@ -120,7 +111,7 @@ public class ClientInputThread implements Runnable {
 
 								// 创建客户CatBean
 								MessageBean clientBean = new MessageBean();
-								clientBean.setType(3);
+								clientBean.setType(MessageType.FILE_RECEIVE);
 								clientBean.setName(name); // 接收文件的客户名字
 								clientBean.setTimer(UtilTool.getTimer());
 								clientBean.setFileName(saveFilePath);
@@ -199,7 +190,7 @@ public class ClientInputThread implements Runnable {
 							}
 							default: {
 								MessageBean clientBean = new MessageBean();
-								clientBean.setType(4);
+								clientBean.setType(MessageType.FILE_RECEIVE_OK);
 								clientBean.setName(name); // 接收文件的客户名字
 								clientBean.setTimer(UtilTool.getTimer());
 								clientBean.setFileName(bean.getFileName());
@@ -222,7 +213,7 @@ public class ClientInputThread implements Runnable {
 					}.start();
 					break;
 				}
-				case 3: { // 目标客户愿意接收文件，源客户开始读取本地文件并发送到网络上
+				case MessageType.FILE_RECEIVE: { // 目标客户愿意接收文件，源客户开始读取本地文件并发送到网络上
 					RoomWindow.chartextArea.append(bean.getTimer() + "  " + bean.getName() + "确定接收文件" + ",文件传送中..\r\n");
 					new Thread() {
 						public void run() {
@@ -279,7 +270,7 @@ public class ClientInputThread implements Runnable {
 					}.start();
 					break;
 				}
-				case 4: {
+				case MessageType.FILE_RECEIVE_OK: {
 					RoomWindow.chartextArea.append(bean.getInfo() + "\r\n");
 					break;
 				}

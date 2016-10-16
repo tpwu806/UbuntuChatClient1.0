@@ -6,97 +6,74 @@ package uc.pub.common;
  * @version 1.0
  */
 public class MessageType {
-	
-	/**************************************************************
-	 *命名规则
-	 *客户端请求服务信息 1
-	 *登陆00       
-	 *下线01
-	 *聊天02
-	 *请求接收文件03
-	 *确认请求接收文件04
-	 *注册05
-	 *
-	 *服务器返回结果2 
-	 *登陆成功100
-	 *登陆失败101
-	 */
-	
+
 	/**
-	 *  登录
+	 * 登录
 	 */
-	public static final int CLIENT_SIGN_IN = 100;
-	
-	/**
-	 *  下线
-	 */
-	public static final int CLIENT_SIGN_OUT = 110;
-	
-	/**
-	 * 聊天
-	 */
-	public static final int CLIENT_CHAR = 120;
-	
-	/**
-	 * 请求接受文件
-	 */
-	public static final int CLIENT_REQUESTION_RECEIVE = 130;
-	
-	/**
-	 *  确定接收文件
-	 */
-	public static final int CLIENT_AGREE_RECEIVE = 140;
-	
-	/**
-	 * 
-	 */
-	public static final int CLIENT_AGREE_RECEIVE_OK = 4;
-	
-	/**
-	 *  注册
-	 */
-	public static final int CLIENT_SIGN_UP = 150;
-	
+	public static final int SIGN_IN = 100;
 	/**
 	 * 登陆成功
 	 */
-	public static final int SERVER_SIGN_IN_SUCCESS = 200;
+	public static final int SIGN_IN_SUCCESS = 101;
 	/**
 	 * 登陆失败 密码错误
 	 */
-	public static final int SERVER_SIGN_IN_FALSE = 201;
-	
+	public static final int SIGN_IN_FALSE = 102;
+	// *******************************************************************
 	/**
-	 * 登陆失败 已经登陆
+	 * 下线
 	 */
-	public static final int SERVER_SIGN_IN_FALSE2 = 202;	
+	public static final int SIGN_OUT = 200;
 	/**
-	 * 有人登陆通知
+	 * 有人下线
 	 */
-	public static final int SERVER_SIGN_IN_NOTICE = 203;
+	public static final int SIGN_OUT_NOTICE = 201;
+
+	// *******************************************************************
 	/**
-	 * 服务器通知
+	 * 注册
 	 */
-	public static final int SERVER_NOTICE = 204;
-	/**
-	 *  你被强制下线
-	 */
-	public static final int SERVER_SIGN_OUT = 210;
-	/**
-	 *  有人下线
-	 */
-	public static final int SERVER_SIGN_OUT_NOTICE = 211;
+	public static final int SIGN_UP = 301;
 	/**
 	 * 注册成功
 	 */
-	public static final int SERVER_SIGN_UP_SUCCESS = 250;
+	public static final int SIGN_UP_SUCCESS = 302;
 	/**
-	 * 注册失败 已经注册
+	 * 注册失败
 	 */
-	public static final int SERVER_SIGN_UP_FALSE = 251;
+	public static final int SIGN_UP_FALSE = 303;
+	// *******************************************************************
 	/**
-	 * 注册失败 已经注册
+	 * 请求接受文件
 	 */
-	public static final int SERVER_UPDATE_FRIENDS = 251;
+	public static final int FILE_REQUESTION = 402;
+
+	/**
+	 * 确定接收文件
+	 */
+	public static final int FILE_RECEIVE = 403;
+
+	/**
+	 * 
+	 */
+	public static final int FILE_RECEIVE_OK = 404;
+	// *******************************************************************
+	/**
+	 * 聊天
+	 */
+	public static final int CLIENT_CHAR = 500;
+	/**
+	 * 一对一聊天
+	 */
+	public static final int SINGLETON_CHAR = 510;
+	/**
+	 * 服务器广播
+	 */
+	public static final int SERVER_BROADCAST = 520;
+	// *******************************************************************
+	/**
+	 * 更新在线好友
+	 */
+	public static final int SERVER_UPDATE_FRIENDS = 600;
 
 }

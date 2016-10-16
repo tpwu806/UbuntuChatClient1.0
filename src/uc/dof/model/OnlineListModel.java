@@ -1,4 +1,4 @@
-package uc.dof;
+package uc.dof.model;
 
 import java.util.Vector;
 
