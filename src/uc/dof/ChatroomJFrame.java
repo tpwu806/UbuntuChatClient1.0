@@ -54,8 +54,6 @@ public class ChatroomJFrame extends JFrame {
 	private static final long serialVersionUID = 6129126482250125466L;
 
 	private  JPanel contentPane;
-	private  Socket clientSocket;
-	private  String name;
 	public  JTextArea chartextArea;//聊天信息显示区域
 	public  JList<String> list;
 	public  String filePath;// 文件路径
@@ -71,23 +69,24 @@ public class ChatroomJFrame extends JFrame {
 	private  File file, file2;
 	private  URL cb, cb2;
 	public  AudioClip aau;
-
 	public  AudioClip aau2;
 
 	public JTextArea sendJTextArea;// 发送区
 	private JButton sendButton;// 发送按钮
 	private JButton closeButton;// 关闭按钮
 
-	private ClientInputThread clientInputThread;
-
+	private FriendListJFrame WIN;
+	private  String name;
+	private String groupName;
 	/**
 	 * Create the frame.
-	 */
-
-	public ChatroomJFrame(String u_name, Socket client) {
+	 */	
+	public ChatroomJFrame(String u_name, String groupName,FriendListJFrame win) {
 		// 赋值
-		name = u_name;
-		clientSocket = client;
+		this.name = u_name;
+		this.groupName=groupName;
+		this.WIN=WIN;
+		
 		init();
 	}
 
@@ -107,7 +106,7 @@ public class ChatroomJFrame extends JFrame {
 		 * // TODO Auto-generated catch block e1.printStackTrace(); }
 		 */
 
-		setTitle(name);
+		setTitle(groupName);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(200, 100, 688, 510);
@@ -163,7 +162,7 @@ public class ChatroomJFrame extends JFrame {
 		list.setCellRenderer(new CellRenderer());
 		list.setOpaque(false);
 		Border etch = BorderFactory.createEtchedBorder();
-		list.setBorder(BorderFactory.createTitledBorder(etch, "<" + name + ">" + "在线客户:", TitledBorder.LEADING,
+		list.setBorder(BorderFactory.createTitledBorder(etch, "<" + groupName + ">" + "在线客户:", TitledBorder.LEADING,
 				TitledBorder.TOP, new Font("sdf", Font.BOLD, 20), Color.green));
 
 		JScrollPane onlineJScrollPane = new JScrollPane(list);
@@ -200,9 +199,9 @@ public class ChatroomJFrame extends JFrame {
 			aau2.play();
 			// 启动客户接收线程
 			// new ClientInputThread().start();
-			clientInputThread = new ClientInputThread(name, clientSocket, this);
+			/*clientInputThread = new ClientInputThread(name, clientSocket, this);
 			Thread t = new Thread(clientInputThread);
-			t.start();
+			t.start();*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -254,7 +253,7 @@ public class ChatroomJFrame extends JFrame {
 			JOptionPane.showMessageDialog(getContentPane(), "请选择聊天对象");
 			return;
 		}
-		if (to.toString().contains(name + "(我)")) {
+		if (to.toString().contains(groupName + "(我)")) {
 			JOptionPane.showMessageDialog(getContentPane(), "不能向自己发送信息");
 			return;
 		}
@@ -372,7 +371,7 @@ public class ChatroomJFrame extends JFrame {
 	 * @return void
 	 */
 	private void sendMessage(MessageBean clientBean) {
-		clientInputThread.sendMessage(clientBean);
+		WIN.server.sendMessage(clientBean);
 	}
 
 }

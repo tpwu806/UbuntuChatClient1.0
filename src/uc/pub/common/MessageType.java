@@ -70,10 +70,23 @@ public class MessageType {
 	 * 服务器广播
 	 */
 	public static final int SERVER_BROADCAST = 520;
+	/**
+	 * 群聊天
+	 */
+	public static final int GROUP_CHAR = 530;
 	// *******************************************************************
 	/**
 	 * 更新在线好友
 	 */
 	public static final int SERVER_UPDATE_FRIENDS = 600;
+	/**
+	 * 更新群
+	 */
+	public static final int UPDATE_GROUP = 610;
+	/**
+	 * 更新在线群好友
+	 */
+	public static final int UPDATE_GROUP_FRIENDS = 620;
+	
 
 }

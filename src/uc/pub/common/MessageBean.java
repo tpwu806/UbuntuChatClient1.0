@@ -22,6 +22,11 @@ public class MessageBean implements Serializable {
 	private String fileName;//文件名称
 	private int size;//大小
 	
+	private String group;
+	public String getGroup() {
+		return group;
+	}
+		
 	public String getName() {
 		return name;
 	}
@@ -94,5 +99,16 @@ public class MessageBean implements Serializable {
 	public void setSize(int size) {
 		this.size = size;
 	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+	public HashSet<String> getGroups() {
+		return groups;
+	}
+	public void setGroups(HashSet<String> groups) {
+		this.groups = groups;
+	}
+	private HashSet<String> groups;	
 	
 }
