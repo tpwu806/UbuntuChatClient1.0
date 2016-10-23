@@ -45,21 +45,21 @@ public class ClientInputThread implements Runnable {
 	@Override
 	public void run() {
 		try {
-			// ²»Í£µÄ´Ó·şÎñÆ÷½ÓÊÕĞÅÏ¢
+			// ä¸åœçš„ä»æœåŠ¡å™¨æ¥æ”¶ä¿¡æ¯
 			while (running) {
 				ois = new ObjectInputStream(socket.getInputStream());
 				final MessageBean bean = (MessageBean) ois.readObject();
 				switch (bean.getType()) {
 				case MessageType.SERVER_UPDATE_FRIENDS: {
 					System.out.println(bean.getType());
-					// ¸üĞÂÁĞ±í
+					// æ›´æ–°åˆ—è¡¨
 					RoomWindow.onlines.clear();
 					HashSet<String> clients = bean.getClients();
 					Iterator<String> it = clients.iterator();
 					while (it.hasNext()) {
 						String ele = it.next();
 						if (name.equals(ele)) {
-							RoomWindow.onlines.add(ele + "(ÎÒ)");
+							RoomWindow.onlines.add(ele + "(æˆ‘)");
 						} else {
 							RoomWindow.onlines.add(ele);
 						}
@@ -77,10 +77,10 @@ public class ClientInputThread implements Runnable {
 					return;
 				}
 				case MessageType.CLIENT_CHAR: {
-					String info = bean.getTimer() + "  " + bean.getName() + " ¶Ô " + bean.getClients() + "Ëµ:\r\n";
+					String info = bean.getTimer() + "  " + bean.getName() + " å¯¹ " + bean.getClients() + "è¯´:\r\n";
 					System.out.println(info);
 					if (info.contains(name)) {
-						info = info.replace(name, "ÎÒ");
+						info = info.replace(name, "æˆ‘");
 					}
 					RoomWindow.aau.play();
 					RoomWindow.chartextArea.append(info + bean.getInfo() + "\r\n");
@@ -94,51 +94,51 @@ public class ClientInputThread implements Runnable {
 					break;
 				}
 				case MessageType.FILE_REQUESTION: {
-					// ÓÉÓÚµÈ´ıÄ¿±ê¿Í»§È·ÈÏÊÇ·ñ½ÓÊÕÎÄ¼şÊÇ¸ö×èÈû×´Ì¬£¬ËùÒÔÕâÀïÓÃÏß³Ì´¦Àí
+					// ç”±äºç­‰å¾…ç›®æ ‡å®¢æˆ·ç¡®è®¤æ˜¯å¦æ¥æ”¶æ–‡ä»¶æ˜¯ä¸ªé˜»å¡çŠ¶æ€ï¼Œæ‰€ä»¥è¿™é‡Œç”¨çº¿ç¨‹å¤„ç†
 					new Thread() {
 						public void run() {
-							// ÏÔÊ¾ÊÇ·ñ½ÓÊÕÎÄ¼ş¶Ô»°¿ò
+							// æ˜¾ç¤ºæ˜¯å¦æ¥æ”¶æ–‡ä»¶å¯¹è¯æ¡†
 							int result = JOptionPane.showConfirmDialog(RoomWindow, bean.getInfo());
 							switch (result) {
-							case 0: { // ½ÓÊÕÎÄ¼ş
+							case 0: { // æ¥æ”¶æ–‡ä»¶
 								JFileChooser chooser = new JFileChooser();
-								chooser.setDialogTitle("±£´æÎÄ¼ş¿ò"); // ±êÌâÅ¶...
-								// Ä¬ÈÏÎÄ¼şÃû³Æ»¹ÓĞ·ÅÔÚµ±Ç°Ä¿Â¼ÏÂ
+								chooser.setDialogTitle("ä¿å­˜æ–‡ä»¶æ¡†"); // æ ‡é¢˜å“¦...
+								// é»˜è®¤æ–‡ä»¶åç§°è¿˜æœ‰æ”¾åœ¨å½“å‰ç›®å½•ä¸‹
 								chooser.setSelectedFile(new File(bean.getFileName()));
-								chooser.showDialog(RoomWindow, "±£´æ"); // ÕâÊÇ°´Å¥µÄÃû×Ö..
-								// ±£´æÂ·¾¶
+								chooser.showDialog(RoomWindow, "ä¿å­˜"); // è¿™æ˜¯æŒ‰é’®çš„åå­—..
+								// ä¿å­˜è·¯å¾„
 								String saveFilePath = chooser.getSelectedFile().toString();
 
-								// ´´½¨¿Í»§CatBean
+								// åˆ›å»ºå®¢æˆ·CatBean
 								MessageBean clientBean = new MessageBean();
 								clientBean.setType(MessageType.FILE_RECEIVE);
-								clientBean.setName(name); // ½ÓÊÕÎÄ¼şµÄ¿Í»§Ãû×Ö
+								clientBean.setName(name); // æ¥æ”¶æ–‡ä»¶çš„å®¢æˆ·åå­—
 								clientBean.setTimer(UtilTool.getTimer());
 								clientBean.setFileName(saveFilePath);
-								clientBean.setInfo("È·¶¨½ÓÊÕÎÄ¼ş");
+								clientBean.setInfo("ç¡®å®šæ¥æ”¶æ–‡ä»¶");
 
-								// ÅĞ¶ÏÒª·¢ËÍ¸øË­
+								// åˆ¤æ–­è¦å‘é€ç»™è°
 								HashSet<String> set = new HashSet<String>();
 								set.add(bean.getName());
-								clientBean.setClients(set); // ÎÄ¼şÀ´Ô´
-								clientBean.setTo(bean.getClients());// ¸øÕâĞ©¿Í»§·¢ËÍÎÄ¼ş
+								clientBean.setClients(set); // æ–‡ä»¶æ¥æº
+								clientBean.setTo(bean.getClients());// ç»™è¿™äº›å®¢æˆ·å‘é€æ–‡ä»¶
 
-								// ´´½¨ĞÂµÄtcp socket ½ÓÊÕÊı¾İ, ÕâÊÇ¶îÍâÔö¼ÓµÄ¹¦ÄÜ, ´ó¼ÒÇëÁôÒâ...
+								// åˆ›å»ºæ–°çš„tcp socket æ¥æ”¶æ•°æ®, è¿™æ˜¯é¢å¤–å¢åŠ çš„åŠŸèƒ½, å¤§å®¶è¯·ç•™æ„...
 								try {
-									ServerSocket ss = new ServerSocket(0); // 0¿ÉÒÔ»ñÈ¡¿ÕÏĞµÄ¶Ë¿ÚºÅ
+									ServerSocket ss = new ServerSocket(0); // 0å¯ä»¥è·å–ç©ºé—²çš„ç«¯å£å·
 
 									clientBean.setIp(socket.getInetAddress().getHostAddress());
 									clientBean.setPort(ss.getLocalPort());
-									sendMessage(clientBean); // ÏÈÍ¨¹ı·şÎñÆ÷¸æËß·¢ËÍ·½,
-																// Äã¿ÉÒÔÖ±½Ó·¢ËÍÎÄ¼şµ½ÎÒÕâÀïÁË...
+									sendMessage(clientBean); // å…ˆé€šè¿‡æœåŠ¡å™¨å‘Šè¯‰å‘é€æ–¹,
+																// ä½ å¯ä»¥ç›´æ¥å‘é€æ–‡ä»¶åˆ°æˆ‘è¿™é‡Œäº†...
 
 									RoomWindow.isReceiveFile = true;
-									// µÈ´ıÎÄ¼şÀ´Ô´µÄ¿Í»§£¬ÊäËÍÎÄ¼ş....Ä¿±ê¿Í»§´ÓÍøÂçÉÏ¶ÁÈ¡ÎÄ¼ş£¬²¢Ğ´ÔÚ±¾µØÉÏ
+									// ç­‰å¾…æ–‡ä»¶æ¥æºçš„å®¢æˆ·ï¼Œè¾“é€æ–‡ä»¶....ç›®æ ‡å®¢æˆ·ä»ç½‘ç»œä¸Šè¯»å–æ–‡ä»¶ï¼Œå¹¶å†™åœ¨æœ¬åœ°ä¸Š
 									Socket sk = ss.accept();
-									RoomWindow.chartextArea.append(UtilTool.getTimer() + "  " + bean.getFileName() + "ÎÄ¼ş±£´æÖĞ.\r\n");
-									DataInputStream dis = new DataInputStream( // ´ÓÍøÂçÉÏ¶ÁÈ¡ÎÄ¼ş
+									RoomWindow.chartextArea.append(UtilTool.getTimer() + "  " + bean.getFileName() + "æ–‡ä»¶ä¿å­˜ä¸­.\r\n");
+									DataInputStream dis = new DataInputStream( // ä»ç½‘ç»œä¸Šè¯»å–æ–‡ä»¶
 											new BufferedInputStream(sk.getInputStream()));
-									DataOutputStream dos = new DataOutputStream( // Ğ´ÔÚ±¾µØÉÏ
+									DataOutputStream dos = new DataOutputStream( // å†™åœ¨æœ¬åœ°ä¸Š
 											new BufferedOutputStream(new FileOutputStream(saveFilePath)));
 
 									int count = 0;
@@ -154,9 +154,9 @@ public class ClientInputThread implements Runnable {
 												RoomWindow.progressBar.setValue(++index);
 											}
 											RoomWindow.lblNewLabel.setText(
-													"ÏÂÔØ½ø¶È:" + count + "/" + bean.getSize() + "  ÕûÌå" + index + "%");
+													"ä¸‹è½½è¿›åº¦:" + count + "/" + bean.getSize() + "  æ•´ä½“" + index + "%");
 										} else {
-											RoomWindow.lblNewLabel.setText("ÏÂÔØ½ø¶È:" + count + "/" + bean.getSize() + "  ÕûÌå:"
+											RoomWindow.lblNewLabel.setText("ä¸‹è½½è¿›åº¦:" + count + "/" + bean.getSize() + "  æ•´ä½“:"
 													+ new Double(new Double(count).doubleValue()
 															/ new Double(bean.getSize()).doubleValue() * 100)
 																	.intValue()
@@ -168,10 +168,10 @@ public class ClientInputThread implements Runnable {
 
 									}
 
-									// ¸øÎÄ¼şÀ´Ô´¿Í»§·¢ÌõÌáÊ¾£¬ÎÄ¼ş±£´æÍê±Ï
+									// ç»™æ–‡ä»¶æ¥æºå®¢æˆ·å‘æ¡æç¤ºï¼Œæ–‡ä»¶ä¿å­˜å®Œæ¯•
 									PrintWriter out = new PrintWriter(sk.getOutputStream(), true);
-									out.println(UtilTool.getTimer() + " ·¢ËÍ¸ø" + name + "µÄÎÄ¼ş[" + bean.getFileName()
-											+ "]" + "ÎÄ¼ş±£´æÍê±Ï.\r\n");
+									out.println(UtilTool.getTimer() + " å‘é€ç»™" + name + "çš„æ–‡ä»¶[" + bean.getFileName()
+											+ "]" + "æ–‡ä»¶ä¿å­˜å®Œæ¯•.\r\n");
 									out.flush();
 									dos.flush();
 									dos.close();
@@ -180,7 +180,7 @@ public class ClientInputThread implements Runnable {
 									sk.close();
 									ss.close();
 									RoomWindow.chartextArea.append(UtilTool.getTimer() + "  " + bean.getFileName()
-											+ "ÎÄ¼ş±£´æÍê±Ï.´æ·ÅÎ»ÖÃÎª:" + saveFilePath + "\r\n");
+											+ "æ–‡ä»¶ä¿å­˜å®Œæ¯•.å­˜æ”¾ä½ç½®ä¸º:" + saveFilePath + "\r\n");
 									RoomWindow.isReceiveFile = false;
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -191,17 +191,17 @@ public class ClientInputThread implements Runnable {
 							default: {
 								MessageBean clientBean = new MessageBean();
 								clientBean.setType(MessageType.FILE_RECEIVE_OK);
-								clientBean.setName(name); // ½ÓÊÕÎÄ¼şµÄ¿Í»§Ãû×Ö
+								clientBean.setName(name); // æ¥æ”¶æ–‡ä»¶çš„å®¢æˆ·åå­—
 								clientBean.setTimer(UtilTool.getTimer());
 								clientBean.setFileName(bean.getFileName());
 								clientBean.setInfo(
-										UtilTool.getTimer() + "  " + name + "È¡Ïû½ÓÊÕÎÄ¼ş[" + bean.getFileName() + "]");
+										UtilTool.getTimer() + "  " + name + "å–æ¶ˆæ¥æ”¶æ–‡ä»¶[" + bean.getFileName() + "]");
 
-								// ÅĞ¶ÏÒª·¢ËÍ¸øË­
+								// åˆ¤æ–­è¦å‘é€ç»™è°
 								HashSet<String> set = new HashSet<String>();
 								set.add(bean.getName());
-								clientBean.setClients(set); // ÎÄ¼şÀ´Ô´
-								clientBean.setTo(bean.getClients());// ¸øÕâĞ©¿Í»§·¢ËÍÎÄ¼ş
+								clientBean.setClients(set); // æ–‡ä»¶æ¥æº
+								clientBean.setTo(bean.getClients());// ç»™è¿™äº›å®¢æˆ·å‘é€æ–‡ä»¶
 
 								sendMessage(clientBean);
 
@@ -213,39 +213,39 @@ public class ClientInputThread implements Runnable {
 					}.start();
 					break;
 				}
-				case MessageType.FILE_RECEIVE: { // Ä¿±ê¿Í»§Ô¸Òâ½ÓÊÕÎÄ¼ş£¬Ô´¿Í»§¿ªÊ¼¶ÁÈ¡±¾µØÎÄ¼ş²¢·¢ËÍµ½ÍøÂçÉÏ
-					RoomWindow.chartextArea.append(bean.getTimer() + "  " + bean.getName() + "È·¶¨½ÓÊÕÎÄ¼ş" + ",ÎÄ¼ş´«ËÍÖĞ..\r\n");
+				case MessageType.FILE_RECEIVE: { // ç›®æ ‡å®¢æˆ·æ„¿æ„æ¥æ”¶æ–‡ä»¶ï¼Œæºå®¢æˆ·å¼€å§‹è¯»å–æœ¬åœ°æ–‡ä»¶å¹¶å‘é€åˆ°ç½‘ç»œä¸Š
+					RoomWindow.chartextArea.append(bean.getTimer() + "  " + bean.getName() + "ç¡®å®šæ¥æ”¶æ–‡ä»¶" + ",æ–‡ä»¶ä¼ é€ä¸­..\r\n");
 					new Thread() {
 						public void run() {
 
 							try {
 								RoomWindow.isSendFile = true;
-								// ´´½¨Òª½ÓÊÕÎÄ¼şµÄ¿Í»§Ì×½Ó×Ö
+								// åˆ›å»ºè¦æ¥æ”¶æ–‡ä»¶çš„å®¢æˆ·å¥—æ¥å­—
 								Socket s = new Socket(bean.getIp(), bean.getPort());
-								DataInputStream dis = new DataInputStream(new FileInputStream(RoomWindow.filePath)); // ±¾µØ¶ÁÈ¡¸Ã¿Í»§¸Õ²ÅÑ¡ÖĞµÄÎÄ¼ş
+								DataInputStream dis = new DataInputStream(new FileInputStream(RoomWindow.filePath)); // æœ¬åœ°è¯»å–è¯¥å®¢æˆ·åˆšæ‰é€‰ä¸­çš„æ–‡ä»¶
 								DataOutputStream dos = new DataOutputStream(
-										new BufferedOutputStream(s.getOutputStream())); // ÍøÂçĞ´³öÎÄ¼ş
+										new BufferedOutputStream(s.getOutputStream())); // ç½‘ç»œå†™å‡ºæ–‡ä»¶
 
 								int size = dis.available();
 
-								int count = 0; // ¶ÁÈ¡´ÎÊı
+								int count = 0; // è¯»å–æ¬¡æ•°
 								int num = size / 100;
 								int index = 0;
 								while (count < size) {
 
 									int t = dis.read();
 									dos.write(t);
-									count++; // Ã¿´ÎÖ»¶ÁÈ¡Ò»¸ö×Ö½Ú
+									count++; // æ¯æ¬¡åªè¯»å–ä¸€ä¸ªå­—èŠ‚
 
 									if (num > 0) {
 										if (count % num == 0 && index < 100) {
 											RoomWindow.progressBar.setValue(++index);
 
 										}
-										RoomWindow.lblNewLabel.setText("ÉÏ´«½ø¶È:" + count + "/" + size + "  ÕûÌå" + index + "%");
+										RoomWindow.lblNewLabel.setText("ä¸Šä¼ è¿›åº¦:" + count + "/" + size + "  æ•´ä½“" + index + "%");
 									} else {
 										RoomWindow.lblNewLabel
-												.setText("ÉÏ´«½ø¶È:" + count + "/" + size + "  ÕûÌå:"
+												.setText("ä¸Šä¼ è¿›åº¦:" + count + "/" + size + "  æ•´ä½“:"
 														+ new Double(new Double(count).doubleValue()
 																/ new Double(size).doubleValue() * 100).intValue()
 														+ "%");
@@ -256,7 +256,7 @@ public class ClientInputThread implements Runnable {
 								}
 								dos.flush();
 								dis.close();
-								// ¶ÁÈ¡Ä¿±ê¿Í»§µÄÌáÊ¾±£´æÍê±ÏµÄĞÅÏ¢...
+								// è¯»å–ç›®æ ‡å®¢æˆ·çš„æç¤ºä¿å­˜å®Œæ¯•çš„ä¿¡æ¯...
 								BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 								RoomWindow.chartextArea.append(br.readLine() + "\r\n");
 								RoomWindow.isSendFile = false;
@@ -298,8 +298,8 @@ public class ClientInputThread implements Runnable {
 	}
 		
 	/**
-	 * @Description:·¢ËÍĞÅÏ¢
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:å‘é€ä¿¡æ¯
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @param clientBean
 	 * @return void
 	 */

@@ -22,71 +22,71 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;  
   
 public class FriendView extends JFrame implements ActionListener,MouseListener{  
-    //±³¾°Í¼²ã  
+    //èƒŒæ™¯å›¾å±‚  
     ImageIcon background;  
     JPanel buttom;  
     JLabel imgLabel;  
     JButton jb;  
       
-    //ÉÏ²ã±±±ß  
+    //ä¸Šå±‚åŒ—è¾¹  
     JLabel head,name,sign;  
       
-    //ÉÏ²ãÄÏ±ß  
-    JPanel jp;//¿¨Æ¬²¼¾Ö  
+    //ä¸Šå±‚å—è¾¹  
+    JPanel jp;//å¡ç‰‡å¸ƒå±€  
     CardLayout cl;  
       
-    //µÚÒ»ÕÅ¿¨Æ¬  
+    //ç¬¬ä¸€å¼ å¡ç‰‡  
     JPanel jp1;  
     JButton jp1_jb1,jp1_jb2,jp1_jb3;  
       
-    //µÚ¶şÕÅ¿¨Æ¬  
+    //ç¬¬äºŒå¼ å¡ç‰‡  
     JPanel jp2;  
     JScrollPane jsp;  
-    JPanel jp_jsp;//ÓÃÀ´·Åjsp  
+    JPanel jp_jsp;//ç”¨æ¥æ”¾jsp  
     JButton jp2_jb1,jp2_jb2,jp2_jb3;  
       
-    //µÚÈıÕÅ¿¨Æ¬  
+    //ç¬¬ä¸‰å¼ å¡ç‰‡  
     JPanel jp3;  
     JScrollPane jsp2;  
-    JPanel jp_jsp2;//ÓÃÀ´·Åjsp2  
+    JPanel jp_jsp2;//ç”¨æ¥æ”¾jsp2  
     JButton jp3_jb1,jp3_jb2,jp3_jb3;  
   
-    //µÚËÄÕÅ¿¨Æ¬  
+    //ç¬¬å››å¼ å¡ç‰‡  
     JPanel jp4;  
     JScrollPane jsp3;  
     JPanel jp_jsp3;  
     JButton jp4_jb1,jp4_jb2,jp4_jb3;  
   
       
-    //¹¹Ôìº¯Êı  
+    //æ„é€ å‡½æ•°  
     public FriendView() {  
-        //´¦Àí±³¾°  
+        //å¤„ç†èƒŒæ™¯  
         backGround();  
           
-        //´¦Àí±±±ßµÄ¶«Î÷£¨Í·Ïñ£¬êÇ³Æ£¬Ç©Ãû£©  
+        //å¤„ç†åŒ—è¾¹çš„ä¸œè¥¿ï¼ˆå¤´åƒï¼Œæ˜µç§°ï¼Œç­¾åï¼‰  
         head = new JLabel(new ImageIcon("Images/qqhead.jpg"));  
         head.setBounds(10, 40, 50, 50);  
-        name = new JLabel("Ğ¡Q»úÆ÷ÈË");  
+        name = new JLabel("å°Qæœºå™¨äºº");  
         name.setBounds(70, 42, 80, 20);  
-        name.setFont(new Font("ËÎÌå",Font.BOLD, 16));  
+        name.setFont(new Font("å®‹ä½“",Font.BOLD, 16));  
         name.setForeground(Color.white);  
-        sign = new JLabel("¸öĞÔÇ©Ãû");  
+        sign = new JLabel("ä¸ªæ€§ç­¾å");  
         sign.setBounds(70, 70, 80, 20);  
         sign.setForeground(Color.white);  
           
-        //ÉèÖÃºÃÓÑÁĞ±íÎª¿¨Æ¬²¼¾Ö  
+        //è®¾ç½®å¥½å‹åˆ—è¡¨ä¸ºå¡ç‰‡å¸ƒå±€  
         cl = new CardLayout();  
         jp = new JPanel();  
         jp.setOpaque(false);  
         jp.setBounds(0, 205, background.getIconWidth(), background.getIconHeight());  
           
-        //´¦ÀíµÚÒ»ÕÅ¿¨Æ¬  
+        //å¤„ç†ç¬¬ä¸€å¼ å¡ç‰‡  
         firstCard();      
-        //´¦ÀíµÚ¶şÕÅ¿¨Æ¬  
+        //å¤„ç†ç¬¬äºŒå¼ å¡ç‰‡  
         secondCard();     
-        //´¦ÀíµÚÈıÕÅ¿¨Æ¬  
+        //å¤„ç†ç¬¬ä¸‰å¼ å¡ç‰‡  
         thirdCard();  
-        //´¦ÀíµÚËÄÕÅ¿¨Æ¬  
+        //å¤„ç†ç¬¬å››å¼ å¡ç‰‡  
         fourthCard();  
           
         this.add(head);  
@@ -107,34 +107,34 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      
     }  
       
-    //´¦Àí±³¾°·½·¨  
+    //å¤„ç†èƒŒæ™¯æ–¹æ³•  
     private void backGround()  {  
         background = new ImageIcon("Images/bg.jpg");  
         imgLabel = new JLabel(background);  
         imgLabel.setBounds(0, 0,  background.getIconWidth(), background.getIconHeight());  
         buttom=(JPanel)this.getContentPane();  
-        //½«contentPaneÉèÖÃÎªÍ¸Ã÷µÄ  
+        //å°†contentPaneè®¾ç½®ä¸ºé€æ˜çš„  
         buttom.setOpaque(false);  
         this.getLayeredPane().add(imgLabel , new Integer(Integer.MIN_VALUE));  
     }  
       
-    //´¦ÀíµÚÒ»ÕÅ¿¨Æ¬·½·¨  
+    //å¤„ç†ç¬¬ä¸€å¼ å¡ç‰‡æ–¹æ³•  
     private void firstCard()  {  
         jp1 = new JPanel();  
           
-        jp1_jb1 = new JButton("> ÎÒµÄºÃÓÑ");  
+        jp1_jb1 = new JButton("> æˆ‘çš„å¥½å‹");  
         jp1_jb1.addActionListener(this);  
         jp1_jb1.setLayout(null);  
         jp1_jb1.setSize(277, 35);  
         jp1_jb1.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        jp1_jb2 = new JButton("> Ä°ÉúÈË");  
+        jp1_jb2 = new JButton("> é™Œç”Ÿäºº");  
         jp1_jb2.addActionListener(this);  
         jp1_jb2.setLayout(null);  
         jp1_jb2.setBounds(0, 35, 277, 35);  
         jp1_jb2.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        jp1_jb3 = new JButton("> ºÚÃûµ¥");  
+        jp1_jb3 = new JButton("> é»‘åå•");  
         jp1_jb3.addActionListener(this);  
         jp1_jb3.setLayout(null);  
         jp1_jb3.setBounds(0, 70, 277, 35);  
@@ -147,44 +147,44 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
         jp1.setOpaque(false);  
     }  
       
-    //´¦ÀíµÚ¶şÕÅ¿¨Æ¬·½·¨  
+    //å¤„ç†ç¬¬äºŒå¼ å¡ç‰‡æ–¹æ³•  
     private void secondCard()  {  
         jp2 = new JPanel();  
           
-        jp2_jb1 = new JButton("¡ı ÎÒµÄºÃÓÑ");  
+        jp2_jb1 = new JButton("â†“ æˆ‘çš„å¥½å‹");  
         jp2_jb1.addActionListener(this);  
         jp2_jb1.setLayout(null);  
         jp2_jb1.setSize(277, 35);  
         jp2_jb1.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        jp2_jb2 = new JButton("> Ä°ÉúÈË");  
+        jp2_jb2 = new JButton("> é™Œç”Ÿäºº");  
         jp2_jb2.addActionListener(this);  
         jp2_jb2.setLayout(null);  
         jp2_jb2.setBounds(0, 354, 277, 35);  
         jp2_jb2.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        jp2_jb3 = new JButton("> ºÚÃûµ¥");  
+        jp2_jb3 = new JButton("> é»‘åå•");  
         jp2_jb3.addActionListener(this);  
         jp2_jb3.setLayout(null);  
         jp2_jb3.setBounds(0, 389, 277, 35);  
         jp2_jb3.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        //¼Ù¶¨30¸öºÃÓÑ  
+        //å‡å®š30ä¸ªå¥½å‹  
         jp_jsp = new JPanel(new GridLayout(30,1));  
         jsp = new JScrollPane(jp_jsp);  
           
-        //³õÊ¼»¯30¸öºÃÓÑ  
+        //åˆå§‹åŒ–30ä¸ªå¥½å‹  
         JLabel[] jbls = new JLabel[30];  
         for(int i=0; i<jbls.length; i++)  
         {  
-            jbls[i] = new JLabel(i+1+"ºÅ»úÆ÷ÈË", new ImageIcon("Images/qqhead.jpg"), JLabel.LEFT);  
+            jbls[i] = new JLabel(i+1+"å·æœºå™¨äºº", new ImageIcon("Images/qqhead.jpg"), JLabel.LEFT);  
             jbls[i].addMouseListener(this);  
             jp_jsp.add(jbls[i]);  
         }  
   
         jsp.setBounds(1, 35, 275, 319);  
           
-        //jsp.setLayout(null);´íÎó£¡£¬jsp±¾À´¾ÍÃ»ÓĞ²¼¾Ö  
+        //jsp.setLayout(null);é”™è¯¯ï¼ï¼Œjspæœ¬æ¥å°±æ²¡æœ‰å¸ƒå±€  
         jp2.add(jsp);  
         jp2.add(jp2_jb1);  
         jp2.add(jp2_jb2);  
@@ -193,37 +193,37 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
         jp2.setOpaque(false);  
     }  
       
-    //´¦ÀíµÚÈıÕÅ¿¨Æ¬·½·¨  
+    //å¤„ç†ç¬¬ä¸‰å¼ å¡ç‰‡æ–¹æ³•  
     private void thirdCard()  {  
         jp3 = new JPanel();  
           
-        jp3_jb1 = new JButton("> ÎÒµÄºÃÓÑ");  
+        jp3_jb1 = new JButton("> æˆ‘çš„å¥½å‹");  
         jp3_jb1.addActionListener(this);  
         jp3_jb1.setLayout(null);  
         jp3_jb1.setSize(277, 35);  
         jp3_jb1.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        jp3_jb2 = new JButton("¡ı Ä°ÉúÈË");  
+        jp3_jb2 = new JButton("â†“ é™Œç”Ÿäºº");  
         jp3_jb2.addActionListener(this);  
         jp3_jb2.setLayout(null);  
         jp3_jb2.setBounds(0, 35, 277, 35);  
         jp3_jb2.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        jp3_jb3 = new JButton("> ºÚÃûµ¥");  
+        jp3_jb3 = new JButton("> é»‘åå•");  
         jp3_jb3.addActionListener(this);  
         jp3_jb3.setLayout(null);  
         jp3_jb3.setBounds(0, 389, 277, 35);  
         jp3_jb3.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        //¼Ù¶¨30¸öºÃÓÑ  
+        //å‡å®š30ä¸ªå¥½å‹  
         jp_jsp2 = new JPanel(new GridLayout(10,1));  
         jsp2 = new JScrollPane(jp_jsp2);  
           
-        //³õÊ¼»¯30¸öºÃÓÑ  
+        //åˆå§‹åŒ–30ä¸ªå¥½å‹  
         JLabel[] jbls = new JLabel[10];  
         for(int i=0; i<jbls.length; i++)  
         {  
-            jbls[i] = new JLabel(i+1+"ºÅÄ°ÉúÈË", new ImageIcon("Images/qqhead.jpg"), JLabel.LEFT);  
+            jbls[i] = new JLabel(i+1+"å·é™Œç”Ÿäºº", new ImageIcon("Images/qqhead.jpg"), JLabel.LEFT);  
             jbls[i].addMouseListener(this);  
             jp_jsp2.add(jbls[i]);  
         }  
@@ -238,37 +238,37 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
         jp3.setOpaque(false);  
     }  
       
-    //´¦ÀíµÚËÄÕÅ¿¨Æ¬·½·¨  
+    //å¤„ç†ç¬¬å››å¼ å¡ç‰‡æ–¹æ³•  
     private void fourthCard()  {  
         jp4 = new JPanel();  
           
-        jp4_jb1 = new JButton("> ÎÒµÄºÃÓÑ");  
+        jp4_jb1 = new JButton("> æˆ‘çš„å¥½å‹");  
         jp4_jb1.addActionListener(this);  
         jp4_jb1.setLayout(null);  
         jp4_jb1.setSize(277, 35);  
         jp4_jb1.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        jp4_jb2 = new JButton("> Ä°ÉúÈË");  
+        jp4_jb2 = new JButton("> é™Œç”Ÿäºº");  
         jp4_jb2.addActionListener(this);  
         jp4_jb2.setLayout(null);  
         jp4_jb2.setBounds(0, 35, 277, 35);  
         jp4_jb2.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        jp4_jb3 = new JButton("¡ı ºÚÃûµ¥");  
+        jp4_jb3 = new JButton("â†“ é»‘åå•");  
         jp4_jb3.addActionListener(this);  
         jp4_jb3.setLayout(null);  
         jp4_jb3.setBounds(0, 70, 277, 35);  
         jp4_jb3.setHorizontalAlignment(SwingConstants.LEFT );  
           
-        //¼Ù¶¨30¸öºÃÓÑ  
+        //å‡å®š30ä¸ªå¥½å‹  
         jp_jsp3 = new JPanel(new GridLayout(10,1));  
         jsp3 = new JScrollPane(jp_jsp3);  
           
-        //³õÊ¼»¯30¸öºÃÓÑ  
+        //åˆå§‹åŒ–30ä¸ªå¥½å‹  
         JLabel[] jbls = new JLabel[5];  
         for(int i=0; i<jbls.length; i++)  
         {  
-            jbls[i] = new JLabel(i+1+"ºÅºÚÃûµ¥", new ImageIcon("Images/qqhead.jpg"), JLabel.LEFT);  
+            jbls[i] = new JLabel(i+1+"å·é»‘åå•", new ImageIcon("Images/qqhead.jpg"), JLabel.LEFT);  
             jbls[i].addMouseListener(this);  
             jp_jsp3.add(jbls[i]);  
         }  
@@ -283,7 +283,7 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
         jp4.setOpaque(false);  
     }
     
-    private void toCenter() {// ¾ÓÖĞÏÔÊ¾
+    private void toCenter() {// å±…ä¸­æ˜¾ç¤º
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int screenWidth = screenSize.width / 2;
@@ -295,7 +295,7 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
   
     @Override  
     public void actionPerformed(ActionEvent e) {  
-        //µÚÒ»ÕÅ¿¨Æ¬µÄ°´Å¥  
+        //ç¬¬ä¸€å¼ å¡ç‰‡çš„æŒ‰é’®  
         if(e.getSource()==jp1_jb1)  
         {  
             cl.show(jp, "2");;  
@@ -309,7 +309,7 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
             cl.show(jp, "4");;  
         }  
           
-        //µÚ¶şÕÅ¿¨Æ¬µÄ°´Å¥  
+        //ç¬¬äºŒå¼ å¡ç‰‡çš„æŒ‰é’®  
         if(e.getSource()==jp2_jb1)  
         {  
             cl.show(jp, "1");;  
@@ -323,7 +323,7 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
             cl.show(jp, "4");;  
         }  
       
-        //µÚÈıÕÅ¿¨Æ¬µÄ°´Å¥  
+        //ç¬¬ä¸‰å¼ å¡ç‰‡çš„æŒ‰é’®  
         if(e.getSource()==jp3_jb1)  
         {  
             cl.show(jp, "2");;  
@@ -337,7 +337,7 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
             cl.show(jp, "4");;  
         }  
       
-        //µÚËÄÕÅ¿¨Æ¬µÄ°´Å¥  
+        //ç¬¬å››å¼ å¡ç‰‡çš„æŒ‰é’®  
         if(e.getSource()==jp4_jb1)  
         {  
             cl.show(jp, "2");;  
@@ -359,7 +359,7 @@ public class FriendView extends JFrame implements ActionListener,MouseListener{
         if(e.getClickCount()==2)  
         {  
             String str = ((JLabel)e.getSource()).getText();  
-            System.out.println("ÄãÏ£ÍûºÍ"+str+"ÁÄÌì¡£");  
+            System.out.println("ä½ å¸Œæœ›å’Œ"+str+"èŠå¤©ã€‚");  
         }  
     }  
   

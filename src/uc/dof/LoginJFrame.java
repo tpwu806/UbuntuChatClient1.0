@@ -20,8 +20,8 @@ import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
 
 /**
- * @Description: µÇÂ½½çÃæ
- * @author wutp 2016Äê10ÔÂ15ÈÕ
+ * @Description: ç™»é™†ç•Œé¢
+ * @author wutp 2016å¹´10æœˆ15æ—¥
  * @version 1.0
  */
 public class LoginJFrame extends JFrame {
@@ -60,7 +60,7 @@ public class LoginJFrame extends JFrame {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(new ImageIcon(
-						"images/µÇÂ½½çÃæ.jpg").getImage(), 0,
+						"images/ç™»é™†ç•Œé¢.jpg").getImage(), 0,
 						0, getWidth(), getHeight(), null);
 			}
 		};
@@ -82,29 +82,29 @@ public class LoginJFrame extends JFrame {
 		contentPane.add(passwordField);
 
 		loginButton = new JButton();
-		loginButton.setIcon(new ImageIcon("images/µÇÂ½.jpg"));
+		loginButton.setIcon(new ImageIcon("images/ç™»é™†.jpg"));
 		loginButton.setBounds(246, 227, 50, 25);
 		getRootPane().setDefaultButton(loginButton);
 		contentPane.add(loginButton);
 
 		resignButton = new JButton();
-		resignButton.setIcon(new ImageIcon("images/×¢²á.jpg"));
+		resignButton.setIcon(new ImageIcon("images/æ³¨å†Œ.jpg"));
 		resignButton.setBounds(317, 227, 50, 25);
 		contentPane.add(resignButton);
 
-		// ÌáÊ¾ĞÅÏ¢
+		// æç¤ºä¿¡æ¯
 		errorLabel = new JLabel();
 		errorLabel.setBounds(60, 220, 151, 21);
 		errorLabel.setForeground(Color.red);
 		getContentPane().add(errorLabel);
 
-		// ¼àÌıµÇÂ½°´Å¥
+		// ç›‘å¬ç™»é™†æŒ‰é’®
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ActionLogin();
 			}
 		});
-		// ×¢²á°´Å¥¼àÌı
+		// æ³¨å†ŒæŒ‰é’®ç›‘å¬
 		resignButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {											
 				ActionGoResign();
@@ -114,8 +114,8 @@ public class LoginJFrame extends JFrame {
 
 	
 	/**
-	 * @Description:´¦ÀíµÇÂ½½çÃæ
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:å¤„ç†ç™»é™†ç•Œé¢
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @return void
 	 */
 	private void ActionLogin(){
@@ -131,18 +131,18 @@ public class LoginJFrame extends JFrame {
 					
 		switch (ms.getType()) {
 		case MessageType.SIGN_IN_SUCCESS: {
-			System.out.println("µÇÂ¼³É¹¦");
+			System.out.println("ç™»å½•æˆåŠŸ");
 			loginButton.setEnabled(false);
 			//frame = new ChatroomJFrame(name, server.getSocket());
-			//frame.setVisible(true);// ÏÔÊ¾ÁÄÌì½çÃæ
+			//frame.setVisible(true);// æ˜¾ç¤ºèŠå¤©ç•Œé¢
 			FriendListJFrame friendJFrame = new FriendListJFrame(name, server.getSocket());
 			friendJFrame.setVisible(true);
 			dispose();
-			//setVisible(false);// Òş²ØµôµÇÂ½½çÃæ
+			//setVisible(false);// éšè—æ‰ç™»é™†ç•Œé¢
 			break;
 		}
 		case MessageType.SIGN_IN_FALSE: {
-			errorLabel.setText(" ÃÜÂë´íÎó£¡");
+			errorLabel.setText(" å¯†ç é”™è¯¯ï¼");
 			textField.setText("");
 			passwordField.setText("");
 			textField.requestFocus();
@@ -156,15 +156,15 @@ public class LoginJFrame extends JFrame {
 	}
 
 	/**
-	 * @Description:´¦Àí×¢²áÊÂ¼ş
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:å¤„ç†æ³¨å†Œäº‹ä»¶
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @return void
 	 */
 	private void ActionGoResign(){
 		//resignButton.setEnabled(false);
 		resignJFrame = new ResignJFrame(this,server);
-		resignJFrame.setVisible(true);// ÏÔÊ¾×¢²á½çÃæ
-		setVisible(false);// Òş²ØµôµÇÂ½½çÃæ		
+		resignJFrame.setVisible(true);// æ˜¾ç¤ºæ³¨å†Œç•Œé¢
+		setVisible(false);// éšè—æ‰ç™»é™†ç•Œé¢		
 	}
 	
 	protected void errorTip(String str) {
@@ -183,7 +183,7 @@ public class LoginJFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// Æô¶¯µÇÂ½½çÃæ
+					// å¯åŠ¨ç™»é™†ç•Œé¢
 					LoginJFrame frame = new LoginJFrame();					
 					frame.setVisible(true);
 				} catch (Exception e) {

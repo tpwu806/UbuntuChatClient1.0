@@ -5,8 +5,8 @@ import java.util.Vector;
 import javax.swing.AbstractListModel;
 
 /**
- * @Description: ÔÚÏßÁÐ±í
- * @author wutp 2016Äê10ÔÂ15ÈÕ
+ * @Description: åœ¨çº¿åˆ—è¡¨
+ * @author wutp 2016å¹´10æœˆ15æ—¥
  * @version 1.0
  */
 public class OnlineListModel extends AbstractListModel<Object>{

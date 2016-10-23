@@ -38,8 +38,8 @@ import uc.dof.model.OnlineListModel;
 import uc.pub.common.MessageBean;
 
 /**
- * @Description: Ö÷´°¿Ú ºÃÓÑÁĞ±í
- * @author wutp 2016Äê10ÔÂ15ÈÕ
+ * @Description: ä¸»çª—å£ å¥½å‹åˆ—è¡¨
+ * @author wutp 2016å¹´10æœˆ15æ—¥
  * @version 1.0
  */
 public class FriendListJFrame extends JFrame {
@@ -51,26 +51,26 @@ public class FriendListJFrame extends JFrame {
 	private JTabbedPane jtabPan ;
 	private JPanel friendJPanel, groupJPanel;
 	
-	// ´¦ÀíµÚÒ»ÕÅ¿¨Æ¬.
+	// å¤„ç†ç¬¬ä¸€å¼ å¡ç‰‡.
 	private JPanel jphy1, jphy2, jphy3;
 	private JButton jphy_jb1, jphy_jb2, jphy_jb3;
 	private JScrollPane onlineJScrollPane;
 	
-	// ´¦ÀíµÚ¶şÕÅ¿¨Æ¬(Ä°ÉúÈË).
+	// å¤„ç†ç¬¬äºŒå¼ å¡ç‰‡(é™Œç”Ÿäºº).
 	private JPanel jpmsr1, jpmsr2, jpmsr3;
 	private JButton jpmsr_jb1, jpmsr_jb2, jpmsr_jb3;
 	private JScrollPane jsp2;
 	private JLabel[] jb1s;
-	// °ÑÕû¸öJFrameÉèÖÃ³ÉCardLayout
+	// æŠŠæ•´ä¸ªJFrameè®¾ç½®æˆCardLayout
 	private CardLayout cl;
-	//ºÃÓÑÁĞ±í×é¼ş
+	//å¥½å‹åˆ—è¡¨ç»„ä»¶
 	private String owner;
-	public  Vector<String> onlines;// ÔÚÏßºÃÓÑ
+	public  Vector<String> onlines;// åœ¨çº¿å¥½å‹
 	public  ListModel listmodel;
 	public  JList<String> list;
-	//ÈºÁÄÁĞ±í×é¼ş
+	//ç¾¤èŠåˆ—è¡¨ç»„ä»¶
 	JScrollPane groupScrollPane ;
-	public  Vector<String> groups;// ÔÚÏßºÃÓÑ
+	public  Vector<String> groups;// åœ¨çº¿å¥½å‹
 	public  ListModel grouplistmodel;
 	public  JList<String> grouplist;
 	
@@ -93,12 +93,12 @@ public class FriendListJFrame extends JFrame {
 		//groupJPanel = new JPanel();
 		
 		initFrient();		
-		//×éĞÅÏ¢
+		//ç»„ä¿¡æ¯
 		initGroup();
 		
-		jtabPan.add("ÁªÏµÈË", friendJPanel);
-		jtabPan.add("ÈºÁÄ", groupScrollPane);
-		// ÔÚ´°¿ÚÏÔÊ¾×Ô¼ºµÄ±àºÅ.
+		jtabPan.add("è”ç³»äºº", friendJPanel);
+		jtabPan.add("ç¾¤èŠ", groupScrollPane);
+		// åœ¨çª—å£æ˜¾ç¤ºè‡ªå·±çš„ç¼–å·.
 		this.add(jtabPan);
 		this.setTitle(owner);
 		this.setSize(240, 400);
@@ -108,22 +108,22 @@ public class FriendListJFrame extends JFrame {
 	}
 	
 	/**
-	 * @Description:ºÃÓÑ
-	 * @auther: wutp 2016Äê10ÔÂ17ÈÕ
+	 * @Description:å¥½å‹
+	 * @auther: wutp 2016å¹´10æœˆ17æ—¥
 	 * @return void
 	 */
 	private void initFrient() {
-		// ´¦ÀíµÚÒ»ÕÅ¿¨Æ¬(ÏÔÊ¾ºÃÓÑÁĞ±í)
-		jphy_jb1 = new JButton("ÎÒµÄºÃÓÑ");
-		jphy_jb2 = new JButton("Ä°ÉúÈË");
+		// å¤„ç†ç¬¬ä¸€å¼ å¡ç‰‡(æ˜¾ç¤ºå¥½å‹åˆ—è¡¨)
+		jphy_jb1 = new JButton("æˆ‘çš„å¥½å‹");
+		jphy_jb2 = new JButton("é™Œç”Ÿäºº");
 		//jphy_jb2.addActionListener(this);
-		jphy_jb3 = new JButton("ºÚÃûµ¥");
+		jphy_jb3 = new JButton("é»‘åå•");
 		jphy1 = new JPanel(new BorderLayout());
-		// ¼Ù¶¨ÓĞ10¸öºÃÓÑ
+		// å‡å®šæœ‰10ä¸ªå¥½å‹
 		jphy2 = new JPanel(new GridLayout(10, 1, 4, 4));
 
 		jphy3 = new JPanel(new GridLayout(2, 1));
-		// °ÑÁ½¸ö°´Å¥¼ÓÈëµ½jphy3
+		// æŠŠä¸¤ä¸ªæŒ‰é’®åŠ å…¥åˆ°jphy3
 		jphy3.add(jphy_jb2);
 		jphy3.add(jphy_jb3);
 
@@ -135,7 +135,7 @@ public class FriendListJFrame extends JFrame {
 		//list.addMouseListener(this);
 		// Border etch = BorderFactory.createEtchedBorder();
 		// list.setBorder(BorderFactory.createTitledBorder(etch, "<" + owner +
-		// ">" + "ÔÚÏß¿Í»§:", TitledBorder.LEADING,
+		// ">" + "åœ¨çº¿å®¢æˆ·:", TitledBorder.LEADING,
 		// TitledBorder.TOP, new Font("sdf", Font.BOLD, 20), Color.green));
 
 		onlineJScrollPane = new JScrollPane(list);
@@ -144,21 +144,21 @@ public class FriendListJFrame extends JFrame {
 		onlineJScrollPane.getViewport().setOpaque(false);
 		getContentPane().add(onlineJScrollPane);
 
-		// ¶Ôjphy1,³õÊ¼»¯
+		// å¯¹jphy1,åˆå§‹åŒ–
 		jphy1.add(jphy_jb1, "North");
 		jphy1.add(onlineJScrollPane, "Center");
 		jphy1.add(jphy3, "South");
 
-		// ´¦ÀíµÚ¶şÕÅ¿¨Æ¬
-		jpmsr_jb1 = new JButton("ÎÒµÄºÃÓÑ");
+		// å¤„ç†ç¬¬äºŒå¼ å¡ç‰‡
+		jpmsr_jb1 = new JButton("æˆ‘çš„å¥½å‹");
 		//jpmsr_jb1.addActionListener(this);
-		jpmsr_jb2 = new JButton("Ä°ÉúÈË");
-		jpmsr_jb3 = new JButton("ºÚÃûµ¥");
+		jpmsr_jb2 = new JButton("é™Œç”Ÿäºº");
+		jpmsr_jb3 = new JButton("é»‘åå•");
 		jpmsr1 = new JPanel(new BorderLayout());
-		// ¼Ù¶¨ÓĞ20¸öÄ°ÉúÈË
+		// å‡å®šæœ‰20ä¸ªé™Œç”Ÿäºº
 		jpmsr2 = new JPanel(new GridLayout(20, 1, 4, 4));
 
-		// ¸øjphy2£¬³õÊ¼»¯20Ä°ÉúÈË.
+		// ç»™jphy2ï¼Œåˆå§‹åŒ–20é™Œç”Ÿäºº.
 		JLabel[] jb1s2 = new JLabel[20];
 
 		for (int i = 0; i < jb1s2.length; i++) {
@@ -167,13 +167,13 @@ public class FriendListJFrame extends JFrame {
 		}
 
 		jpmsr3 = new JPanel(new GridLayout(2, 1));
-		// °ÑÁ½¸ö°´Å¥¼ÓÈëµ½jphy3
+		// æŠŠä¸¤ä¸ªæŒ‰é’®åŠ å…¥åˆ°jphy3
 		jpmsr3.add(jpmsr_jb1);
 		jpmsr3.add(jpmsr_jb2);
 
 		jsp2 = new JScrollPane(jpmsr2);
 
-		// ¶Ôjphy1,³õÊ¼»¯
+		// å¯¹jphy1,åˆå§‹åŒ–
 		jpmsr1.add(jpmsr3, "North");
 		jpmsr1.add(jsp2, "Center");
 		jpmsr1.add(jpmsr_jb3, "South");
@@ -183,19 +183,19 @@ public class FriendListJFrame extends JFrame {
 		friendJPanel.add(jphy1, "1");
 		friendJPanel.add(jpmsr1, "2");
 
-		// ºÃÓÑ°´Å¥
+		// å¥½å‹æŒ‰é’®
 		jphy_jb2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ActionPerformed(e);
 			}
 		});
-		// ºÚÃûµ¥°´Å¥
+		// é»‘åå•æŒ‰é’®
 		jpmsr_jb1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ActionPerformed(e);
 			}
 		});
-		// ÁĞ±í¼àÌı
+		// åˆ—è¡¨ç›‘å¬
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -205,14 +205,14 @@ public class FriendListJFrame extends JFrame {
 	}
 
 	/**
-	 * @Description:Èº
-	 * @auther: wutp 2016Äê10ÔÂ17ÈÕ
+	 * @Description:ç¾¤
+	 * @auther: wutp 2016å¹´10æœˆ17æ—¥
 	 * @return void
 	 */
 	private void initGroup(){
 		groups = new Vector<String>();
-		groups.add("ÎÒÃÇµÄ»ØÒä");
-		groups.add("ÓÎÓ¾¾ãÀÖ²¿");
+		groups.add("æˆ‘ä»¬çš„å›å¿†");
+		groups.add("æ¸¸æ³³ä¿±ä¹éƒ¨");
 		grouplistmodel = new OnlineListModel(groups);
 		grouplist = new JList(grouplistmodel);
 		grouplist.setCellRenderer(new CellRenderer());
@@ -220,7 +220,7 @@ public class FriendListJFrame extends JFrame {
 		//grouplist.addMouseListener(this);
 		// Border etch = BorderFactory.createEtchedBorder();
 		// list.setBorder(BorderFactory.createTitledBorder(etch, "<" + owner +
-		// ">" + "ÔÚÏß¿Í»§:", TitledBorder.LEADING,
+		// ">" + "åœ¨çº¿å®¢æˆ·:", TitledBorder.LEADING,
 		// TitledBorder.TOP, new Font("sdf", Font.BOLD, 20), Color.green));
 
 		groupScrollPane = new JScrollPane(grouplist);
@@ -230,7 +230,7 @@ public class FriendListJFrame extends JFrame {
 		//getContentPane().add(groupScrollPane);
 		//groupJPanel.add(groupScrollPane);
 		
-		// ÁĞ±í¼àÌı
+		// åˆ—è¡¨ç›‘å¬
 		grouplist.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -240,11 +240,11 @@ public class FriendListJFrame extends JFrame {
 	}
 
 	/**
-	 * @Description:¾ÓÖĞÏÔÊ¾
-	 * @auther: wutp 2016Äê10ÔÂ17ÈÕ
+	 * @Description:å±…ä¸­æ˜¾ç¤º
+	 * @auther: wutp 2016å¹´10æœˆ17æ—¥
 	 * @return void
 	 */
-	private void toCenter() {// ¾ÓÖĞÏÔÊ¾
+	private void toCenter() {// å±…ä¸­æ˜¾ç¤º
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 		int screenWidth = screenSize.width / 2;
@@ -258,7 +258,7 @@ public class FriendListJFrame extends JFrame {
 
 		if (e.getClickCount() == 2) {			
 			String groupNo = grouplist.getSelectedValue();
-			System.out.println("ÄãÏ£Íû´ò¿ª " + groupNo + " Èº");
+			System.out.println("ä½ å¸Œæœ›æ‰“å¼€ " + groupNo + " ç¾¤");
 
 			ChatroomJFrame roomJframe = new ChatroomJFrame(owner, groupNo, this);
 			roomJframe.setVisible(true);
@@ -268,17 +268,17 @@ public class FriendListJFrame extends JFrame {
 	}
 	
 	private void ActionFriendlist(MouseEvent arg0) {
-		// ÏìÓ¦ÓÃ»§Ë«»÷µÄÊÂ¼ş£¬²¢µÃµ½ºÃÓÑµÄ±àºÅ.
+		// å“åº”ç”¨æˆ·åŒå‡»çš„äº‹ä»¶ï¼Œå¹¶å¾—åˆ°å¥½å‹çš„ç¼–å·.
 		List<String> to = list.getSelectedValuesList();
 		
 		if (arg0.getClickCount() == 2) {
-			if (to.toString().contains(owner + "(ÎÒ)")) {
-				JOptionPane.showMessageDialog(getContentPane(), "²»ÄÜºÍ×Ô¼ºÁÄÌì");
+			if (to.toString().contains(owner + "(æˆ‘)")) {
+				JOptionPane.showMessageDialog(getContentPane(), "ä¸èƒ½å’Œè‡ªå·±èŠå¤©");
 				return;
 			}
 		
 			String friendNo = list.getSelectedValue();
-			System.out.println("ÄãÏ£ÍûºÍ "+friendNo+" ÁÄÌì");
+			System.out.println("ä½ å¸Œæœ›å’Œ "+friendNo+" èŠå¤©");
 			
 			ChatJFrame chatJframe =new ChatJFrame(owner,friendNo,this);
 			chatJframe.setVisible(true);
@@ -288,7 +288,7 @@ public class FriendListJFrame extends JFrame {
 	
 	}
 	private void ActionPerformed(ActionEvent arg0) {
-		// Èç¹ûµã»÷ÁËÄ°ÉúÈË°´Å¥£¬¾ÍÏÔÊ¾µÚ¶şÕÅ¿¨Æ¬
+		// å¦‚æœç‚¹å‡»äº†é™Œç”ŸäººæŒ‰é’®ï¼Œå°±æ˜¾ç¤ºç¬¬äºŒå¼ å¡ç‰‡
 		if (arg0.getSource() == jphy_jb2) {
 			cl.show(this.getContentPane(), "2");
 		} else if (arg0.getSource() == jpmsr_jb1) {
@@ -306,7 +306,7 @@ public class FriendListJFrame extends JFrame {
 		}*/
 	}
 
-	// ¸üĞÂÔÚÏßµÄºÃÓÑÇé¿ö
+	// æ›´æ–°åœ¨çº¿çš„å¥½å‹æƒ…å†µ
 	@Deprecated
 	public void upateFriendType(MessageBean m) {
 		/*String onLineFriend[] = m.getCon().split(" ");
@@ -318,8 +318,8 @@ public class FriendListJFrame extends JFrame {
 	}
 	
 	/**
-	 * @Description:¸üĞÂÔÚÏßµÄºÃÓÑ
-	 * @auther: wutp 2016Äê10ÔÂ16ÈÕ
+	 * @Description:æ›´æ–°åœ¨çº¿çš„å¥½å‹
+	 * @auther: wutp 2016å¹´10æœˆ16æ—¥
 	 * @param m
 	 * @return void
 	 */

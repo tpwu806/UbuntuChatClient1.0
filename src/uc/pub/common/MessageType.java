@@ -2,54 +2,54 @@ package uc.pub.common;
 
 /**
  * @Description: MessageType
- * @author wutp 2016Äê10ÔÂ14ÈÕ
+ * @author wutp 2016å¹´10æœˆ14æ—¥
  * @version 1.0
  */
 public class MessageType {
 
 	/**
-	 * µÇÂ¼
+	 * ç™»å½•
 	 */
 	public static final int SIGN_IN = 100;
 	/**
-	 * µÇÂ½³É¹¦
+	 * ç™»é™†æˆåŠŸ
 	 */
 	public static final int SIGN_IN_SUCCESS = 101;
 	/**
-	 * µÇÂ½Ê§°Ü ÃÜÂë´íÎó
+	 * ç™»é™†å¤±è´¥ å¯†ç é”™è¯¯
 	 */
 	public static final int SIGN_IN_FALSE = 102;
 	// *******************************************************************
 	/**
-	 * ÏÂÏß
+	 * ä¸‹çº¿
 	 */
 	public static final int SIGN_OUT = 200;
 	/**
-	 * ÓĞÈËÏÂÏß
+	 * æœ‰äººä¸‹çº¿
 	 */
 	public static final int SIGN_OUT_NOTICE = 201;
 
 	// *******************************************************************
 	/**
-	 * ×¢²á
+	 * æ³¨å†Œ
 	 */
 	public static final int SIGN_UP = 301;
 	/**
-	 * ×¢²á³É¹¦
+	 * æ³¨å†ŒæˆåŠŸ
 	 */
 	public static final int SIGN_UP_SUCCESS = 302;
 	/**
-	 * ×¢²áÊ§°Ü
+	 * æ³¨å†Œå¤±è´¥
 	 */
 	public static final int SIGN_UP_FALSE = 303;
 	// *******************************************************************
 	/**
-	 * ÇëÇó½ÓÊÜÎÄ¼ş
+	 * è¯·æ±‚æ¥å—æ–‡ä»¶
 	 */
 	public static final int FILE_REQUESTION = 402;
 
 	/**
-	 * È·¶¨½ÓÊÕÎÄ¼ş
+	 * ç¡®å®šæ¥æ”¶æ–‡ä»¶
 	 */
 	public static final int FILE_RECEIVE = 403;
 
@@ -59,32 +59,32 @@ public class MessageType {
 	public static final int FILE_RECEIVE_OK = 404;
 	// *******************************************************************
 	/**
-	 * ÁÄÌì
+	 * èŠå¤©
 	 */
 	public static final int CLIENT_CHAR = 500;
 	/**
-	 * Ò»¶ÔÒ»ÁÄÌì
+	 * ä¸€å¯¹ä¸€èŠå¤©
 	 */
 	public static final int SINGLETON_CHAR = 510;
 	/**
-	 * ·şÎñÆ÷¹ã²¥
+	 * æœåŠ¡å™¨å¹¿æ’­
 	 */
 	public static final int SERVER_BROADCAST = 520;
 	/**
-	 * ÈºÁÄÌì
+	 * ç¾¤èŠå¤©
 	 */
 	public static final int GROUP_CHAR = 530;
 	// *******************************************************************
 	/**
-	 * ¸üĞÂÔÚÏßºÃÓÑ
+	 * æ›´æ–°åœ¨çº¿å¥½å‹
 	 */
 	public static final int SERVER_UPDATE_FRIENDS = 600;
 	/**
-	 * ¸üĞÂÈº
+	 * æ›´æ–°ç¾¤
 	 */
 	public static final int UPDATE_GROUP = 610;
 	/**
-	 * ¸üĞÂÔÚÏßÈººÃÓÑ
+	 * æ›´æ–°åœ¨çº¿ç¾¤å¥½å‹
 	 */
 	public static final int UPDATE_GROUP_FRIENDS = 620;
 	

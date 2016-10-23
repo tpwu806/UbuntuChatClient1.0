@@ -18,8 +18,8 @@ import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
 
 /**
- * @Description: ×¢²á½çÃæ
- * @author wutp 2016Äê10ÔÂ14ÈÕ
+ * @Description: æ³¨å†Œç•Œé¢
+ * @author wutp 2016å¹´10æœˆ14æ—¥
  * @version 1.0
  */
 public class ResignJFrame extends JFrame {
@@ -54,7 +54,7 @@ public class ResignJFrame extends JFrame {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("images/×¢²á½çÃæ.jpg").getImage(), 0,0, getWidth(), getHeight(), null);
+				g.drawImage(new ImageIcon("images/æ³¨å†Œç•Œé¢.jpg").getImage(), 0,0, getWidth(), getHeight(), null);
 			}
 		};
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,33 +78,33 @@ public class ResignJFrame extends JFrame {
 		passwordField_1.setOpaque(false);
 		contentPane.add(passwordField_1);
 
-		//×¢²á°´Å¥
+		//æ³¨å†ŒæŒ‰é’®
 		resignButton = new JButton();
-		resignButton.setIcon(new ImageIcon("images/×¢²á1.jpg"));
+		resignButton.setIcon(new ImageIcon("images/æ³¨å†Œ1.jpg"));
 		resignButton.setBounds(320, 218, 80, 40);
 		getRootPane().setDefaultButton(resignButton);
 		contentPane.add(resignButton);
 
-		//·µ»Ø°´Å¥
+		//è¿”å›æŒ‰é’®
 		backButton = new JButton("");
-		backButton.setIcon(new ImageIcon("images/·µ»Ø.jpg"));
+		backButton.setIcon(new ImageIcon("images/è¿”å›.jpg"));
 		backButton.setBounds(230, 218, 80, 40);
 		contentPane.add(backButton);
 
-		//ÌáÊ¾ĞÅÏ¢
+		//æç¤ºä¿¡æ¯
 		lblNewLabel = new JLabel();
 		lblNewLabel.setBounds(55, 228, 185, 20);
 		lblNewLabel.setForeground(Color.red);
 		contentPane.add(lblNewLabel);
 		
-		//·µ»Ø°´Å¥¼àÌı
+		//è¿”å›æŒ‰é’®ç›‘å¬
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ActionGoLogin();
 			}
 		});
 
-		// ×¢²á°´Å¥¼àÌı
+		// æ³¨å†ŒæŒ‰é’®ç›‘å¬
 		resignButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 ActionResign();
@@ -114,21 +114,21 @@ public class ResignJFrame extends JFrame {
 	}
 	
 	/**
-	 * @Description:´¦Àí·µ»ØÊÂ¼ş
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:å¤„ç†è¿”å›äº‹ä»¶
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @return void
 	 */
 	private void ActionGoLogin(){
 		backButton.setEnabled(false);
-		//·µ»ØµÇÂ½½çÃæ
+		//è¿”å›ç™»é™†ç•Œé¢
 		loginJFrame.setVisible(true);
 		//setVisible(false);
 		this.dispose();
 	}
 	
 	/**
-	 * @Description:´¦Àí×¢²áÊÂ¼ş
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:å¤„ç†æ³¨å†Œäº‹ä»¶
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @return void
 	 */
 	private void ActionResign(){
@@ -137,17 +137,17 @@ public class ResignJFrame extends JFrame {
 		String u_pwd = new String(passwordField.getPassword());
 		String u_pwd_ag = new String(passwordField_1.getPassword());
 
-		// ÅĞ¶ÏÓÃ»§ÃûÊÇ·ñÔÚÆÕÍ¨ÓÃ»§ÖĞÒÑ´æÔÚ
+		// åˆ¤æ–­ç”¨æˆ·åæ˜¯å¦åœ¨æ™®é€šç”¨æˆ·ä¸­å·²å­˜åœ¨
 		if (u_name.length() == 0) {
-			lblNewLabel.setText("ÓÃ»§Ãû²»ÄÜÎª¿Õ£¡");
+			lblNewLabel.setText("ç”¨æˆ·åä¸èƒ½ä¸ºç©ºï¼");
 			return;
 		}
 		if (u_pwd.length() < 1 ) {
-			lblNewLabel.setText("ÃÜÂëÎª¿Õ£¡");
+			lblNewLabel.setText("å¯†ç ä¸ºç©ºï¼");
 			return;
 		}
 		if (!u_pwd_ag.equals(u_pwd)) {
-			lblNewLabel.setText("ÃÜÂë²»Ò»ÖÂ£¡");
+			lblNewLabel.setText("å¯†ç ä¸ä¸€è‡´ï¼");
 			return;
 		}		
 					
@@ -160,11 +160,11 @@ public class ResignJFrame extends JFrame {
 					
 		switch (ms.getType()) {
 		case MessageType.SIGN_UP_SUCCESS: {
-			lblNewLabel.setText("×¢²á³É¹¦£¡");
+			lblNewLabel.setText("æ³¨å†ŒæˆåŠŸï¼");
 			break;
 		}
 		case MessageType.SIGN_UP_FALSE: {
-			lblNewLabel.setText("´ËÕÊºÅÒÑ×¢²á£¡");
+			lblNewLabel.setText("æ­¤å¸å·å·²æ³¨å†Œï¼");
 			break;
 		}
 		default: {

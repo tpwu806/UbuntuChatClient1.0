@@ -6,8 +6,8 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 /** *//**
- * ¿ÉÉèÖÃ±³¾°Í¼Æ¬µÄJPanel£¬Ìá¹©ÁËÈıÖÖÏÔÊ¾±³¾°Í¼Æ¬µÄ·½Ê½£º¾ÓÖĞ¡¢Æ½ÆÌºÍÀ­Éì¡£
- * Î´ÉèÖÃ±³¾°Í¼Æ¬µÄÇé¿öÏÂ£¬Í¬JPanel¡£
+ * å¯è®¾ç½®èƒŒæ™¯å›¾ç‰‡çš„JPanelï¼Œæä¾›äº†ä¸‰ç§æ˜¾ç¤ºèƒŒæ™¯å›¾ç‰‡çš„æ–¹å¼ï¼šå±…ä¸­ã€å¹³é“ºå’Œæ‹‰ä¼¸ã€‚
+ * æœªè®¾ç½®èƒŒæ™¯å›¾ç‰‡çš„æƒ…å†µä¸‹ï¼ŒåŒJPanelã€‚
  * 
  * @author 003
  */
@@ -16,37 +16,37 @@ public class JImagePane extends JPanel
     private static final long serialVersionUID = -8251916094895167058L;
     
     /** *//**
-     * ¾ÓÖĞ
+     * å±…ä¸­
      */
     public static final String CENTRE = "Centre";
     
     /** *//**
-     * Æ½ÆÌ
+     * å¹³é“º
      */
     public static final String TILED = "Tiled";
 
     /** *//**
-     * À­Éì
+     * æ‹‰ä¼¸
      */
     public static final String SCALED = "Scaled";
 
     /** *//**
-     * ±³¾°Í¼Æ¬
+     * èƒŒæ™¯å›¾ç‰‡
      */
     private Image backgroundImage;
     
     /** *//**
-     * ±³¾°Í¼Æ¬ÏÔÊ¾Ä£Ê½
+     * èƒŒæ™¯å›¾ç‰‡æ˜¾ç¤ºæ¨¡å¼
      */
     private String imageDisplayMode;
 
     /** *//**
-     * ±³¾°Í¼Æ¬ÏÔÊ¾Ä£Ê½Ë÷Òı£¨ÒıÈë´ËÊôĞÔÓĞÖúÓÚ±ØÒªÊ±À©Õ¹£©
+     * èƒŒæ™¯å›¾ç‰‡æ˜¾ç¤ºæ¨¡å¼ç´¢å¼•ï¼ˆå¼•å…¥æ­¤å±æ€§æœ‰åŠ©äºå¿…è¦æ—¶æ‰©å±•ï¼‰
      */
     private int modeIndex;
 
     /** *//**
-     * ¹¹ÔìÒ»¸öÃ»ÓĞ±³¾°Í¼Æ¬µÄJImagePane
+     * æ„é€ ä¸€ä¸ªæ²¡æœ‰èƒŒæ™¯å›¾ç‰‡çš„JImagePane
      */
     public JImagePane()
     {
@@ -54,9 +54,9 @@ public class JImagePane extends JPanel
     }
     
     /** *//**
-     * ¹¹ÔìÒ»¸ö¾ßÓĞÖ¸¶¨±³¾°Í¼Æ¬ºÍÖ¸¶¨ÏÔÊ¾Ä£Ê½µÄJImagePane
-     * @param image ±³¾°Í¼Æ¬
-     * @param modeName ±³¾°Í¼Æ¬ÏÔÊ¾Ä£Ê½
+     * æ„é€ ä¸€ä¸ªå…·æœ‰æŒ‡å®šèƒŒæ™¯å›¾ç‰‡å’ŒæŒ‡å®šæ˜¾ç¤ºæ¨¡å¼çš„JImagePane
+     * @param image èƒŒæ™¯å›¾ç‰‡
+     * @param modeName èƒŒæ™¯å›¾ç‰‡æ˜¾ç¤ºæ¨¡å¼
      */
     public JImagePane(Image image, String modeName)
     {
@@ -66,8 +66,8 @@ public class JImagePane extends JPanel
     }
     
     /** *//**
-     * ÉèÖÃ±³¾°Í¼Æ¬
-     * @param image ±³¾°Í¼Æ¬
+     * è®¾ç½®èƒŒæ™¯å›¾ç‰‡
+     * @param image èƒŒæ™¯å›¾ç‰‡
      */
     public void setBackgroundImage(Image image)
     {
@@ -76,8 +76,8 @@ public class JImagePane extends JPanel
     }
 
     /** *//**
-     * »ñÈ¡±³¾°Í¼Æ¬
-     * @return ±³¾°Í¼Æ¬
+     * è·å–èƒŒæ™¯å›¾ç‰‡
+     * @return èƒŒæ™¯å›¾ç‰‡
      */
     public Image getBackgroundImage()
     {
@@ -85,8 +85,8 @@ public class JImagePane extends JPanel
     }
 
     /** *//**
-     * ÉèÖÃ±³¾°Í¼Æ¬ÏÔÊ¾Ä£Ê½
-     * @param modeName Ä£Ê½Ãû³Æ£¬È¡Öµ½öÏŞÓÚImagePane.TILED  ImagePane.SCALED  ImagePane.CENTRE
+     * è®¾ç½®èƒŒæ™¯å›¾ç‰‡æ˜¾ç¤ºæ¨¡å¼
+     * @param modeName æ¨¡å¼åç§°ï¼Œå–å€¼ä»…é™äºImagePane.TILED  ImagePane.SCALED  ImagePane.CENTRE
      */
     public void setImageDisplayMode(String modeName)
     {
@@ -94,19 +94,19 @@ public class JImagePane extends JPanel
         {
             modeName = modeName.trim();
             
-            //¾ÓÖĞ
+            //å±…ä¸­
             if(modeName.equalsIgnoreCase(CENTRE))
             {
                 this.imageDisplayMode = CENTRE;
                 modeIndex = 0;
             }
-            //Æ½ÆÌ
+            //å¹³é“º
             else if(modeName.equalsIgnoreCase(TILED))
             {
                 this.imageDisplayMode = TILED;
                 modeIndex = 1;
             }
-            //À­Éì
+            //æ‹‰ä¼¸
             else if(modeName.equalsIgnoreCase(SCALED))
             {
                 this.imageDisplayMode = SCALED;
@@ -118,8 +118,8 @@ public class JImagePane extends JPanel
     }
 
     /** *//**
-     * »ñÈ¡±³¾°Í¼Æ¬ÏÔÊ¾Ä£Ê½
-     * @return ÏÔÊ¾Ä£Ê½
+     * è·å–èƒŒæ™¯å›¾ç‰‡æ˜¾ç¤ºæ¨¡å¼
+     * @return æ˜¾ç¤ºæ¨¡å¼
      */
     public String getImageDisplayMode()
     {
@@ -127,7 +127,7 @@ public class JImagePane extends JPanel
     }
 
     /** *//**
-     * »æÖÆ×é¼ş
+     * ç»˜åˆ¶ç»„ä»¶
      * @see javax.swing.JComponent#paintComponent(Graphics)
      */
    // @Override
@@ -135,7 +135,7 @@ public class JImagePane extends JPanel
     {
         super.paintComponent(g);
         
-        //Èç¹ûÉèÖÃÁË±³¾°Í¼Æ¬ÔòÏÔÊ¾
+        //å¦‚æœè®¾ç½®äº†èƒŒæ™¯å›¾ç‰‡åˆ™æ˜¾ç¤º
         if(backgroundImage != null)
         {
             int width = this.getWidth();
@@ -145,7 +145,7 @@ public class JImagePane extends JPanel
 
             switch(modeIndex)
             {
-                //¾ÓÖĞ
+                //å±…ä¸­
                 case 0:
                 {
                     int x = (width - imageWidth) / 2;
@@ -153,7 +153,7 @@ public class JImagePane extends JPanel
                     g.drawImage(backgroundImage, x, y, this);
                     break;
                 }
-                //Æ½ÆÌ
+                //å¹³é“º
                 case 1:
                 {
                     for(int ix = 0; ix < width; ix += imageWidth)
@@ -165,7 +165,7 @@ public class JImagePane extends JPanel
                     }
                     break;
                 }
-                //À­Éì
+                //æ‹‰ä¼¸
                 case 2:
                 {
                     g.drawImage(backgroundImage, 0, 0, width, height, this);

@@ -10,8 +10,8 @@ import uc.dof.ChatroomJFrame;
 import uc.pub.common.MessageBean;
 
 /**
- * @Description: ¿Í»§¶ËºóÌ¨
- * @author wutp 2016Äê10ÔÂ13ÈÕ
+ * @Description: å®¢æˆ·ç«¯åå°
+ * @author wutp 2016å¹´10æœˆ13æ—¥
  * @version 1.0
  */
 public class ClinetServer {
@@ -33,8 +33,8 @@ public class ClinetServer {
 	}
 
 	/**
-	 * @Description:µÇÂ½×¢²á
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:ç™»é™†æ³¨å†Œ
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @param m
 	 * @return
 	 * @return MessageBean
@@ -55,8 +55,8 @@ public class ClinetServer {
 	}
 	
 	/**
-	 * @Description:¹Ø±ÕSocket
-	 * @auther: wutp 2016Äê10ÔÂ14ÈÕ
+	 * @Description:å…³é—­Socket
+	 * @auther: wutp 2016å¹´10æœˆ14æ—¥
 	 * @return void
 	 */
 	public void closeSockt() {

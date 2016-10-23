@@ -10,6 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+/**
+ * @Description: 
+ * @author wutp 2016å¹´10æœˆ23æ—¥
+ * @version 1.0
+ */
 public class CellRenderer extends JLabel implements ListCellRenderer<Object> {
 	/**
 	 * 
@@ -24,18 +29,18 @@ public class CellRenderer extends JLabel implements ListCellRenderer<Object> {
 	public Component getListCellRendererComponent(JList<?> list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 
-		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));// ¼ÓÈë¿í¶ÈÎª5µÄ¿Õ°×±ß¿ò
+		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));// åŠ å…¥å®½åº¦ä¸º5çš„ç©ºç™½è¾¹æ¡†
 
 		if (value != null) {
 			setText(value.toString());
 			setIcon(new ImageIcon("images\1.jpg"));
 		}
 		if (isSelected) {
-			setBackground(new Color(255, 255, 153));// ÉèÖÃ±³¾°É«
+			setBackground(new Color(255, 255, 153));// è®¾ç½®èƒŒæ™¯è‰²
 			setForeground(Color.black);
 		} else {
-			// ÉèÖÃÑ¡È¡ÓëÈ¡ÏûÑ¡È¡µÄÇ°¾°Óë±³¾°ÑÕÉ«.
-			setBackground(Color.white); // ÉèÖÃ±³¾°É«
+			// è®¾ç½®é€‰å–ä¸å–æ¶ˆé€‰å–çš„å‰æ™¯ä¸èƒŒæ™¯é¢œè‰².
+			setBackground(Color.gray); // è®¾ç½®èƒŒæ™¯è‰²
 			setForeground(Color.black);
 		}
 		setEnabled(list.isEnabled());

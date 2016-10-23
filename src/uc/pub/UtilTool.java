@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.Properties;
 
 public class UtilTool {
-	// 声音
+	// 澹伴煶
 	private static File file;
 	private static File file2;
 	private static URL cb;
@@ -23,7 +23,7 @@ public class UtilTool {
 
 	static{
 
-		// 消息提示声音
+		// 娑堟伅鎻愮ず澹伴煶
 		file = new File("sounds/eo.wav");
 		try {
 			cb = file.toURI().toURL();
@@ -33,7 +33,7 @@ public class UtilTool {
 		}
 		aau = Applet.newAudioClip(cb);
 		//aau.play();
-		// 上线提示声音
+		// 涓婄嚎鎻愮ず澹伴煶
 		file2 = new File("sounds/ding.wav");
 		try {
 			cb2 = file2.toURI().toURL();

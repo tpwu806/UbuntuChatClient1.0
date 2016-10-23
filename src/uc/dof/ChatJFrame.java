@@ -15,8 +15,8 @@ import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
 
 /**
- * @Description: Ò»¶ÔÒ»ÁÄÌì½çÃæ
- * @author wutp 2016Äê10ÔÂ15ÈÕ
+ * @Description: ä¸€å¯¹ä¸€èŠå¤©ç•Œé¢
+ * @author wutp 2016å¹´10æœˆ15æ—¥
  * @version 1.0
  */
 public class ChatJFrame extends JFrame implements ActionListener{
@@ -42,7 +42,7 @@ public class ChatJFrame extends JFrame implements ActionListener{
 	private void init(){
 		jta=new JTextArea();
 		jtf=new JTextField(15);
-		jb=new JButton("·¢ËÍ");
+		jb=new JButton("å‘é€");
 		jb.addActionListener(this);
 		jp=new JPanel();
 		jp.add(jtf);
@@ -56,7 +56,7 @@ public class ChatJFrame extends JFrame implements ActionListener{
 		this.setVisible(true);
 	}
 	
-	//Ğ´Ò»¸ö·½·¨£¬ÈÃËüÏÔÊ¾ÏûÏ¢
+	//å†™ä¸€ä¸ªæ–¹æ³•ï¼Œè®©å®ƒæ˜¾ç¤ºæ¶ˆæ¯
 	public void showMessage(MessageBean m)
 	{
 		String info=m.getName() + ":" + m.getInfo() +"\r\n";
@@ -76,8 +76,8 @@ public class ChatJFrame extends JFrame implements ActionListener{
 			
 	}
 	/**
-	 * @Description:Í³Ò»µ÷ÓÃ·¢ËÍÏûÏ¢clientInputThread
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:ç»Ÿä¸€è°ƒç”¨å‘é€æ¶ˆæ¯clientInputThread
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @param clientBean
 	 * @return void
 	 */

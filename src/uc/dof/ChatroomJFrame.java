@@ -45,8 +45,8 @@ import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
 
 /**
- * @Description: ÈºÁÄÌì½çÃæ
- * @author wutp 2016Äê10ÔÂ15ÈÕ
+ * @Description: ç¾¤èŠå¤©ç•Œé¢
+ * @author wutp 2016å¹´10æœˆ15æ—¥
  * @version 1.0
  */
 public class ChatroomJFrame extends JFrame {
@@ -54,26 +54,26 @@ public class ChatroomJFrame extends JFrame {
 	private static final long serialVersionUID = 6129126482250125466L;
 
 	private  JPanel contentPane;
-	public  JTextArea chartextArea;//ÁÄÌìĞÅÏ¢ÏÔÊ¾ÇøÓò
+	public  JTextArea chartextArea;//èŠå¤©ä¿¡æ¯æ˜¾ç¤ºåŒºåŸŸ
 	public  JList<String> list;
-	public  String filePath;// ÎÄ¼şÂ·¾¶
-	public  JLabel lblNewLabel;// ÎÄ¼ş´«ÊäÌáÊ¾
+	public  String filePath;// æ–‡ä»¶è·¯å¾„
+	public  JLabel lblNewLabel;// æ–‡ä»¶ä¼ è¾“æç¤º
 	public  JProgressBar progressBar;
 	public  ListModel listmodel;
 
-	public  Vector<String> onlines;// ÔÚÏßÓÃ»§
+	public  Vector<String> onlines;// åœ¨çº¿ç”¨æˆ·
 	public  boolean isSendFile = false;
 	public  boolean isReceiveFile = false;
 
-	// ÉùÒô
+	// å£°éŸ³
 	private  File file, file2;
 	private  URL cb, cb2;
 	public  AudioClip aau;
 	public  AudioClip aau2;
 
-	public JTextArea sendJTextArea;// ·¢ËÍÇø
-	private JButton sendButton;// ·¢ËÍ°´Å¥
-	private JButton closeButton;// ¹Ø±Õ°´Å¥
+	public JTextArea sendJTextArea;// å‘é€åŒº
+	private JButton sendButton;// å‘é€æŒ‰é’®
+	private JButton closeButton;// å…³é—­æŒ‰é’®
 
 	private FriendListJFrame WIN;
 	private  String name;
@@ -82,7 +82,7 @@ public class ChatroomJFrame extends JFrame {
 	 * Create the frame.
 	 */	
 	public ChatroomJFrame(String u_name, String groupName,FriendListJFrame win) {
-		// ¸³Öµ
+		// èµ‹å€¼
 		this.name = u_name;
 		this.groupName=groupName;
 		this.WIN=WIN;
@@ -116,53 +116,53 @@ public class ChatroomJFrame extends JFrame {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("images/ÁÄÌìÊÒ1.jpg").getImage(), 0, 0, getWidth(), getHeight(), null);
+				g.drawImage(new ImageIcon("images/èŠå¤©å®¤1.jpg").getImage(), 0, 0, getWidth(), getHeight(), null);
 			}
 
 		};
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		//ÁÄÌìĞÅÏ¢ÏÔÊ¾ÇøÓò
+		//èŠå¤©ä¿¡æ¯æ˜¾ç¤ºåŒºåŸŸ
 		JScrollPane charScrollPane = new JScrollPane();
 		charScrollPane.setBounds(10, 10, 410, 300);
 		getContentPane().add(charScrollPane);
 
 		chartextArea = new JTextArea();
 		chartextArea.setEditable(false);
-		chartextArea.setLineWrap(true);// ¼¤»î×Ô¶¯»»ĞĞ¹¦ÄÜ
-		chartextArea.setWrapStyleWord(true);// ¼¤»î¶ÏĞĞ²»¶Ï×Ö¹¦ÄÜ
+		chartextArea.setLineWrap(true);// æ¿€æ´»è‡ªåŠ¨æ¢è¡ŒåŠŸèƒ½
+		chartextArea.setWrapStyleWord(true);// æ¿€æ´»æ–­è¡Œä¸æ–­å­—åŠŸèƒ½
 		chartextArea.setFont(new Font("sdf", Font.BOLD, 13));
 		charScrollPane.setViewportView(chartextArea);
 
-		// ´ò×ÖÇøÓò
+		// æ‰“å­—åŒºåŸŸ
 		JScrollPane writeScrollPane = new JScrollPane();
 		writeScrollPane.setBounds(10, 347, 411, 97);
 		getContentPane().add(writeScrollPane);
 
 		sendJTextArea = new JTextArea();
-		sendJTextArea.setLineWrap(true);// ¼¤»î×Ô¶¯»»ĞĞ¹¦ÄÜ
-		sendJTextArea.setWrapStyleWord(true);// ¼¤»î¶ÏĞĞ²»¶Ï×Ö¹¦ÄÜ
+		sendJTextArea.setLineWrap(true);// æ¿€æ´»è‡ªåŠ¨æ¢è¡ŒåŠŸèƒ½
+		sendJTextArea.setWrapStyleWord(true);// æ¿€æ´»æ–­è¡Œä¸æ–­å­—åŠŸèƒ½
 		writeScrollPane.setViewportView(sendJTextArea);
 
-		// ¹Ø±Õ°´Å¥
+		// å…³é—­æŒ‰é’®
 		closeButton = new JButton("\u5173\u95ED");
 		closeButton.setBounds(214, 448, 60, 30);
 		getContentPane().add(closeButton);
 
-		// ·¢ËÍ°´Å¥
+		// å‘é€æŒ‰é’®
 		sendButton = new JButton("\u53D1\u9001");
 		sendButton.setBounds(313, 448, 60, 30);
 		getRootPane().setDefaultButton(sendButton);
 		getContentPane().add(sendButton);
 
-		// ÔÚÏß¿Í»§ÁĞ±í
+		// åœ¨çº¿å®¢æˆ·åˆ—è¡¨
 		listmodel = new OnlineListModel(onlines);
 		list = new JList<String>(listmodel);
 		list.setCellRenderer(new CellRenderer());
 		list.setOpaque(false);
 		Border etch = BorderFactory.createEtchedBorder();
-		list.setBorder(BorderFactory.createTitledBorder(etch, "<" + groupName + ">" + "ÔÚÏß¿Í»§:", TitledBorder.LEADING,
+		list.setBorder(BorderFactory.createTitledBorder(etch, "<" + groupName + ">" + "åœ¨çº¿å®¢æˆ·:", TitledBorder.LEADING,
 				TitledBorder.TOP, new Font("sdf", Font.BOLD, 20), Color.green));
 
 		JScrollPane onlineJScrollPane = new JScrollPane(list);
@@ -171,14 +171,14 @@ public class ChatroomJFrame extends JFrame {
 		onlineJScrollPane.getViewport().setOpaque(false);
 		getContentPane().add(onlineJScrollPane);
 
-		// ÎÄ¼ş´«ÊäÀ¸
+		// æ–‡ä»¶ä¼ è¾“æ 
 		progressBar = new JProgressBar();
 		progressBar.setBounds(430, 390, 245, 15);
 		progressBar.setMinimum(1);
 		progressBar.setMaximum(100);
 		getContentPane().add(progressBar);
 
-		// ÎÄ¼ş´«ÊäÌáÊ¾
+		// æ–‡ä»¶ä¼ è¾“æç¤º
 		lblNewLabel = new JLabel("\u6587\u4EF6\u4F20\u9001\u4FE1\u606F\u680F:");
 		lblNewLabel.setFont(new Font("SimSun", Font.PLAIN, 12));
 		lblNewLabel.setBackground(Color.WHITE);
@@ -186,18 +186,18 @@ public class ChatroomJFrame extends JFrame {
 		getContentPane().add(lblNewLabel);
 
 		try {
-			// ÏûÏ¢ÌáÊ¾ÉùÒô
+			// æ¶ˆæ¯æç¤ºå£°éŸ³
 			file = new File("sounds/eo.wav");
 			//cb = file.toURL();
 			cb = file.toURI().toURL();
 			aau = Applet.newAudioClip(cb);
-			// ÉÏÏßÌáÊ¾ÉùÒô
+			// ä¸Šçº¿æç¤ºå£°éŸ³
 			file2 = new File("sounds/ding.wav");
 			//cb2 = file2.toURL();
 			cb2 = file2.toURI().toURL();
 			aau2 = Applet.newAudioClip(cb2);
 			aau2.play();
-			// Æô¶¯¿Í»§½ÓÊÕÏß³Ì
+			// å¯åŠ¨å®¢æˆ·æ¥æ”¶çº¿ç¨‹
 			// new ClientInputThread().start();
 			/*clientInputThread = new ClientInputThread(name, clientSocket, this);
 			Thread t = new Thread(clientInputThread);
@@ -207,21 +207,21 @@ public class ChatroomJFrame extends JFrame {
 			e.printStackTrace();
 		}
 
-		// ·¢ËÍ°´Å¥
+		// å‘é€æŒ‰é’®
 		sendButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ActionSend();
 			}
 		});
 
-		// ¹Ø±Õ°´Å¥
+		// å…³é—­æŒ‰é’®
 		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ActionClose();
 			}
 		});
 
-		// Àë¿ª
+		// ç¦»å¼€
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -229,7 +229,7 @@ public class ChatroomJFrame extends JFrame {
 			}
 		});
 
-		// ÁĞ±í¼àÌı
+		// åˆ—è¡¨ç›‘å¬
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -239,10 +239,10 @@ public class ChatroomJFrame extends JFrame {
 	}
 
 	/**
-	 * ´¦Àí·¢ËÍ°´Å¥
+	 * å¤„ç†å‘é€æŒ‰é’®
 	 * 
 	 * @Description:
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @return void
 	 */
 	private void ActionSend() {
@@ -250,15 +250,15 @@ public class ChatroomJFrame extends JFrame {
 		List<String> to = list.getSelectedValuesList();
 
 		if (to.size() < 1) {
-			JOptionPane.showMessageDialog(getContentPane(), "ÇëÑ¡ÔñÁÄÌì¶ÔÏó");
+			JOptionPane.showMessageDialog(getContentPane(), "è¯·é€‰æ‹©èŠå¤©å¯¹è±¡");
 			return;
 		}
-		if (to.toString().contains(groupName + "(ÎÒ)")) {
-			JOptionPane.showMessageDialog(getContentPane(), "²»ÄÜÏò×Ô¼º·¢ËÍĞÅÏ¢");
+		if (to.toString().contains(groupName + "(æˆ‘)")) {
+			JOptionPane.showMessageDialog(getContentPane(), "ä¸èƒ½å‘è‡ªå·±å‘é€ä¿¡æ¯");
 			return;
 		}
 		if (info.equals("")) {
-			JOptionPane.showMessageDialog(getContentPane(), "²»ÄÜ·¢ËÍ¿ÕĞÅÏ¢");
+			JOptionPane.showMessageDialog(getContentPane(), "ä¸èƒ½å‘é€ç©ºä¿¡æ¯");
 			return;
 		}
 
@@ -272,8 +272,8 @@ public class ChatroomJFrame extends JFrame {
 		set.addAll(to);
 		clientBean.setClients(set);
 
-		// ×Ô¼º·¢µÄÄÚÈİÒ²ÒªÏÖÊµÔÚ×Ô¼ºµÄÆÁÄ»ÉÏÃæ
-		chartextArea.append(time + " ÎÒ¶Ô" + to + "Ëµ:\r\n" + info + "\r\n");
+		// è‡ªå·±å‘çš„å†…å®¹ä¹Ÿè¦ç°å®åœ¨è‡ªå·±çš„å±å¹•ä¸Šé¢
+		chartextArea.append(time + " æˆ‘å¯¹" + to + "è¯´:\r\n" + info + "\r\n");
 
 		sendMessage(clientBean);
 		sendJTextArea.setText(null);
@@ -281,13 +281,13 @@ public class ChatroomJFrame extends JFrame {
 	}
 
 	/**
-	 * @Description:´¦Àí¹Ø±ÕÊÂ¼ş
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:å¤„ç†å…³é—­äº‹ä»¶
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @return void
 	 */
 	private void ActionClose() {
 		if (isSendFile || isReceiveFile) {
-			JOptionPane.showMessageDialog(contentPane, "ÕıÔÚ´«ÊäÎÄ¼şÖĞ£¬Äú²»ÄÜÀë¿ª...", "Error Message", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane, "æ­£åœ¨ä¼ è¾“æ–‡ä»¶ä¸­ï¼Œæ‚¨ä¸èƒ½ç¦»å¼€...", "Error Message", JOptionPane.ERROR_MESSAGE);
 		} else {
 			closeButton.setEnabled(false);
 			MessageBean clientBean = new MessageBean();
@@ -299,13 +299,13 @@ public class ChatroomJFrame extends JFrame {
 	}
 
 	/**
-	 * ´¦Àí¹Ø±Õ´°¿ÚÊÂ¼ş
+	 * å¤„ç†å…³é—­çª—å£äº‹ä»¶
 	 */
 	private void ActionWindowClosing() {
 		if (isSendFile || isReceiveFile) {
-			JOptionPane.showMessageDialog(contentPane, "ÕıÔÚ´«ÊäÎÄ¼şÖĞ£¬Äú²»ÄÜÀë¿ª...", "Error Message", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane, "æ­£åœ¨ä¼ è¾“æ–‡ä»¶ä¸­ï¼Œæ‚¨ä¸èƒ½ç¦»å¼€...", "Error Message", JOptionPane.ERROR_MESSAGE);
 		} else {
-			int result = JOptionPane.showConfirmDialog(getContentPane(), "ÄúÈ·¶¨ÒªÀë¿ªÁÄÌìÊÒ");
+			int result = JOptionPane.showConfirmDialog(getContentPane(), "æ‚¨ç¡®å®šè¦ç¦»å¼€èŠå¤©å®¤");
 			if (result == 0) {
 				MessageBean clientBean = new MessageBean();
 				clientBean.setType(-1);
@@ -318,44 +318,44 @@ public class ChatroomJFrame extends JFrame {
 
 	/**
 	 * @param e
-	 * @Description:´¦ÀíÁĞ±í¼àÌıÊÂ¼ş
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:å¤„ç†åˆ—è¡¨ç›‘å¬äº‹ä»¶
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @return void
 	 */
 	private void Actionlist(MouseEvent e) {
 		List<String> to = list.getSelectedValuesList();
 		if (e.getClickCount() == 2) {
 
-			if (to.toString().contains(name + "(ÎÒ)")) {
-				JOptionPane.showMessageDialog(getContentPane(), "²»ÄÜÏò×Ô¼º·¢ËÍÎÄ¼ş");
+			if (to.toString().contains(name + "(æˆ‘)")) {
+				JOptionPane.showMessageDialog(getContentPane(), "ä¸èƒ½å‘è‡ªå·±å‘é€æ–‡ä»¶");
 				return;
 			}
 
-			// Ë«»÷´ò¿ªÎÄ¼şÎÄ¼şÑ¡Ôñ¿ò
+			// åŒå‡»æ‰“å¼€æ–‡ä»¶æ–‡ä»¶é€‰æ‹©æ¡†
 			JFileChooser chooser = new JFileChooser();
-			chooser.setDialogTitle("Ñ¡ÔñÎÄ¼ş¿ò"); // ±êÌâÅ¶...
-			chooser.showDialog(getContentPane(), "Ñ¡Ôñ"); // ÕâÊÇ°´Å¥µÄÃû×Ö..
+			chooser.setDialogTitle("é€‰æ‹©æ–‡ä»¶æ¡†"); // æ ‡é¢˜å“¦...
+			chooser.showDialog(getContentPane(), "é€‰æ‹©"); // è¿™æ˜¯æŒ‰é’®çš„åå­—..
 
-			// ÅĞ¶¨ÊÇ·ñÑ¡ÔñÁËÎÄ¼ş
+			// åˆ¤å®šæ˜¯å¦é€‰æ‹©äº†æ–‡ä»¶
 			if (chooser.getSelectedFile() != null) {
-				// »ñÈ¡Â·¾¶
+				// è·å–è·¯å¾„
 				filePath = chooser.getSelectedFile().getPath();
 				File file = new File(filePath);
-				// ÎÄ¼şÎª¿Õ
+				// æ–‡ä»¶ä¸ºç©º
 				if (file.length() == 0) {
-					JOptionPane.showMessageDialog(getContentPane(), filePath + "ÎÄ¼şÎª¿Õ,²»ÔÊĞí·¢ËÍ.");
+					JOptionPane.showMessageDialog(getContentPane(), filePath + "æ–‡ä»¶ä¸ºç©º,ä¸å…è®¸å‘é€.");
 					return;
 				}
 
 				MessageBean clientBean = new MessageBean();
-				clientBean.setType(2);// ÇëÇó·¢ËÍÎÄ¼ş
+				clientBean.setType(2);// è¯·æ±‚å‘é€æ–‡ä»¶
 				clientBean.setSize(new Long(file.length()).intValue());
 				clientBean.setName(name);
 				clientBean.setTimer(UtilTool.getTimer());
-				clientBean.setFileName(file.getName()); // ¼ÇÂ¼ÎÄ¼şµÄÃû³Æ
-				clientBean.setInfo("ÇëÇó·¢ËÍÎÄ¼ş");
+				clientBean.setFileName(file.getName()); // è®°å½•æ–‡ä»¶çš„åç§°
+				clientBean.setInfo("è¯·æ±‚å‘é€æ–‡ä»¶");
 
-				// ÅĞ¶ÏÒª·¢ËÍ¸øË­
+				// åˆ¤æ–­è¦å‘é€ç»™è°
 				HashSet<String> set = new HashSet<String>();
 				set.addAll(list.getSelectedValuesList());
 				clientBean.setClients(set);
@@ -365,8 +365,8 @@ public class ChatroomJFrame extends JFrame {
 	}
 
 	/**
-	 * @Description:Í³Ò»µ÷ÓÃ·¢ËÍÏûÏ¢clientInputThread
-	 * @auther: wutp 2016Äê10ÔÂ15ÈÕ
+	 * @Description:ç»Ÿä¸€è°ƒç”¨å‘é€æ¶ˆæ¯clientInputThread
+	 * @auther: wutp 2016å¹´10æœˆ15æ—¥
 	 * @param clientBean
 	 * @return void
 	 */
