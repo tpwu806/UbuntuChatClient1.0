@@ -9,9 +9,9 @@ import java.sql.Timestamp;
  * @version 1.0
  */
 public class GroupTable implements Serializable {
-	public Integer gno;//群号
-	public String gname;//群名
-	public Timestamp gdate;//创建时间
+	private Integer gno;//群号
+	private String gname;//群名
+	private Timestamp gdate;//创建时间
 	public Integer getGno() {
 		return gno;
 	}

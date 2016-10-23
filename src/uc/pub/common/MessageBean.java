@@ -24,6 +24,15 @@ public class MessageBean implements Serializable {
 
 	private ArrayList<GroupTable> groups;//群信息
 	private String groupName;//群名称
+	private ArrayList<UserInfo> users;
+	
+	public ArrayList<UserInfo> getUsers() {
+		return users;
+	}
+
+	public void setUsers(ArrayList<UserInfo> users) {
+		this.users = users;
+	}
 	
 	public String getGroupName() {
 		return groupName;

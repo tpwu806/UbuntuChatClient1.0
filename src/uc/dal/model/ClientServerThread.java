@@ -23,12 +23,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import uc.dof.ChatJFrame;
+import uc.dof.ChatroomJFrame;
 import uc.dof.FriendListJFrame;
 import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;
 import uc.pub.common.GroupTable;
 import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
+import uc.pub.common.UserInfo;
 
 public class ClientServerThread implements Runnable {
 	
@@ -114,7 +116,21 @@ public class ClientServerThread implements Runnable {
 
 	}
 	private void ActionUpdateGroupFriends(MessageBean bean) {
-		// TODO Auto-generated method stub
+		ChatroomJFrame roomJFrame = UCWindow.roomWinMap.get(bean.getGroupName());
+		roomJFrame.gFriends.clear();
+		List<UserInfo> friends = bean.getUsers();
+		Iterator<UserInfo> it = friends.iterator();
+		while (it.hasNext()) {
+			UserInfo ele = it.next();
+			if (name.equals(ele.getNickName())) {
+				roomJFrame.gFriends.add(ele.getNickName() + "(我)");
+			} else {
+				roomJFrame.gFriends.add(ele.getNickName());
+			}
+		}
+
+		roomJFrame.listmodel = new OnlineListModel(roomJFrame.gFriends);
+		roomJFrame.list.setModel(roomJFrame.listmodel);
 		
 	}
 	/**
