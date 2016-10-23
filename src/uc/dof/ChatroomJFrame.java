@@ -37,7 +37,6 @@ import javax.swing.ListModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import uc.dal.model.ClientInputThread;
 import uc.dof.model.CellRenderer;
 import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;
@@ -61,7 +60,7 @@ public class ChatroomJFrame extends JFrame {
 	public  JProgressBar progressBar;
 	public  ListModel listmodel;
 
-	public  Vector<String> onlines;// 在线用户
+	public  Vector<String> gFriends;// 在线用户
 	public  boolean isSendFile = false;
 	public  boolean isReceiveFile = false;
 
@@ -85,14 +84,20 @@ public class ChatroomJFrame extends JFrame {
 		// 赋值
 		this.name = u_name;
 		this.groupName=groupName;
-		this.WIN=WIN;
+		this.WIN=win;
 		
 		init();
+		
+		MessageBean clientBean = new MessageBean();
+		clientBean.setType(MessageType.UPDATE_GROUP_FRIENDS);
+		clientBean.setGroupName(groupName);
+		sendMessage(clientBean);
 	}
 
 	private void init() {
 
-		onlines = new Vector<String>();
+		gFriends = new Vector<String>();
+		//gFriends.add(name);
 		/*
 		 * SwingUtilities.updateComponentTreeUI(this);
 		 * 
@@ -157,7 +162,7 @@ public class ChatroomJFrame extends JFrame {
 		getContentPane().add(sendButton);
 
 		// 在线客户列表
-		listmodel = new OnlineListModel(onlines);
+		listmodel = new OnlineListModel(gFriends);
 		list = new JList<String>(listmodel);
 		list.setCellRenderer(new CellRenderer());
 		list.setOpaque(false);

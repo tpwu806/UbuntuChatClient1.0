@@ -17,6 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ import uc.dof.ChatJFrame;
 import uc.dof.FriendListJFrame;
 import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;
+import uc.pub.common.GroupTable;
 import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
 
@@ -50,42 +52,22 @@ public class ClientServerThread implements Runnable {
 			while (running) {
 				ois = new ObjectInputStream(socket.getInputStream());
 				final MessageBean bean = (MessageBean) ois.readObject();
-				switch (bean.getType()) {
+				System.out.println(bean.getType());
+				switch (bean.getType()) {				
 				case MessageType.SERVER_UPDATE_FRIENDS: {
-					System.out.println(bean.getType());
-					// 更新列表
-					UCWindow.onlines.clear();
-					HashSet<String> clients = bean.getClients();
-					Iterator<String> it = clients.iterator();
-					while (it.hasNext()) {
-						String ele = it.next();
-						if (name.equals(ele)) {
-							UCWindow.onlines.add(ele + "(我)");
-						} else {
-							UCWindow.onlines.add(ele);
-						}
-					}
-
-					UCWindow.listmodel = new OnlineListModel(UCWindow.onlines);
-					UCWindow.list.setModel(UCWindow.listmodel);
-					//RoomWindow.aau2.play();
-					//RoomWindow.chartextArea.append(bean.getInfo() + "\r\n");
-					//RoomWindow.chartextArea.selectAll();
+					ActionServerUpdateFriends(bean);					
 					break;
 				}
-				case -1: {
-
-					return;
+				case MessageType.UPDATE_GROUP: {
+					ActionUpdateGroup(bean);
+					break;
+				}
+				case MessageType.UPDATE_GROUP_FRIENDS: {
+					ActionUpdateGroupFriends(bean);
+					break;
 				}
 				case MessageType.CLIENT_CHAR: {
-					String info = bean.getTimer() + "  " + bean.getName() + " 对 " + bean.getClients() + "说:\r\n";
-					System.out.println(info);
-					if (info.contains(name)) {
-						info = info.replace(name, "我");
-					}
-					//RoomWindow.aau.play();
-					//RoomWindow.chartextArea.append(info + bean.getInfo() + "\r\n");
-					//RoomWindow.chartextArea.selectAll();
+					ClientChar(bean);					
 					break;
 				}
 				case MessageType.SERVER_BROADCAST: {
@@ -95,14 +77,14 @@ public class ClientServerThread implements Runnable {
 					break;
 				}
 				case MessageType.SINGLETON_CHAR: {
-					singletonChat(bean);
+					ActionSingletonChat(bean);
 					break;
 				}case MessageType.FILE_REQUESTION: {
-					fileRequetion();
+					ActionFileRequetion(bean);
 					break;
 				}
 				case MessageType.FILE_RECEIVE: { // 目标客户愿意接收文件，源客户开始读取本地文件并发送到网络上
-					fileReceive();
+					ActionFileReceive(bean);
 					break;
 				}
 				case MessageType.FILE_RECEIVE_OK: {
@@ -131,30 +113,81 @@ public class ClientServerThread implements Runnable {
 		}
 
 	}
+	private void ActionUpdateGroupFriends(MessageBean bean) {
+		// TODO Auto-generated method stub
 		
+	}
 	/**
-	 * @Description:统一向服务器发送信息
-	 * @auther: wutp 2016年10月15日
-	 * @param clientBean
+	 * @Description:
+	 * @auther: wutp 2016年10月23日
+	 * @param bean
 	 * @return void
 	 */
-	public void sendMessage(MessageBean clientBean) {
-		try {
-			oos = new ObjectOutputStream(socket.getOutputStream());
-			oos.writeObject(clientBean);
-			oos.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+	private void ActionServerUpdateFriends(MessageBean bean){
+		//更新好友列表
+		UCWindow.onlines.clear();
+		HashSet<String> clients = bean.getClients();
+		Iterator<String> it = clients.iterator();
+		while (it.hasNext()) {
+			String ele = it.next();
+			if (name.equals(ele)) {
+				UCWindow.onlines.add(ele + "(我)");
+			} else {
+				UCWindow.onlines.add(ele);
+			}
 		}
+
+		UCWindow.listmodel = new OnlineListModel(UCWindow.onlines);
+		UCWindow.list.setModel(UCWindow.listmodel);
+		UtilTool.aau2.play();
+		
+		
+		
+		//RoomWindow.aau2.play();
+		//RoomWindow.chartextArea.append(bean.getInfo() + "\r\n");
+		//RoomWindow.chartextArea.selectAll();
 	}
-	
+	/**
+	 * @Description:更新群列表
+	 * @auther: wutp 2016年10月23日
+	 * @param bean
+	 * @return void
+	 */
+	private void ActionUpdateGroup(MessageBean bean){
+		UCWindow.groups.clear();
+		List<GroupTable> group = bean.getGroups();
+		Iterator<GroupTable> git = group.iterator();
+		while (git.hasNext()) {
+			GroupTable g = git.next();
+			UCWindow.groups.add(g.getGname());
+		}
+
+		UCWindow.grouplistmodel = new OnlineListModel(UCWindow.groups);
+		UCWindow.grouplist.setModel(UCWindow.grouplistmodel);
+	}
+	/**
+	 * @Description:
+	 * @auther: wutp 2016年10月23日
+	 * @param bean
+	 * @return void
+	 */
+	private void ClientChar(MessageBean bean){
+		String info = bean.getTimer() + "  " + bean.getName() + " 对 " + bean.getClients() + "说:\r\n";
+		System.out.println(info);
+		if (info.contains(name)) {
+			info = info.replace(name, "我");
+		}
+		//RoomWindow.aau.play();
+		//RoomWindow.chartextArea.append(info + bean.getInfo() + "\r\n");
+		//RoomWindow.chartextArea.selectAll();
+	}
 	/**
 	 * @Description:将一对一聊天内容显示在相应聊天窗口上
 	 * @auther: wutp 2016年10月16日
 	 * @param bean
 	 * @return void
 	 */
-	private void singletonChat(MessageBean bean){
+	private void ActionSingletonChat(MessageBean bean){
 		ChatJFrame chatJFrame = UCWindow.chatWinMap.get(bean.getName());
 		
 		if(chatJFrame != null){
@@ -164,7 +197,7 @@ public class ClientServerThread implements Runnable {
 		}
 	}
 	
-	private void fileRequetion(){
+	private void ActionFileRequetion(MessageBean bean){
 		/*// 由于等待目标客户确认是否接收文件是个阻塞状态，所以这里用线程处理
 		new Thread() {
 			public void run() {
@@ -284,13 +317,13 @@ public class ClientServerThread implements Runnable {
 		}.start();*/
 	}
 
-	private void fileReceive(){
-		/*RoomWindow.chartextArea.append(bean.getTimer() + "  " + bean.getName() + "确定接收文件" + ",文件传送中..\r\n");
-		new Thread() {
+	private void ActionFileReceive(final MessageBean bean){
+		//RoomWindow.chartextArea.append(bean.getTimer() + "  " + bean.getName() + "确定接收文件" + ",文件传送中..\r\n");
+		/*new Thread() {
 			public void run() {
 
 				try {
-					RoomWindow.isSendFile = true;
+					//RoomWindow.isSendFile = true;
 					// 创建要接收文件的客户套接字
 					Socket s = new Socket(bean.getIp(), bean.getPort());
 					DataInputStream dis = new DataInputStream(new FileInputStream(RoomWindow.filePath)); // 本地读取该客户刚才选中的文件
@@ -310,10 +343,10 @@ public class ClientServerThread implements Runnable {
 
 						if (num > 0) {
 							if (count % num == 0 && index < 100) {
-								RoomWindow.progressBar.setValue(++index);
+								//RoomWindow.progressBar.setValue(++index);
 
 							}
-							RoomWindow.lblNewLabel.setText("上传进度:" + count + "/" + size + "  整体" + index + "%");
+							//RoomWindow.lblNewLabel.setText("上传进度:" + count + "/" + size + "  整体" + index + "%");
 						} else {
 							RoomWindow.lblNewLabel
 									.setText("上传进度:" + count + "/" + size + "  整体:"
@@ -321,7 +354,7 @@ public class ClientServerThread implements Runnable {
 													/ new Double(size).doubleValue() * 100).intValue()
 											+ "%");
 							if (count == size) {
-								RoomWindow.progressBar.setValue(100);
+								//RoomWindow.progressBar.setValue(100);
 							}
 						}
 					}
@@ -329,8 +362,8 @@ public class ClientServerThread implements Runnable {
 					dis.close();
 					// 读取目标客户的提示保存完毕的信息...
 					BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-					RoomWindow.chartextArea.append(br.readLine() + "\r\n");
-					RoomWindow.isSendFile = false;
+					//RoomWindow.chartextArea.append(br.readLine() + "\r\n");
+					//RoomWindow.isSendFile = false;
 					br.close();
 					s.close();
 				} catch (Exception ex) {
@@ -339,5 +372,21 @@ public class ClientServerThread implements Runnable {
 
 			};
 		}.start();*/
+	}
+
+	/**
+	 * @Description:统一向服务器发送信息
+	 * @auther: wutp 2016年10月15日
+	 * @param clientBean
+	 * @return void
+	 */
+	public void sendMessage(MessageBean clientBean) {
+		try {
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.writeObject(clientBean);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

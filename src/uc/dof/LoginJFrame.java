@@ -128,17 +128,14 @@ public class LoginJFrame extends JFrame {
 		m.setPwd(pwd);
 			
 		MessageBean ms = server.sendUserInfoToServer(m);
-					
+		System.out.println(ms.getType());		
 		switch (ms.getType()) {
 		case MessageType.SIGN_IN_SUCCESS: {
 			System.out.println("登录成功");
 			loginButton.setEnabled(false);
-			//frame = new ChatroomJFrame(name, server.getSocket());
-			//frame.setVisible(true);// 显示聊天界面
 			FriendListJFrame friendJFrame = new FriendListJFrame(name, server.getSocket());
 			friendJFrame.setVisible(true);
 			dispose();
-			//setVisible(false);// 隐藏掉登陆界面
 			break;
 		}
 		case MessageType.SIGN_IN_FALSE: {

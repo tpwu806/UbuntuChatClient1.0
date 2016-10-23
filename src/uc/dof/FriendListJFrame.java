@@ -35,6 +35,7 @@ import javax.swing.border.TitledBorder;
 import uc.dal.model.ClientServerThread;
 import uc.dof.model.CellRenderer;
 import uc.dof.model.OnlineListModel;
+import uc.pub.UtilTool;
 import uc.pub.common.MessageBean;
 
 /**
@@ -49,7 +50,7 @@ public class FriendListJFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane jtabPan ;
-	private JPanel friendJPanel, groupJPanel;
+	private JPanel friendJPanel;
 	
 	// 处理第一张卡片.
 	private JPanel jphy1, jphy2, jphy3;
@@ -77,6 +78,7 @@ public class FriendListJFrame extends JFrame {
 	//public String friends[] ;
 	
 	public ClientServerThread server ;
+	public UtilTool tool = new UtilTool();
 	public Map<String,ChatJFrame> chatWinMap = new HashMap<>();	
 	public Map<String,ChatroomJFrame> roomWinMap = new HashMap<>(); 
 	
@@ -85,12 +87,10 @@ public class FriendListJFrame extends JFrame {
 		initialize();
 		server = new ClientServerThread(owner, socket, this);
 		Thread t = new Thread(server);
-		t.start();
+		t.start();		
 	}
 	private void initialize(){
 		jtabPan = new JTabbedPane();
-		friendJPanel = new JPanel();
-		//groupJPanel = new JPanel();
 		
 		initFrient();		
 		//组信息
@@ -113,6 +113,7 @@ public class FriendListJFrame extends JFrame {
 	 * @return void
 	 */
 	private void initFrient() {
+		friendJPanel = new JPanel();
 		// 处理第一张卡片(显示好友列表)
 		jphy_jb1 = new JButton("我的好友");
 		jphy_jb2 = new JButton("陌生人");
@@ -211,24 +212,16 @@ public class FriendListJFrame extends JFrame {
 	 */
 	private void initGroup(){
 		groups = new Vector<String>();
-		groups.add("我们的回忆");
-		groups.add("游泳俱乐部");
+		//groups.add("我们的回忆");
+		//groups.add("游泳俱乐部");
 		grouplistmodel = new OnlineListModel(groups);
 		grouplist = new JList(grouplistmodel);
 		grouplist.setCellRenderer(new CellRenderer());
 		grouplist.setOpaque(false);
-		//grouplist.addMouseListener(this);
-		// Border etch = BorderFactory.createEtchedBorder();
-		// list.setBorder(BorderFactory.createTitledBorder(etch, "<" + owner +
-		// ">" + "在线客户:", TitledBorder.LEADING,
-		// TitledBorder.TOP, new Font("sdf", Font.BOLD, 20), Color.green));
-
+		
 		groupScrollPane = new JScrollPane(grouplist);
-		//groupScrollPane.setBounds(430, 10, 245, 375);
 		groupScrollPane.setOpaque(false);
 		groupScrollPane.getViewport().setOpaque(false);
-		//getContentPane().add(groupScrollPane);
-		//groupJPanel.add(groupScrollPane);
 		
 		// 列表监听
 		grouplist.addMouseListener(new MouseAdapter() {
