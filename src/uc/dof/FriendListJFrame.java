@@ -32,7 +32,7 @@ import javax.swing.ListModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import uc.dal.model.ClientServerThread;
+import uc.dal.ClientServerThread;
 import uc.dof.model.CellRenderer;
 import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;

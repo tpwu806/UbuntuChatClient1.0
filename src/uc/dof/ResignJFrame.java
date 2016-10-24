@@ -13,7 +13,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import uc.dal.model.ClinetServer;
+import uc.dal.ClinetServer;
 import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
 

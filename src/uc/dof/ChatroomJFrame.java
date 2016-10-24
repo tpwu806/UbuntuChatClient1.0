@@ -60,7 +60,10 @@ public class ChatroomJFrame extends JFrame {
 	public  JProgressBar progressBar;
 	public  ListModel listmodel;
 
-	public  Vector<String> gFriends;// 在线用户
+	public  Vector<String> gFriends;// 群好友
+	public  Vector<String> ingFriends = new Vector<>();//在线好友
+	public  Vector<String> outgFriends = new Vector<>();//离线好友
+	
 	public  boolean isSendFile = false;
 	public  boolean isReceiveFile = false;
 

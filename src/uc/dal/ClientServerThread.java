@@ -1,4 +1,4 @@
-package uc.dal.model;
+package uc.dal;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -120,14 +120,21 @@ public class ClientServerThread implements Runnable {
 		roomJFrame.gFriends.clear();
 		List<UserInfo> friends = bean.getUsers();
 		Iterator<UserInfo> it = friends.iterator();
+		
+		roomJFrame.ingFriends.add(name+"我");
 		while (it.hasNext()) {
 			UserInfo ele = it.next();
-			if (name.equals(ele.getNickName())) {
-				roomJFrame.gFriends.add(ele.getNickName() + "(我)");
-			} else {
-				roomJFrame.gFriends.add(ele.getNickName());
+			if("1".equals(ele.getStatus())){
+				if (!name.equals(ele.getNickName())) 
+					roomJFrame.ingFriends.add(ele.getNickName()+"在线");
+				
+			}else{
+				roomJFrame.outgFriends.add(ele.getNickName()+"离线");
 			}
+			
 		}
+		roomJFrame.gFriends.addAll(roomJFrame.ingFriends);
+		roomJFrame.gFriends.addAll(roomJFrame.outgFriends);
 
 		roomJFrame.listmodel = new OnlineListModel(roomJFrame.gFriends);
 		roomJFrame.list.setModel(roomJFrame.listmodel);

@@ -39,9 +39,16 @@ public class CellRenderer extends JLabel implements ListCellRenderer<Object> {
 			setBackground(new Color(255, 255, 153));// 设置背景色
 			setForeground(Color.black);
 		} else {
-			// 设置选取与取消选取的前景与背景颜色.
-			setBackground(Color.gray); // 设置背景色
-			setForeground(Color.black);
+			if(value.toString().contains("在线")){
+				// 设置选取与取消选取的前景与背景颜色.
+				setBackground(Color.white); // 设置背景色
+				setForeground(Color.red);
+			}else{
+				// 设置选取与取消选取的前景与背景颜色.
+				setBackground(Color.white); // 设置背景色
+				setForeground(Color.gray);
+			}
+			
 		}
 		setEnabled(list.isEnabled());
 		setFont(new Font("sdf", Font.ROMAN_BASELINE, 13));
