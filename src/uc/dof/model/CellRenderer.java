@@ -39,7 +39,7 @@ public class CellRenderer extends JLabel implements ListCellRenderer<Object> {
 			setBackground(new Color(255, 255, 153));// 设置背景色
 			setForeground(Color.black);
 		} else {
-			if(value.toString().contains("在线")){
+			if(value.toString().contains("在线") || value.toString().contains("我")){
 				// 设置选取与取消选取的前景与背景颜色.
 				setBackground(Color.white); // 设置背景色
 				setForeground(Color.red);

@@ -10,83 +10,80 @@ public class MessageType {
 	/**
 	 * 登录
 	 */
-	public static final int SIGN_IN = 100;
+	public static final String SIGN_IN = "SIGN_IN";
 	/**
 	 * 登陆成功
 	 */
-	public static final int SIGN_IN_SUCCESS = 101;
+	public static final String SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS";
 	/**
 	 * 登陆失败 密码错误
 	 */
-	public static final int SIGN_IN_FALSE = 102;
+	public static final String SIGN_IN_FALSE = "SIGN_IN_FALSE";
 	// *******************************************************************
 	/**
 	 * 下线
 	 */
-	public static final int SIGN_OUT = 200;
+	public static final String SIGN_OUT = "SIGN_OUT";
 	/**
 	 * 有人下线
 	 */
-	public static final int SIGN_OUT_NOTICE = 201;
+	public static final String SIGN_OUT_NOTICE = "SIGN_OUT_NOTICE";
 
 	// *******************************************************************
 	/**
 	 * 注册
 	 */
-	public static final int SIGN_UP = 301;
+	public static final String SIGN_UP = "SIGN_UP";
 	/**
 	 * 注册成功
 	 */
-	public static final int SIGN_UP_SUCCESS = 302;
+	public static final String SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS";
 	/**
 	 * 注册失败
 	 */
-	public static final int SIGN_UP_FALSE = 303;
+	public static final String SIGN_UP_FALSE = "SIGN_UP_FALSE";
 	// *******************************************************************
 	/**
 	 * 请求接受文件
 	 */
-	public static final int FILE_REQUESTION = 402;
+	public static final String FILE_REQUESTION = "FILE_REQUESTION";
 
 	/**
 	 * 确定接收文件
 	 */
-	public static final int FILE_RECEIVE = 403;
+	public static final String FILE_RECEIVE = "FILE_RECEIVE";
 
 	/**
 	 * 
 	 */
-	public static final int FILE_RECEIVE_OK = 404;
+	public static final String FILE_RECEIVE_OK = "FILE_RECEIVE_OK";
 	// *******************************************************************
 	/**
 	 * 聊天
 	 */
-	public static final int CLIENT_CHAR = 500;
+	public static final String GROUP_CHAT = "GROUP_CHAT";
 	/**
 	 * 一对一聊天
 	 */
-	public static final int SINGLETON_CHAR = 510;
+	public static final String SINGLETON_CHAT = "SINGLETON_CHAT";
 	/**
 	 * 服务器广播
 	 */
-	public static final int SERVER_BROADCAST = 520;
-	/**
-	 * 群聊天
-	 */
-	public static final int GROUP_CHAR = 530;
+	public static final String SERVER_BROADCAST = "SERVER_BROADCAST";
+
 	// *******************************************************************
 	/**
 	 * 更新在线好友
 	 */
-	public static final int SERVER_UPDATE_FRIENDS = 600;
+	public static final String SERVER_UPDATE_FRIENDS = "SERVER_UPDATE_FRIENDS";
 	/**
 	 * 更新群
 	 */
-	public static final int UPDATE_GROUP = 610;
+	public static final String GET_GROUP_LIST = "GET_GROUP_LIST";
 	/**
 	 * 更新在线群好友
 	 */
-	public static final int UPDATE_GROUP_FRIENDS = 620;
+	public static final String GET_GROUP_FRIEND_LIST = "GET_GROUP_FRIEND_LIST";
 	
 
 }

@@ -132,14 +132,17 @@ public class LoginJFrame extends JFrame {
 		switch (ms.getType()) {
 		case MessageType.SIGN_IN_SUCCESS: {
 			System.out.println("登录成功");
-			loginButton.setEnabled(false);
+			//loginButton.setEnabled(false);
 			FriendListJFrame friendJFrame = new FriendListJFrame(name, server.getSocket());
 			friendJFrame.setVisible(true);
 			dispose();
 			break;
 		}
 		case MessageType.SIGN_IN_FALSE: {
-			errorLabel.setText(" 密码错误！");
+			if(ms.getErrorMessage() != null && !"".equals(ms.getErrorMessage()))
+				errorLabel.setText(ms.getErrorMessage());
+			else
+				errorLabel.setText(" 登录失败！");
 			textField.setText("");
 			passwordField.setText("");
 			textField.requestFocus();

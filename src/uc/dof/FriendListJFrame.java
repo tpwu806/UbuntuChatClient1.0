@@ -37,6 +37,7 @@ import uc.dof.model.CellRenderer;
 import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;
 import uc.pub.common.MessageBean;
+import uc.pub.common.MessageType;
 
 /**
  * @Description: 主窗口 好友列表
@@ -66,7 +67,9 @@ public class FriendListJFrame extends JFrame {
 	private CardLayout cl;
 	//好友列表组件
 	private String owner;
-	public  Vector<String> onlines;// 在线好友
+	public  Vector<String> friends;// 在线好友
+	public  Vector<String> inFriends = new Vector<>();//在线好友
+	public  Vector<String> outFriends = new Vector<>();//离线好友
 	public  ListModel listmodel;
 	public  JList<String> list;
 	//群聊列表组件
@@ -128,8 +131,8 @@ public class FriendListJFrame extends JFrame {
 		jphy3.add(jphy_jb2);
 		jphy3.add(jphy_jb3);
 
-		onlines = new Vector<String>();
-		listmodel = new OnlineListModel(onlines);
+		friends = new Vector<String>();
+		listmodel = new OnlineListModel(friends);
 		list = new JList(listmodel);
 		list.setCellRenderer(new CellRenderer());
 		list.setOpaque(false);
@@ -252,11 +255,11 @@ public class FriendListJFrame extends JFrame {
 		if (e.getClickCount() == 2) {			
 			String groupNo = grouplist.getSelectedValue();
 			System.out.println("你希望打开 " + groupNo + " 群");
-
+			
 			ChatroomJFrame roomJframe = new ChatroomJFrame(owner, groupNo, this);
 			roomJframe.setVisible(true);
 			roomWinMap.put(groupNo, roomJframe);
-
+			roomJframe.getGroupFriendsList();
 		}
 	}
 	
@@ -265,18 +268,23 @@ public class FriendListJFrame extends JFrame {
 		List<String> to = list.getSelectedValuesList();
 		
 		if (arg0.getClickCount() == 2) {
-			if (to.toString().contains(owner + "(我)")) {
+			if (to.toString().contains(owner + "我")) {
 				JOptionPane.showMessageDialog(getContentPane(), "不能和自己聊天");
 				return;
 			}
 		
 			String friendNo = list.getSelectedValue();
 			System.out.println("你希望和 "+friendNo+" 聊天");
-			
-			ChatJFrame chatJframe =new ChatJFrame(owner,friendNo,this);
-			chatJframe.setVisible(true);
-			chatWinMap.put(friendNo, chatJframe);
-	
+			if (friendNo.contains("离线")) {
+				JOptionPane.showMessageDialog(getContentPane(), "不能和离线好友聊天");
+				return;
+			}else{
+				String friendName = friendNo.replace("在线", "");
+				ChatJFrame chatJframe =new ChatJFrame(owner,friendName,this);
+				chatJframe.setVisible(true);
+				chatWinMap.put(friendName, chatJframe);
+			}
+
 		}
 	
 	}
@@ -288,6 +296,13 @@ public class FriendListJFrame extends JFrame {
 			cl.show(this.getContentPane(), "1");
 		}
 	
+	}
+	
+	public void initFriendList(){
+		MessageBean clientBean = new MessageBean();
+		clientBean.setType(MessageType.GET_GROUP_LIST);
+		clientBean.setName(owner);
+		server.sendMessage(clientBean);
 	}
 	@Deprecated
 	public void upateFriends(MessageBean m) {

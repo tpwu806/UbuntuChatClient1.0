@@ -1,14 +1,20 @@
 package uc.pub.common;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
+
+import uc.pub.common.domain.GroupTable;
+import uc.pub.common.domain.UserInfo;
 
 public class MessageBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;// 登录名
 	private String pwd;// 密码
-	private int type; // 1私聊 0上下线更新 -1下线请求 2请求发送文件 3.确定接收文件
+	private String type; // 1私聊 0上下线更新 -1下线请求 2请求发送文件 3.确定接收文件
 
 	private HashSet<String> clients; // 存放选中的客户
 	private HashSet<String> to;
@@ -22,15 +28,25 @@ public class MessageBean implements Serializable {
 	private String fileName;// 文件名称
 	private int size;// 大小
 
-	private ArrayList<GroupTable> groups;//群信息
+	private HashSet<GroupTable> groups;//群信息
 	private String groupName;//群名称
-	private ArrayList<UserInfo> users;
+	private HashSet<UserInfo> users;//用户信息
 	
-	public ArrayList<UserInfo> getUsers() {
+	private String ErrorMessage;//错误信息
+	
+	public String getErrorMessage() {
+		return ErrorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		ErrorMessage = errorMessage;
+	}
+
+	public HashSet<UserInfo> getUsers() {
 		return users;
 	}
 
-	public void setUsers(ArrayList<UserInfo> users) {
+	public void setUsers(HashSet<UserInfo> users) {
 		this.users = users;
 	}
 	
@@ -42,11 +58,11 @@ public class MessageBean implements Serializable {
 		this.groupName = groupName;
 	}
 
-	public ArrayList<GroupTable> getGroups() {
+	public HashSet<GroupTable> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(ArrayList<GroupTable> groups) {
+	public void setGroups(HashSet<GroupTable> groups) {
 		this.groups = groups;
 	}
 
@@ -66,11 +82,11 @@ public class MessageBean implements Serializable {
 		this.pwd = pwd;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

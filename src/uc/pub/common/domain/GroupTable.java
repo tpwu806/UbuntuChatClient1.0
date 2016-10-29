@@ -1,4 +1,4 @@
-package uc.pub.common;
+package uc.pub.common.domain;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

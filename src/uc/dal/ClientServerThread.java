@@ -17,7 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -27,10 +27,10 @@ import uc.dof.ChatroomJFrame;
 import uc.dof.FriendListJFrame;
 import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;
-import uc.pub.common.GroupTable;
 import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
-import uc.pub.common.UserInfo;
+import uc.pub.common.domain.GroupTable;
+import uc.pub.common.domain.UserInfo;
 
 public class ClientServerThread implements Runnable {
 	
@@ -39,6 +39,7 @@ public class ClientServerThread implements Runnable {
 	private ObjectOutputStream oos;
 	private FriendListJFrame UCWindow;
 	private String name;
+	private ChatroomJFrame roomWin;
 	
 	public ClientServerThread(String name,Socket socket,FriendListJFrame UCWindow) {
 		this.name=name;
@@ -54,22 +55,22 @@ public class ClientServerThread implements Runnable {
 			while (running) {
 				ois = new ObjectInputStream(socket.getInputStream());
 				final MessageBean bean = (MessageBean) ois.readObject();
-				System.out.println(bean.getType());
-				switch (bean.getType()) {				
+				System.out.println("Socket Type: "+bean.getType());
+				switch (bean.getType()) {					
+				case MessageType.GET_GROUP_LIST: {
+					ActionInitFriendsAndGroup(bean);
+					break;
+				}
 				case MessageType.SERVER_UPDATE_FRIENDS: {
 					ActionServerUpdateFriends(bean);					
 					break;
 				}
-				case MessageType.UPDATE_GROUP: {
-					ActionUpdateGroup(bean);
-					break;
-				}
-				case MessageType.UPDATE_GROUP_FRIENDS: {
+				case MessageType.GET_GROUP_FRIEND_LIST: {
 					ActionUpdateGroupFriends(bean);
 					break;
 				}
-				case MessageType.CLIENT_CHAR: {
-					ClientChar(bean);					
+				case MessageType.GROUP_CHAT: {
+					ActionGropChat(bean);					
 					break;
 				}
 				case MessageType.SERVER_BROADCAST: {
@@ -77,11 +78,8 @@ public class ClientServerThread implements Runnable {
 					//RoomWindow.chartextArea.append( bean.getInfo() + "\r\n");
 					//RoomWindow.chartextArea.selectAll();
 					break;
-				}
-				case MessageType.SINGLETON_CHAR: {
-					ActionSingletonChat(bean);
-					break;
-				}case MessageType.FILE_REQUESTION: {
+				}				
+				case MessageType.FILE_REQUESTION: {
 					ActionFileRequetion(bean);
 					break;
 				}
@@ -91,6 +89,10 @@ public class ClientServerThread implements Runnable {
 				}
 				case MessageType.FILE_RECEIVE_OK: {
 					//RoomWindow.chartextArea.append(bean.getInfo() + "\r\n");
+					break;
+				}
+				case MessageType.SINGLETON_CHAT: {
+					ActionSingletonChat(bean);
 					break;
 				}
 				default: {
@@ -115,29 +117,23 @@ public class ClientServerThread implements Runnable {
 		}
 
 	}
+	/**
+	 * @Description:更新群好友
+	 * @auther: wutp 2016年10月29日
+	 * @param bean
+	 * @return void
+	 */
 	private void ActionUpdateGroupFriends(MessageBean bean) {
-		ChatroomJFrame roomJFrame = UCWindow.roomWinMap.get(bean.getGroupName());
-		roomJFrame.gFriends.clear();
-		List<UserInfo> friends = bean.getUsers();
-		Iterator<UserInfo> it = friends.iterator();
-		
-		roomJFrame.ingFriends.add(name+"我");
-		while (it.hasNext()) {
-			UserInfo ele = it.next();
-			if("1".equals(ele.getStatus())){
-				if (!name.equals(ele.getNickName())) 
-					roomJFrame.ingFriends.add(ele.getNickName()+"在线");
-				
+		try{
+			ChatroomJFrame roomJFrame = UCWindow.roomWinMap.get(bean.getGroupName());
+			if(roomJFrame != null){
+				roomJFrame.initGroupFriends(bean);	
 			}else{
-				roomJFrame.outgFriends.add(ele.getNickName()+"离线");
+				throw new Exception("ChatroomJFrame is null!");
 			}
-			
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		roomJFrame.gFriends.addAll(roomJFrame.ingFriends);
-		roomJFrame.gFriends.addAll(roomJFrame.outgFriends);
-
-		roomJFrame.listmodel = new OnlineListModel(roomJFrame.gFriends);
-		roomJFrame.list.setModel(roomJFrame.listmodel);
 		
 	}
 	/**
@@ -147,26 +143,47 @@ public class ClientServerThread implements Runnable {
 	 * @return void
 	 */
 	private void ActionServerUpdateFriends(MessageBean bean){
+		boolean isplay = true;
 		//更新好友列表
-		UCWindow.onlines.clear();
-		HashSet<String> clients = bean.getClients();
-		Iterator<String> it = clients.iterator();
-		while (it.hasNext()) {
-			String ele = it.next();
-			if (name.equals(ele)) {
-				UCWindow.onlines.add(ele + "(我)");
-			} else {
-				UCWindow.onlines.add(ele);
-			}
-		}
+		
+		String onlineName = bean.getName().trim()+"离线";
+		if(UCWindow.outFriends.contains(onlineName)){
+			UCWindow.outFriends.remove(onlineName);
+			UCWindow.inFriends.add(bean.getName().trim()+"在线");
+			
+			UCWindow.friends.clear();
+			UCWindow.friends.addAll(UCWindow.inFriends);
+			UCWindow.friends.addAll(UCWindow.outFriends);
 
-		UCWindow.listmodel = new OnlineListModel(UCWindow.onlines);
-		UCWindow.list.setModel(UCWindow.listmodel);
-		UtilTool.aau2.play();
+			UCWindow.listmodel = new OnlineListModel(UCWindow.friends);
+			UCWindow.list.setModel(UCWindow.listmodel);
+			UtilTool.aau2.play();
+			isplay = false;
+		}
 		
-		
-		
-		//RoomWindow.aau2.play();
+			//更新群中好友列表
+			Set<String> roomWinKeys = UCWindow.roomWinMap.keySet();
+			for(String roomWinKey : roomWinKeys){			
+				roomWin =  UCWindow.roomWinMap.get(roomWinKey);
+				
+			}
+			if(roomWin != null){
+				if(roomWin.outgFriends.contains(onlineName)){
+					
+					roomWin.outgFriends.remove(onlineName);
+					roomWin.ingFriends.add(bean.getName().trim()+"在线");
+					
+					roomWin.gFriends.clear();
+					roomWin.gFriends.addAll(roomWin.ingFriends);
+					roomWin.gFriends.addAll(roomWin.outgFriends);
+					roomWin.listmodel = new OnlineListModel(roomWin.gFriends);
+					roomWin.list.setModel(roomWin.listmodel);
+					if(isplay)
+						UtilTool.aau2.play();
+				}
+			
+			}
+
 		//RoomWindow.chartextArea.append(bean.getInfo() + "\r\n");
 		//RoomWindow.chartextArea.selectAll();
 	}
@@ -176,9 +193,33 @@ public class ClientServerThread implements Runnable {
 	 * @param bean
 	 * @return void
 	 */
-	private void ActionUpdateGroup(MessageBean bean){
+	private void ActionInitFriendsAndGroup(MessageBean bean){
+		//初始化好友列表
+		
+		Set<UserInfo> friends = bean.getUsers();
+		Iterator<UserInfo> it = friends.iterator();
+		
+		UCWindow.inFriends.add(name+"我");
+		while (it.hasNext()) {
+			UserInfo ele = it.next();
+			if("1".equals(ele.getStatus())){
+				if (!name.equals(ele.getNickName())) 
+					UCWindow.inFriends.add(ele.getNickName()+"在线");
+				
+			}else{
+				UCWindow.outFriends.add(ele.getNickName()+"离线");
+			}
+			
+		}
+		UCWindow.friends.clear();
+		UCWindow.friends.addAll(UCWindow.inFriends);
+		UCWindow.friends.addAll(UCWindow.outFriends);
+
+		UCWindow.listmodel = new OnlineListModel(UCWindow.friends);
+		UCWindow.list.setModel(UCWindow.listmodel);
+		//初始化群列表
 		UCWindow.groups.clear();
-		List<GroupTable> group = bean.getGroups();
+		Set<GroupTable> group = bean.getGroups();
 		Iterator<GroupTable> git = group.iterator();
 		while (git.hasNext()) {
 			GroupTable g = git.next();
@@ -194,15 +235,21 @@ public class ClientServerThread implements Runnable {
 	 * @param bean
 	 * @return void
 	 */
-	private void ClientChar(MessageBean bean){
-		String info = bean.getTimer() + "  " + bean.getName() + " 对 " + bean.getClients() + "说:\r\n";
+	private void ActionGropChat(MessageBean bean){
+		String info = bean.getTimer() + "  " + bean.getName() + " :\r\n";
 		System.out.println(info);
 		if (info.contains(name)) {
 			info = info.replace(name, "我");
 		}
-		//RoomWindow.aau.play();
-		//RoomWindow.chartextArea.append(info + bean.getInfo() + "\r\n");
-		//RoomWindow.chartextArea.selectAll();
+		roomWin = UCWindow.roomWinMap.get(bean.getGroupName());
+		if(roomWin != null){
+			roomWin.aau.play();
+			roomWin.chartextArea.append(info + bean.getInfo() + "\r\n");
+			roomWin.chartextArea.selectAll();
+		}else{
+			System.out.println("您有新群消息："+info + bean.getInfo() + "\r\n");
+		}
+		
 	}
 	/**
 	 * @Description:将一对一聊天内容显示在相应聊天窗口上

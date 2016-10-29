@@ -18,7 +18,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -34,6 +36,9 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListModel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
@@ -42,6 +47,7 @@ import uc.dof.model.OnlineListModel;
 import uc.pub.UtilTool;
 import uc.pub.common.MessageBean;
 import uc.pub.common.MessageType;
+import uc.pub.common.domain.UserInfo;
 
 /**
  * @Description: 群聊天界面
@@ -83,51 +89,42 @@ public class ChatroomJFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */	
-	public ChatroomJFrame(String u_name, String groupName,FriendListJFrame win) {
+	public ChatroomJFrame(String u_name, String groupName,FriendListJFrame jf) {
 		// 赋值
 		this.name = u_name;
 		this.groupName=groupName;
-		this.WIN=win;
+		this.WIN=jf;
 		
 		init();
-		
-		MessageBean clientBean = new MessageBean();
-		clientBean.setType(MessageType.UPDATE_GROUP_FRIENDS);
-		clientBean.setGroupName(groupName);
-		sendMessage(clientBean);
+
 	}
 
 	private void init() {
 
 		gFriends = new Vector<String>();
-		//gFriends.add(name);
-		/*
-		 * SwingUtilities.updateComponentTreeUI(this);
-		 * 
-		 * try { UIManager.setLookAndFeel(
-		 * "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); } catch
-		 * (ClassNotFoundException e1) { // TODO Auto-generated catch block
-		 * e1.printStackTrace(); } catch (InstantiationException e1) { // TODO
-		 * Auto-generated catch block e1.printStackTrace(); } catch
-		 * (IllegalAccessException e1) { // TODO Auto-generated catch block
-		 * e1.printStackTrace(); } catch (UnsupportedLookAndFeelException e1) {
-		 * // TODO Auto-generated catch block e1.printStackTrace(); }
-		 */
+		
+		/*SwingUtilities.updateComponentTreeUI(this);		 
+		try { 
+			UIManager.setLookAndFeel(
+					"com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+		}catch(Exception e) { 
+		  e.printStackTrace(); 
+		} 	*/	
+		 
 
 		setTitle(groupName);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(200, 100, 688, 510);
 		contentPane = new JPanel() {
-			private static final long serialVersionUID = 1L;
-
+			private static final long serialVersionUID = 1L;		
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(new ImageIcon("images/聊天室1.jpg").getImage(), 0, 0, getWidth(), getHeight(), null);
 			}
-
 		};
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -257,33 +254,38 @@ public class ChatroomJFrame extends JFrame {
 		String info = sendJTextArea.getText();
 		List<String> to = list.getSelectedValuesList();
 
-		if (to.size() < 1) {
+		/*if (to.size() < 1) {
 			JOptionPane.showMessageDialog(getContentPane(), "请选择聊天对象");
 			return;
 		}
 		if (to.toString().contains(groupName + "(我)")) {
 			JOptionPane.showMessageDialog(getContentPane(), "不能向自己发送信息");
 			return;
-		}
+		}*/
 		if (info.equals("")) {
 			JOptionPane.showMessageDialog(getContentPane(), "不能发送空信息");
 			return;
 		}
 
 		MessageBean clientBean = new MessageBean();
-		clientBean.setType(MessageType.CLIENT_CHAR);
+		clientBean.setType(MessageType.GROUP_CHAT);
 		clientBean.setName(name);
 		String time = UtilTool.getTimer();
 		clientBean.setTimer(time);
 		clientBean.setInfo(info);
 		HashSet<String> set = new HashSet<String>();
-		set.addAll(to);
+		for(String name : ingFriends){
+			String name2 = name.replace("在线", "");
+			name2.replace("我", "");
+			set.add(name2);
+		}
+		set.remove(name);
 		clientBean.setClients(set);
-
-		// 自己发的内容也要现实在自己的屏幕上面
-		chartextArea.append(time + " 我对" + to + "说:\r\n" + info + "\r\n");
-
+		clientBean.setGroupName(groupName);
+		
 		sendMessage(clientBean);
+		// 自己发的内容也要现实在自己的屏幕上面
+		chartextArea.append(time + " 我:\r\n" + info + "\r\n");
 		sendJTextArea.setText(null);
 		sendJTextArea.requestFocus();
 	}
@@ -297,12 +299,13 @@ public class ChatroomJFrame extends JFrame {
 		if (isSendFile || isReceiveFile) {
 			JOptionPane.showMessageDialog(contentPane, "正在传输文件中，您不能离开...", "Error Message", JOptionPane.ERROR_MESSAGE);
 		} else {
-			closeButton.setEnabled(false);
+			/*closeButton.setEnabled(false);
 			MessageBean clientBean = new MessageBean();
-			clientBean.setType(-1);
+			clientBean.setType(MessageType.SIGN_OUT);
 			clientBean.setName(name);
 			clientBean.setTimer(UtilTool.getTimer());
-			sendMessage(clientBean);
+			sendMessage(clientBean);*/
+			this.dispose();
 		}
 	}
 
@@ -315,11 +318,12 @@ public class ChatroomJFrame extends JFrame {
 		} else {
 			int result = JOptionPane.showConfirmDialog(getContentPane(), "您确定要离开聊天室");
 			if (result == 0) {
-				MessageBean clientBean = new MessageBean();
-				clientBean.setType(-1);
+				/*MessageBean clientBean = new MessageBean();
+				clientBean.setType(MessageType.SIGN_OUT);
 				clientBean.setName(name);
 				clientBean.setTimer(UtilTool.getTimer());
-				sendMessage(clientBean);
+				sendMessage(clientBean);*/
+				this.dispose();
 			}
 		}
 	}
@@ -356,7 +360,7 @@ public class ChatroomJFrame extends JFrame {
 				}
 
 				MessageBean clientBean = new MessageBean();
-				clientBean.setType(2);// 请求发送文件
+				clientBean.setType(MessageType.FILE_RECEIVE);// 请求发送文件
 				clientBean.setSize(new Long(file.length()).intValue());
 				clientBean.setName(name);
 				clientBean.setTimer(UtilTool.getTimer());
@@ -370,6 +374,47 @@ public class ChatroomJFrame extends JFrame {
 				sendMessage(clientBean);
 			}
 		}
+	}
+	/**
+	 * @Description:发送获取群成员请求
+	 * @auther: wutp 2016年10月29日
+	 * @return void
+	 */
+	public void getGroupFriendsList(){
+		MessageBean clientBean = new MessageBean();
+		clientBean.setType(MessageType.GET_GROUP_FRIEND_LIST);
+		clientBean.setGroupName(groupName);
+		sendMessage(clientBean);
+	}
+	/**
+	 * @Description:
+	 * @auther: wutp 2016年10月29日
+	 * @param bean
+	 * @return void
+	 */
+	public void initGroupFriends(MessageBean bean){
+		
+		Set<UserInfo> friends = bean.getUsers();
+		Iterator<UserInfo> it = friends.iterator();
+		
+		ingFriends.add(name+"我");
+		while (it.hasNext()) {
+			UserInfo ele = it.next();
+			if("1".equals(ele.getStatus())){
+				if (!name.equals(ele.getNickName())) 
+					ingFriends.add(ele.getNickName()+"在线");
+				
+			}else{
+				outgFriends.add(ele.getNickName()+"离线");
+			}
+			
+		}
+		gFriends.clear();
+		gFriends.addAll(ingFriends);
+		gFriends.addAll(outgFriends);
+
+		listmodel = new OnlineListModel(gFriends);
+		list.setModel(listmodel);
 	}
 
 	/**

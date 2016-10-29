@@ -66,12 +66,15 @@ public class ChatJFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource()==jb){
 			MessageBean m = new MessageBean();
-			m.setType(MessageType.SINGLETON_CHAR);
+			m.setType(MessageType.SINGLETON_CHAT);
 			m.setName(name);
 			m.setFriendName(friendName);
 			m.setInfo(jtf.getText().trim());
 			m.setTimer(new java.util.Date().toString());
 			sendMessage(m);
+			jta.append(new java.util.Date().toString() + " 我:\r\n" + jtf.getText().trim() + "\r\n");
+			jtf.setText(null);
+			jtf.requestFocus();
 		}
 			
 	}
