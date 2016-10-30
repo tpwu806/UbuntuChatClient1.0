@@ -32,12 +32,13 @@ import javax.swing.ListModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import uc.common.MessageBean;
+import uc.common.MessageType;
+import uc.common.dto.FriendItemModel;
 import uc.dal.ClientServerThread;
-import uc.dof.model.CellRenderer;
-import uc.dof.model.OnlineListModel;
-import uc.pub.UtilTool;
-import uc.pub.common.MessageBean;
-import uc.pub.common.MessageType;
+import uc.pub.assembly.CellRenderer;
+import uc.pub.assembly.OnlineListModel;
+import uc.pub.tool.DataTool;
 
 /**
  * @Description: 主窗口 好友列表
@@ -81,7 +82,6 @@ public class FriendListJFrame extends JFrame {
 	//public String friends[] ;
 	
 	public ClientServerThread server ;
-	public UtilTool tool = new UtilTool();
 	public Map<String,ChatJFrame> chatWinMap = new HashMap<>();	
 	public Map<String,ChatroomJFrame> roomWinMap = new HashMap<>(); 
 	
@@ -260,6 +260,7 @@ public class FriendListJFrame extends JFrame {
 			roomJframe.setVisible(true);
 			roomWinMap.put(groupNo, roomJframe);
 			roomJframe.getGroupFriendsList();
+						
 		}
 	}
 	
@@ -280,9 +281,19 @@ public class FriendListJFrame extends JFrame {
 				return;
 			}else{
 				String friendName = friendNo.replace("在线", "");
-				ChatJFrame chatJframe =new ChatJFrame(owner,friendName,this);
-				chatJframe.setVisible(true);
-				chatWinMap.put(friendName, chatJframe);
+				/*ChatJFrame chatJframe =new ChatJFrame(owner,friendName,this);
+				 */
+
+				ChatJFrame chatJframe = chatWinMap.get(friendName);
+				//判断是否已经有该面板
+				if(chatJframe==null){
+					FriendItemModel model =new FriendItemModel(null, null, friendName, true, null, null);
+					chatJframe = new ChatJFrame(model, this);
+					chatJframe.setVisible(true);
+					chatWinMap.put(friendName, chatJframe);
+				}else{
+					chatJframe.textFieldRequestFocus();
+				}
 			}
 
 		}
@@ -298,6 +309,11 @@ public class FriendListJFrame extends JFrame {
 	
 	}
 	
+	/**
+	 * @Description:
+	 * @auther: wutp 2016年10月30日
+	 * @return void
+	 */
 	public void initFriendList(){
 		MessageBean clientBean = new MessageBean();
 		clientBean.setType(MessageType.GET_GROUP_LIST);

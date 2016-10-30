@@ -1,7 +1,5 @@
 package uc.dof;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -15,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,12 +39,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import uc.dof.model.CellRenderer;
-import uc.dof.model.OnlineListModel;
-import uc.pub.UtilTool;
-import uc.pub.common.MessageBean;
-import uc.pub.common.MessageType;
-import uc.pub.common.domain.UserInfo;
+import uc.common.MessageBean;
+import uc.common.MessageType;
+import uc.common.domain.UserInfo;
+import uc.pub.assembly.CellRenderer;
+import uc.pub.assembly.OnlineListModel;
+import uc.pub.tool.DataTool;
 
 /**
  * @Description: 群聊天界面
@@ -72,12 +69,6 @@ public class ChatroomJFrame extends JFrame {
 	
 	public  boolean isSendFile = false;
 	public  boolean isReceiveFile = false;
-
-	// 声音
-	private  File file, file2;
-	private  URL cb, cb2;
-	public  AudioClip aau;
-	public  AudioClip aau2;
 
 	public JTextArea sendJTextArea;// 发送区
 	private JButton sendButton;// 发送按钮
@@ -190,7 +181,7 @@ public class ChatroomJFrame extends JFrame {
 		lblNewLabel.setBounds(430, 410, 245, 15);
 		getContentPane().add(lblNewLabel);
 
-		try {
+		/*try {
 			// 消息提示声音
 			file = new File("sounds/eo.wav");
 			//cb = file.toURL();
@@ -202,15 +193,10 @@ public class ChatroomJFrame extends JFrame {
 			cb2 = file2.toURI().toURL();
 			aau2 = Applet.newAudioClip(cb2);
 			aau2.play();
-			// 启动客户接收线程
-			// new ClientInputThread().start();
-			/*clientInputThread = new ClientInputThread(name, clientSocket, this);
-			Thread t = new Thread(clientInputThread);
-			t.start();*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		// 发送按钮
 		sendButton.addActionListener(new ActionListener() {
@@ -270,7 +256,7 @@ public class ChatroomJFrame extends JFrame {
 		MessageBean clientBean = new MessageBean();
 		clientBean.setType(MessageType.GROUP_CHAT);
 		clientBean.setName(name);
-		String time = UtilTool.getTimer();
+		String time = DataTool.getTimer();
 		clientBean.setTimer(time);
 		clientBean.setInfo(info);
 		HashSet<String> set = new HashSet<String>();
@@ -363,7 +349,7 @@ public class ChatroomJFrame extends JFrame {
 				clientBean.setType(MessageType.FILE_RECEIVE);// 请求发送文件
 				clientBean.setSize(new Long(file.length()).intValue());
 				clientBean.setName(name);
-				clientBean.setTimer(UtilTool.getTimer());
+				clientBean.setTimer(DataTool.getTimer());
 				clientBean.setFileName(file.getName()); // 记录文件的名称
 				clientBean.setInfo("请求发送文件");
 

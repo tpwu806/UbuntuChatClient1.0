@@ -13,9 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import uc.common.MessageBean;
+import uc.common.MessageType;
 import uc.dal.ClinetServer;
-import uc.pub.common.MessageBean;
-import uc.pub.common.MessageType;
 
 /**
  * @Description: 注册界面

@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-import uc.dof.ChatroomJFrame;
-import uc.pub.common.MessageBean;
+import uc.common.MessageBean;
 
 /**
  * @Description: 客户端后台

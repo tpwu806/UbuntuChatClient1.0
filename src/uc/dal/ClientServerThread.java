@@ -22,16 +22,21 @@ import java.util.Set;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import uc.common.MessageBean;
+import uc.common.MessageType;
+import uc.common.domain.GroupTable;
+import uc.common.domain.UserInfo;
 import uc.dof.ChatJFrame;
 import uc.dof.ChatroomJFrame;
 import uc.dof.FriendListJFrame;
-import uc.dof.model.OnlineListModel;
-import uc.pub.UtilTool;
-import uc.pub.common.MessageBean;
-import uc.pub.common.MessageType;
-import uc.pub.common.domain.GroupTable;
-import uc.pub.common.domain.UserInfo;
+import uc.pub.assembly.OnlineListModel;
+import uc.pub.tool.Audio;
 
+/**
+ * @Description: 
+ * @author wutp 2016年10月30日
+ * @version 1.0
+ */
 public class ClientServerThread implements Runnable {
 	
 	private Socket socket;
@@ -157,7 +162,7 @@ public class ClientServerThread implements Runnable {
 
 			UCWindow.listmodel = new OnlineListModel(UCWindow.friends);
 			UCWindow.list.setModel(UCWindow.listmodel);
-			UtilTool.aau2.play();
+			Audio.aau2.play();
 			isplay = false;
 		}
 		
@@ -179,7 +184,7 @@ public class ClientServerThread implements Runnable {
 					roomWin.listmodel = new OnlineListModel(roomWin.gFriends);
 					roomWin.list.setModel(roomWin.listmodel);
 					if(isplay)
-						UtilTool.aau2.play();
+						Audio.aau2.play();
 				}
 			
 			}
@@ -243,7 +248,7 @@ public class ClientServerThread implements Runnable {
 		}
 		roomWin = UCWindow.roomWinMap.get(bean.getGroupName());
 		if(roomWin != null){
-			roomWin.aau.play();
+			Audio.aau.play();
 			roomWin.chartextArea.append(info + bean.getInfo() + "\r\n");
 			roomWin.chartextArea.selectAll();
 		}else{
