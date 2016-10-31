@@ -34,6 +34,7 @@ public class FillitFrame extends JFrame{
 				getHeight(), 11.0D, 11.0D));
 		canDrag();
 		setAlwaysOnTop(true);
+		
 	}
 	
 	//提供自定义圆角度数

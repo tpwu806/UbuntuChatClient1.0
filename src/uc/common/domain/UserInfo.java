@@ -8,9 +8,15 @@ import java.io.Serializable;
  * @version 1.0
  */
 public class UserInfo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Integer uc;
 	private String nickName;
 	private String status;
+	private String pwd;
 	public Integer getUc() {
 		return uc;
 	}
@@ -29,5 +35,10 @@ public class UserInfo implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
 }

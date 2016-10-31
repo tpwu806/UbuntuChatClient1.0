@@ -67,17 +67,17 @@ public class FriendListJFrame extends JFrame {
 	// 把整个JFrame设置成CardLayout
 	private CardLayout cl;
 	//好友列表组件
-	private String owner;
-	public  Vector<String> friends;// 在线好友
-	public  Vector<String> inFriends = new Vector<>();//在线好友
-	public  Vector<String> outFriends = new Vector<>();//离线好友
-	public  ListModel listmodel;
-	public  JList<String> list;
+	public String owner;
+	public Vector<String> friends;// 在线好友
+	public Vector<String> inFriends = new Vector<>();//在线好友
+	public Vector<String> outFriends = new Vector<>();//离线好友
+	public ListModel listmodel;
+	public JList<String> list;
 	//群聊列表组件
 	JScrollPane groupScrollPane ;
-	public  Vector<String> groups;// 在线好友
-	public  ListModel grouplistmodel;
-	public  JList<String> grouplist;
+	public Vector<String> groups;// 在线好友
+	public ListModel grouplistmodel;
+	public JList<String> grouplist;
 	
 	//public String friends[] ;
 	

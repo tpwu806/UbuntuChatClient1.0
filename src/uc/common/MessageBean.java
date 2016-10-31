@@ -33,7 +33,15 @@ public class MessageBean implements Serializable {
 	private HashSet<UserInfo> users;//用户信息
 	
 	private String ErrorMessage;//错误信息
-	
+	private UserInfo user;//用户信息
+	public UserInfo getUser() {
+		return user;
+	}
+
+	public void setUser(UserInfo user) {
+		this.user = user;
+	}
+
 	public String getErrorMessage() {
 		return ErrorMessage;
 	}

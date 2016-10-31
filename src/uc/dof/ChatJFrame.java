@@ -50,8 +50,10 @@ import uc.pub.tool.Images;
 
 /**
  * @Description:
- * @author wutp 2016年10月30日
+ * @author wutp 2016年10月16日
  * @version 1.0
+ * @author wutp 2016年10月30日
+ * @version 1.6
  */
 public class ChatJFrame extends FillitFrame{
 
@@ -546,7 +548,7 @@ public class ChatJFrame extends FillitFrame{
 		
 		MessageBean m = new MessageBean();
 		m.setType(MessageType.SINGLETON_CHAT);
-		//m.setName(name);
+		m.setName(MainJFrame.owner);
 		m.setFriendName(model.getNickName());
 		m.setInfo(textField.getText().trim());
 		m.setTimer(new java.util.Date().toString());
