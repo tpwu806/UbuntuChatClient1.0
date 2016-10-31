@@ -39,7 +39,7 @@ import uc.pub.tool.Images;
  * @author wutp 2016年10月15日
  * @version 1.0
  * @author wutp 2016年10月30日
- * @version 1.6
+ * @version 2.0
  */
 public class LoginJFrame extends FillitFrame {
 

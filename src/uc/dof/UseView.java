@@ -25,35 +25,133 @@ import uc.pub.tool.Fonts;
 import uc.pub.tool.VerlicelColumn;
 
 /**
- * @Description: 
- * @author wutp 2016年10月30日
+ * @Description: 主窗口 好友列表
+ * @author wutp 2016年10月15日
  * @version 1.0
+ * @author wutp 2016年10月30日
+ * @version 2.0
  */
-public class UseView {
+public class UseView extends FillitFrame{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	public static UserInformation user;
+	// 头部
+	private JPanel forTop;
+
+	// 窗体,
+	//private FillitFrame frame;
+	// 包含界面背景、包含其他组件
+	private ImageIcon bg;
+	private MainPanel mainPanel;
+
+	// 关闭与最小化按钮
+	private JPanel forSystemButton;
+	private JButton closeButton;
+	private JButton minimizationButton;
+	// 包含软件名
+	private JLabel title;
+
+	// 头像
+	private HeadPanel headPanel;
+	// 状态选择按钮
+	private SenioButton stateButton;
+	// 显示状态按钮上的图标
+	private JLabel forStateIcon;
+	// 昵称
+	private JLabel nickName;
+	// 等级
+	private SenioButton lv;
+	// 个性签名输入框
+	private JTextField signatureField;
+	private boolean defaultSignature = true;
+	// 查看空间按钮
+	private SenioButton seeZone;
+	// 邮箱按钮
+	private SenioButton mailBox;
+	// 消息盒
+	private SenioButton messageBox;
+
+	// 搜索栏
+	private JLabel searchBar;
+	private JTextField searchField;
+	private JButton auxiliaryButton;
+	private boolean swiching = true;
+
+	// 中部
+	private JPanel forCenter;
+
+	// 选项卡组
+	private JPanel forTab;
+	private Tab friendsTab;
+	private Tab groupTab;
+	private Tab conversationTab;
+
+	// 弄好节点，之后做GroupLayout
+	private final static ImageIcon arrow = new ImageIcon(
+			"Image\\use\\MainPanel_FolderNode_collapseTexture.png");
+	private final static ImageIcon arrowHover = new ImageIcon(
+			"Image\\use\\MainPanel_FolderNode_collapseTextureHighlight.png");
+	private final static ImageIcon arrowSelected = new ImageIcon(
+			"Image\\use\\MainPanel_FolderNode_expandTexture.png");
+	private final static ImageIcon arrowSelectedHover = new ImageIcon(
+			"Image\\use\\MainPanel_FolderNode_expandTextureHighlight.png");
+
+	// 管理聊天面板
+	private static HashMap<String, ChatJFrame> chatJFrames = new HashMap<String, ChatJFrame>();
+
+	// 具体面板
+	private CardLayout cardLayout;
+	private JPanel forCard;
+	private JScrollPane scrollPane;
+	// 好友面板
+	private JPanel friendPanel;
+
+	// 底部
+	private JPanel forSouth;
+	// soso
+	private SenioButton soso;
+	// 电脑管家
+	private SenioButton housekeeper;
+	// 应用管理
+	private SenioButton appManagement;
+
+	// 主菜单
+	private SenioButton mainMenu;
+	// 系统设置
+	private SenioButton systemSettings;
+	// 消息管理器
+	private SenioButton messageManager;
+	// 应用宝
+	private SenioButton application;
+
+	// 与服务器保持连接读取服务器发来的信息
+	private Socket socket;
+	private ObjectInputStream objectInputStream;
+		
 	public UseView(UserInformation user, Socket socket){
+		super(280, 678, 7, 7);
 		UseView.user = user;
 		this.socket = socket;
 		createFrame();
-		new Receive().start();
+		//new Receive().start();
 	}
 	
-	//窗体,
-	private FillitFrame frame;
-	//包含界面背景、包含其他组件
-	private ImageIcon bg;
-	private MainPanel mainPanel;
+	
 	//构建
-	public void createFrame(){
+	private void createFrame(){
 		//窗体
-		frame = new FillitFrame(280, 678, 7, 7);
+		//frame = new FillitFrame(280, 678, 7, 7);
 		
 		//中部面板
 		bg = new ImageIcon("Image\\use\\未标题-2.jpg");
 		mainPanel = new MainPanel(bg, 7, 7);
 		mainPanel.setLayout(new BorderLayout());
-		frame.add(mainPanel);
+		//frame.add(mainPanel);
+		this.add(mainPanel);
 		
 		//构建头部
 		createTop();
@@ -62,11 +160,11 @@ public class UseView {
 		//构建底部
 		createSouth();
 		
-		frame.setVisible(true);
+		//frame.setVisible(true);
+		this.setVisible(true);
 	}
 	
-	//头部
-	private JPanel forTop;
+	
 
 	//构建头部
 	private void createTop(){
@@ -82,12 +180,7 @@ public class UseView {
 		createSearchBar();
 	}
 	
-	//关闭与最小化按钮
-	private JPanel forSystemButton;
-	private JButton closeButton;
-	private JButton minimizationButton;
-	//包含软件名
-	private JLabel title;
+	
 	//构建
 	private void createTitle(){		
 		JPanel pane2 = new JPanel(new BorderLayout());
@@ -135,40 +228,9 @@ public class UseView {
 		closeButton.setPreferredSize(new Dimension(40, 20));
 		closeButton.addActionListener(actionAdapter);
 		forSystemButton.add(closeButton);
-	}	
-	/*
-	 * 按钮专用的监听器
-	 */
-	private ActionListener actionAdapter = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			if(e.getSource() == closeButton){				
-				System.exit(0);				
-			}else if(e.getSource() == minimizationButton){				
-				System.out.println("最小化");
-				frame.setExtendedState(JFrame.ICONIFIED);			
-			}
-		}
-	};
-	
-	//头像
-	private HeadPanel headPanel;
-	//状态选择按钮
-	private SenioButton stateButton;
-	//显示状态按钮上的图标
-	private JLabel forStateIcon;
-	//昵称
-	private JLabel nickName;
-	//等级
-	private SenioButton lv;	
-	//个性签名输入框
-	private JTextField signatureField;
-	private boolean defaultSignature = true;
-	//查看空间按钮
-	private SenioButton seeZone;
-	//邮箱按钮
-	private SenioButton mailBox;
-	//消息盒
-	private SenioButton messageBox;
+	}
+
+
 	//构建
 	private void createHeadDistrict(){
 		//头像区域
@@ -198,7 +260,7 @@ public class UseView {
 		JPanel pane6 = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		pane6.setOpaque(false);
 		pane5.add(pane6, "North");		
-
+	
 		stateButton = new SenioButton();
 		stateButton.setPreferredSize(new Dimension(36, 18));
 		stateButton.setRoundSize(4);
@@ -285,14 +347,10 @@ public class UseView {
 		messageBox.setToolTipText("打开消息盒");
 		pane10.add(messageBox);
 	}
-	
-	//搜索栏
-	private JLabel searchBar;
-	private JTextField searchField;
-	private JButton auxiliaryButton;
-	private boolean swiching = true;
+
+
 	//构建
-	public void createSearchBar(){
+	private void createSearchBar(){
 		JPanel pane13 = new JPanel(new BorderLayout());
 		pane13.setOpaque(false);
 		pane13.setBorder(BorderFactory.createMatteBorder(0,
@@ -378,10 +436,8 @@ public class UseView {
 			}			
 		});
 	}
-	
-	
-	//中部
-	private JPanel forCenter;
+
+
 	//构建
 	private void createCenter(){
 		forCenter = new JPanel(new BorderLayout());
@@ -392,11 +448,8 @@ public class UseView {
 		//好友面板
 		createFriendPanel();
 	}
-	//选项卡组
-	private JPanel forTab;
-	private Tab friendsTab;
-	private Tab groupTab;
-	private Tab conversationTab;
+
+
 	//构建
 	private void crateTabs(){
 		forTab = new JPanel(new GridLayout(1, 3, 1, 0));
@@ -423,13 +476,9 @@ public class UseView {
 		conversationTab.setToolTipText("会话");
 		forTab.add(conversationTab);
 		buttonGroup.add(conversationTab);
-	}	
-	//具体面板
-	private CardLayout cardLayout;
-	private JPanel forCard;
-	private JScrollPane scrollPane;
-	//好友面板
-	private JPanel friendPanel;
+	}
+
+
 	//构建
 	private void createFriendPanel(){
 		cardLayout = new CardLayout();
@@ -474,23 +523,10 @@ public class UseView {
 			friendPanel.add(gropContainer);
 		}
 	}
-	
-	//弄好节点，之后做GroupLayout
-	private final static ImageIcon arrow = new ImageIcon("Image\\use\\MainPanel_FolderNode_collapseTexture.png");
-	private final static ImageIcon arrowHover = new ImageIcon("Image\\use\\MainPanel_FolderNode_collapseTextureHighlight.png");
-	private final static ImageIcon arrowSelected = new ImageIcon("Image\\use\\MainPanel_FolderNode_expandTexture.png");
-	private final static ImageIcon arrowSelectedHover = new ImageIcon("Image\\use\\MainPanel_FolderNode_expandTextureHighlight.png");
-	private final static ImageIcon[] arrows = new ImageIcon[]{
-		    arrowHover,
-			new ImageIcon("Image\\use\\15.png"),
-			new ImageIcon("Image\\use\\30.png"),
-			 new ImageIcon("Image\\use\\45.png"),
-			 new ImageIcon("Image\\use\\60.png"),
-			 new ImageIcon("Image\\use\\75.png"),
-			 arrowSelectedHover
-	};	
+
+
 	//添加节点
-	public GroupContainer createGroupNode(String name){
+	private GroupContainer createGroupNode(String name){
 		final JToggleButton node = new JToggleButton(name,
 				arrow){
 			/**
@@ -524,144 +560,9 @@ public class UseView {
 		node.addFocusListener(nodeFocusListener);
 		
 		return new GroupContainer(node);
-	}		
-	//节点的点击监听器
-	private ActionListener nodeActionListener = new ActionListener(){
-		public void actionPerformed(ActionEvent e) {
-			JToggleButton pressButton = (JToggleButton) e.getSource();
-			pressButton.setRolloverIcon(null);
-			if(pressButton.getModel().isSelected()){
-				openEffect(pressButton);
-			}else{
-				closeEffect(pressButton);
-			}
-		}
-	};
-	//节点ENTER键的监听器
-	private KeyAdapter nodeKeyAdapter = new KeyAdapter(){
-		public void keyPressed(KeyEvent e){
-			if(e.getKeyCode() == KeyEvent.VK_ENTER){
-				JToggleButton pressButton = (JToggleButton) e.getSource();
-				pressButton.setRolloverIcon(null);
-				if(pressButton.getModel().isSelected()){
-					closeEffect(pressButton);
-					pressButton.setSelected(false);
-				}else{
-					openEffect(pressButton);
-					pressButton.setSelected(true);
-				}
-			}
-		}
-	};
-	//播放展开效果
-	private void openEffect(final JToggleButton pressButton){
-		GroupContainer gropContainer = (GroupContainer) pressButton.getParent();
-		gropContainer.expand();
-		Thread t = new Thread(){
-			public void run(){
-				for(ImageIcon img: arrows){
-					pressButton.setIcon(img);
-					try {
-						Thread.sleep(15);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		t.start();	
 	}
-	//关闭效果
-	private void closeEffect(final JToggleButton pressButton){
-		GroupContainer gropContainer = (GroupContainer) pressButton.getParent();
-		gropContainer.collapse();
-		Thread t = new Thread(){
-			public void run(){
-				ImageIcon img;
-				int length = arrows.length;
-				for(int i=length-1; i>=0;i--){
-					img = arrows[i];
-					pressButton.setIcon(img);
-					try {
-						Thread.sleep(15);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		t.start();	
-	}
-	//节点的焦点监听器
-	private FocusListener nodeFocusListener = new FocusListener(){
-		public void focusGained(FocusEvent e) {}
-		public void focusLost(FocusEvent e){
-			final JToggleButton pressButton = (JToggleButton) e.getSource();
-			if(pressButton.getModel().isSelected()){
-				Thread t = new Thread(){
-					public void run(){
-						pressButton.setSelectedIcon(arrowSelected);
-						pressButton.setRolloverSelectedIcon(arrowSelectedHover);
-					}
-				};
-				t.start();
-			}else{
-				Thread t = new Thread(){
-					public void run(){
-						pressButton.setIcon(arrow);
-						pressButton.setRolloverIcon(arrowHover);
-					}
-				};
-				t.start();
-			}				
-		}
-	};
-	
-	//管理聊天面板
-	private static HashMap<String, ChatJFrame> chatJFrames = new HashMap<String, ChatJFrame>();
-	//双击创建聊天面板
-	private MouseAdapter friendItemMouseAdapter = new MouseAdapter(){
-		public void mouseClicked(MouseEvent e){
-			if(e.getClickCount() == 2){
-				final FriendItem selectedItem = (FriendItem) e.getSource();				
-				/*Thread t = new Thread(){
-					public void run(){
-						ChatView chetPanel = chatViews.get(selectedItem.getNo());
-						//判断是否已经有该面板
-						if(chetPanel==null){
-							chetPanel = new ChatView(selectedItem.getModel(), socket);
-							chatViews.put(selectedItem.getNo(), chetPanel);
-						}else{
-							chetPanel.aa();
-						}
-					}
-				};
-				t.start();*/
-			}
-		}		 
-	};
-	//提供删除窗口的静态方法
-	public static void remove(String key){
-		chatJFrames.remove(key);
-	}
-	
-	//底部
-	private JPanel forSouth;
-	//soso
-	private SenioButton soso;
-	//电脑管家
-	private SenioButton housekeeper;
-	//应用管理
-	private SenioButton appManagement;
-	
-	//主菜单
-	private SenioButton mainMenu;
-	//系统设置
-	private SenioButton systemSettings;
-	//消息管理器
-	private SenioButton messageManager;
-	//应用宝
-	private SenioButton application;
+
+
 	//构建
 	private void createSouth(){
 		forSouth = new JPanel(new GridLayout(2, 1));
@@ -740,16 +641,181 @@ public class UseView {
 		pane20.add(application);  
 	}
 
+
+	private final static ImageIcon[] arrows = new ImageIcon[]{
+		    arrowHover,
+			new ImageIcon("Image\\use\\15.png"),
+			new ImageIcon("Image\\use\\30.png"),
+			 new ImageIcon("Image\\use\\45.png"),
+			 new ImageIcon("Image\\use\\60.png"),
+			 new ImageIcon("Image\\use\\75.png"),
+			 arrowSelectedHover
+	};
+
+	//提供删除窗口的静态方法
+	public static void remove(String key){
+		chatJFrames.remove(key);
+	}
+
+
 	//用于设置背景、
 	public void setBg(){
 		//**** 只需要更改 Bg的值就可以达成更改背景的效果
 	}
 
-	//与服务器保持连接读取服务器发来的信息
-	private Socket socket;
-	private ObjectInputStream objectInputStream;
+
+	//关闭资源
+	public void close(){
+		try {
+			if(objectInputStream!=null){
+				objectInputStream.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	/*
+	 * 按钮专用的监听器
+	 */
+	private ActionListener actionAdapter = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			if(e.getSource() == closeButton){				
+				System.exit(0);				
+			}else if(e.getSource() == minimizationButton){				
+				System.out.println("最小化");
+				//frame.setExtendedState(JFrame.ICONIFIED);	
+				setExtendedState(JFrame.ICONIFIED);	
+			}
+		}
+
+		private void setExtendedState(int iconified) {
+			this.setExtendedState(JFrame.ICONIFIED);				
+		}
+	};
 	
-	class Receive extends Thread{
+	
+	//节点的点击监听器
+	private ActionListener nodeActionListener = new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+			JToggleButton pressButton = (JToggleButton) e.getSource();
+			pressButton.setRolloverIcon(null);
+			if(pressButton.getModel().isSelected()){
+				openEffect(pressButton);
+			}else{
+				closeEffect(pressButton);
+			}
+		}
+	};
+	//节点ENTER键的监听器
+	private KeyAdapter nodeKeyAdapter = new KeyAdapter(){
+		public void keyPressed(KeyEvent e){
+			if(e.getKeyCode() == KeyEvent.VK_ENTER){
+				JToggleButton pressButton = (JToggleButton) e.getSource();
+				pressButton.setRolloverIcon(null);
+				if(pressButton.getModel().isSelected()){
+					closeEffect(pressButton);
+					pressButton.setSelected(false);
+				}else{
+					openEffect(pressButton);
+					pressButton.setSelected(true);
+				}
+			}
+		}
+	};
+	//节点的焦点监听器
+	private FocusListener nodeFocusListener = new FocusListener(){
+		public void focusGained(FocusEvent e) {}
+		public void focusLost(FocusEvent e){
+			final JToggleButton pressButton = (JToggleButton) e.getSource();
+			if(pressButton.getModel().isSelected()){
+				Thread t = new Thread(){
+					public void run(){
+						pressButton.setSelectedIcon(arrowSelected);
+						pressButton.setRolloverSelectedIcon(arrowSelectedHover);
+					}
+				};
+				t.start();
+			}else{
+				Thread t = new Thread(){
+					public void run(){
+						pressButton.setIcon(arrow);
+						pressButton.setRolloverIcon(arrowHover);
+					}
+				};
+				t.start();
+			}				
+		}
+	};
+
+	//双击创建聊天面板
+	private MouseAdapter friendItemMouseAdapter = new MouseAdapter(){
+		public void mouseClicked(MouseEvent e){
+			if(e.getClickCount() == 2){
+				final FriendItem selectedItem = (FriendItem) e.getSource();				
+				/*Thread t = new Thread(){
+					public void run(){
+						ChatView chetPanel = chatViews.get(selectedItem.getNo());
+						//判断是否已经有该面板
+						if(chetPanel==null){
+							chetPanel = new ChatView(selectedItem.getModel(), socket);
+							chatViews.put(selectedItem.getNo(), chetPanel);
+						}else{
+							chetPanel.aa();
+						}
+					}
+				};
+				t.start();*/
+			}
+		}		 
+	};
+
+	//播放展开效果
+	private void openEffect(final JToggleButton pressButton){
+		GroupContainer gropContainer = (GroupContainer) pressButton.getParent();
+		gropContainer.expand();
+		Thread t = new Thread(){
+			public void run(){
+				for(ImageIcon img: arrows){
+					pressButton.setIcon(img);
+					try {
+						Thread.sleep(15);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		t.start();	
+	}
+	//关闭效果
+	private void closeEffect(final JToggleButton pressButton){
+		GroupContainer gropContainer = (GroupContainer) pressButton.getParent();
+		gropContainer.collapse();
+		Thread t = new Thread(){
+			public void run(){
+				ImageIcon img;
+				int length = arrows.length;
+				for(int i=length-1; i>=0;i--){
+					img = arrows[i];
+					pressButton.setIcon(img);
+					try {
+						Thread.sleep(15);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		t.start();	
+	}
+	/**
+	 * @Description: 内部类线程
+	 * @author wutp 2016年10月31日
+	 * @version 1.0
+	 */
+	/*class Receive extends Thread{
 		public void run(){
 			ParcelModel parcel;
 			while(true){
@@ -770,8 +836,8 @@ public class UseView {
 									for(int i=0; i<length; i++){
 										FriendItemModel friendModel = group.get(i);	
 										if(friendModel.getNO().equals(sender)){
-											/*chatJFrame = new ChatJFrame(friendModel, socket);
-											chatJFrames.put(friendModel.getNO(), chatJFrame);	*/									
+											chatJFrame = new ChatJFrame(friendModel, socket);
+											chatJFrames.put(friendModel.getNO(), chatJFrame);										
 										}
 									}
 								}
@@ -791,16 +857,5 @@ public class UseView {
 				}
 			}
 		}
-	}
-	
-	//关闭资源
-	public void close(){
-		try {
-			if(objectInputStream!=null){
-				objectInputStream.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	}*/
 }
