@@ -387,11 +387,11 @@ public class ChatroomJFrame extends JFrame {
 		while (it.hasNext()) {
 			UserInfo ele = it.next();
 			if("1".equals(ele.getStatus())){
-				if (!name.equals(ele.getNickName())) 
-					ingFriends.add(ele.getNickName()+"在线");
+				if (!name.equals(ele.getNickname())) 
+					ingFriends.add(ele.getNickname()+"在线");
 				
 			}else{
-				outgFriends.add(ele.getNickName()+"离线");
+				outgFriends.add(ele.getNickname()+"离线");
 			}
 			
 		}

@@ -28,7 +28,7 @@ import uc.common.domain.GroupTable;
 import uc.common.domain.UserInfo;
 import uc.dof.ChatJFrame;
 import uc.dof.ChatroomJFrame;
-import uc.dof.FriendListJFrame;
+import uc.dof.FriendListJFrame2;
 import uc.pub.assembly.OnlineListModel;
 import uc.pub.tool.Audio;
 
@@ -37,16 +37,16 @@ import uc.pub.tool.Audio;
  * @author wutp 2016年10月30日
  * @version 1.0
  */
-public class ClientServerThread implements Runnable {
+public class ClientServerThread2 implements Runnable {
 	
 	private Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
-	private FriendListJFrame UCWindow;
+	private FriendListJFrame2 UCWindow;
 	private String name;
 	private ChatroomJFrame roomWin;
 	
-	public ClientServerThread(String name,Socket socket,FriendListJFrame UCWindow) {
+	public ClientServerThread2(String name,Socket socket,FriendListJFrame2 UCWindow) {
 		this.name=name;
 		this.socket = socket;
 		this.UCWindow=UCWindow;	
@@ -62,20 +62,16 @@ public class ClientServerThread implements Runnable {
 				final MessageBean bean = (MessageBean) ois.readObject();
 				System.out.println("Socket Type: "+bean.getType());
 				switch (bean.getType()) {					
-				/*case MessageType.INIT_FRIEND_LIST: {
-					ActionInitFriendsAndGroup(bean);
-					break;
-				}*/
 				case MessageType.SERVER_UPDATE_FRIENDS: {
-					ActionServerUpdateFriends(bean);					
+					//ActionServerUpdateFriends(bean);					
 					break;
 				}
 				case MessageType.GET_GROUP_FRIEND_LIST: {
-					ActionUpdateGroupFriends(bean);
+					//ActionUpdateGroupFriends(bean);
 					break;
 				}
 				case MessageType.GROUP_CHAT: {
-					ActionGropChat(bean);					
+					//ActionGropChat(bean);					
 					break;
 				}
 				case MessageType.SERVER_BROADCAST: {
@@ -97,7 +93,7 @@ public class ClientServerThread implements Runnable {
 					break;
 				}
 				case MessageType.SINGLETON_CHAT: {
-					ActionSingletonChat(bean);
+					//ActionSingletonChat(bean);
 					break;
 				}
 				default: {
@@ -128,7 +124,7 @@ public class ClientServerThread implements Runnable {
 	 * @param bean
 	 * @return void
 	 */
-	private void ActionUpdateGroupFriends(MessageBean bean) {
+	/*private void ActionUpdateGroupFriends(MessageBean bean) {
 		try{
 			ChatroomJFrame roomJFrame = UCWindow.roomWinMap.get(bean.getGroupName());
 			if(roomJFrame != null){
@@ -141,12 +137,12 @@ public class ClientServerThread implements Runnable {
 		}
 		
 	}
-	/**
+	*//**
 	 * @Description:
 	 * @auther: wutp 2016年10月23日
 	 * @param bean
 	 * @return void
-	 */
+	 *//*
 	private void ActionServerUpdateFriends(MessageBean bean){
 		boolean isplay = true;
 		//更新好友列表
@@ -192,12 +188,12 @@ public class ClientServerThread implements Runnable {
 		//RoomWindow.chartextArea.append(bean.getInfo() + "\r\n");
 		//RoomWindow.chartextArea.selectAll();
 	}
-	/**
+	*//**
 	 * @Description:更新群列表
 	 * @auther: wutp 2016年10月23日
 	 * @param bean
 	 * @return void
-	 */
+	 *//*
 	@Deprecated
 	private void ActionInitFriendsAndGroup(MessageBean bean){
 		//初始化好友列表		
@@ -208,11 +204,11 @@ public class ClientServerThread implements Runnable {
 		while (it.hasNext()) {
 			UserInfo ele = it.next();
 			if("1".equals(ele.getStatus())){
-				if (!name.equals(ele.getNickname())) 
-					UCWindow.inFriends.add(ele.getNickname()+"在线");
+				if (!name.equals(ele.getNickName())) 
+					UCWindow.inFriends.add(ele.getNickName()+"在线");
 				
 			}else{
-				UCWindow.outFriends.add(ele.getNickname()+"离线");
+				UCWindow.outFriends.add(ele.getNickName()+"离线");
 			}
 			
 		}
@@ -234,12 +230,12 @@ public class ClientServerThread implements Runnable {
 		UCWindow.grouplistmodel = new OnlineListModel(UCWindow.groups);
 		UCWindow.grouplist.setModel(UCWindow.grouplistmodel);
 	}
-	/**
+	*//**
 	 * @Description:
 	 * @auther: wutp 2016年10月23日
 	 * @param bean
 	 * @return void
-	 */
+	 *//*
 	private void ActionGropChat(MessageBean bean){
 		String info = bean.getTimer() + "  " + bean.getName() + " :\r\n";
 		System.out.println(info);
@@ -256,12 +252,12 @@ public class ClientServerThread implements Runnable {
 		}
 		
 	}
-	/**
+	*//**
 	 * @Description:将一对一聊天内容显示在相应聊天窗口上
 	 * @auther: wutp 2016年10月16日
 	 * @param bean
 	 * @return void
-	 */
+	 *//*
 	private void ActionSingletonChat(MessageBean bean){
 		ChatJFrame chatJFrame = UCWindow.chatWinMap.get(bean.getName());
 		
@@ -270,7 +266,7 @@ public class ClientServerThread implements Runnable {
 		}else{//待实现消息盒子
 			System.out.println("您有新消息，请查收" + bean.getInfo());
 		}
-	}
+	}*/
 	
 	private void ActionFileRequetion(MessageBean bean){
 		/*// 由于等待目标客户确认是否接收文件是个阻塞状态，所以这里用线程处理

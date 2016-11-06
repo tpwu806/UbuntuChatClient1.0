@@ -3,6 +3,10 @@ package uc.dof;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -16,6 +20,7 @@ import com.sun.awt.AWTUtilities;
 import uc.common.MessageBean;
 import uc.common.MessageType;
 import uc.common.domain.UserInfo;
+import uc.common.dto.GroupModel;
 import uc.common.dto.StateEnum;
 import uc.common.dto.User;
 import uc.common.dto.UserInformation;
@@ -792,7 +797,7 @@ public class LoginJFrame extends FillitFrame {
 			System.out.println("登录成功");
 			// 正式登录
 			UserInformation userInformation = ((UserThroughParcel) message).getUserInformation();
-			UseView useView = new UseView(userInformation, verfivation.getSocket());
+			FriendListJFrame2 friendListJFrame2 = new FriendListJFrame2(userInformation, verfivation.getSocket());
 			// 修改账户状态
 			user.setAutomaticLogin(automaticLogin.isSelected());
 			user.setRememberPassWord(rememberPassword.isSelected());
@@ -842,9 +847,12 @@ public class LoginJFrame extends FillitFrame {
 		case MessageType.SIGN_IN_SUCCESS: {
 			System.out.println("登录成功");
 			//loginButton.setEnabled(false);
-			u = ms.getUser();
-			FriendListJFrame friendJFrame = new FriendListJFrame(u.getNickName(), server.getSocket());
-			friendJFrame.setVisible(true);
+			//u = ms.getUser();
+			
+			startFriendListJFrame(user,ms, server.getSocket());
+			
+			user.setAutomaticLogin(automaticLogin.isSelected());
+			user.setRememberPassWord(rememberPassword.isSelected());
 			dispose();
 			break;
 		}
@@ -862,6 +870,17 @@ public class LoginJFrame extends FillitFrame {
 			break;
 		}
 		}
+	}
+
+	private void startFriendListJFrame(User user,MessageBean ms, Socket socket) {
+		//FriendListJFrame friendJFrame = new FriendListJFrame(ms, socket);
+		
+		UserInformation userInformation =ms.getUserInformation();
+		FriendListJFrame2 friendJFrame = new FriendListJFrame2(userInformation, socket);
+		
+		
+		friendJFrame.setVisible(true);
+		
 	}
 
 	/**

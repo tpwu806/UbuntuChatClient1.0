@@ -13,12 +13,12 @@ public class User implements Serializable{
 	 */
 	private static final long serialVersionUID = -84845435813766646L;
 	
-	private String user;
-	private String password;
-	private String headURL;
-	private StateEnum state;
-	private boolean rememberPassWord = false;
-	private boolean automaticLogin = false;
+	private String user;//用户uc
+	private String password;//密码
+	private String headURL;//头像
+	private StateEnum state;//状态
+	private boolean rememberPassWord = false;//记住密码
+	private boolean automaticLogin = false;//自动登录
 	
 	public User(String user, 
 			String headURL, 

@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import uc.common.domain.GroupTable;
 import uc.common.domain.UserInfo;
+import uc.common.dto.UserInformation;
 
 public class MessageBean implements Serializable {
 
@@ -34,6 +35,8 @@ public class MessageBean implements Serializable {
 	
 	private String ErrorMessage;//错误信息
 	private UserInfo user;//用户信息
+	
+	private UserInformation userInformation;//主界面信息
 	public UserInfo getUser() {
 		return user;
 	}
@@ -168,6 +171,14 @@ public class MessageBean implements Serializable {
 
 	public void setSize(int size) {
 		this.size = size;
+	}
+
+	public UserInformation getUserInformation() {
+		return userInformation;
+	}
+
+	public void setUserInformation(UserInformation userInformation) {
+		this.userInformation = userInformation;
 	}
 
 }

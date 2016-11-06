@@ -4,14 +4,20 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * @Description: 群
+ * @Description: 群domain
  * @author wutp 2016年10月23日
  * @version 1.0
  */
 public class GroupTable implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Integer gno;//群号
 	private String gname;//群名
 	private Timestamp gdate;//创建时间
+	
 	public Integer getGno() {
 		return gno;
 	}

@@ -2,7 +2,7 @@ package uc.dal;
 
 import java.net.*;
 
-import uc.common.dto.*;
+import uc.common.dto.User;
 import uc.common.parcel.*;
 
 import java.io.*;

@@ -38,7 +38,7 @@ import javax.swing.text.Document;
 
 import uc.common.MessageBean;
 import uc.common.MessageType;
-import uc.common.dto.*;
+import uc.common.dto.FriendItemModel;
 import uc.common.parcel.NewsParcel;
 import uc.pub.assembly.FillitFrame;
 import uc.pub.assembly.GradientPanel;
@@ -513,8 +513,8 @@ public class ChatJFrame extends FillitFrame{
 	// 传递数据
 	@Deprecated
 	public void sendOut() {
-		String sender = UseView.user.getUser().toString();
-		String senderInformation = UseView.user.getNickName() + " "
+		String sender = FriendListJFrame2.user.getUser().toString();
+		String senderInformation = FriendListJFrame2.user.getNickName() + " "
 				+ dateFormat.format(Calendar.getInstance().getTime()) + "\n";
 		displayMessage.replaceSelection(senderInformation);
 		String resipient = model.getNO();
@@ -578,7 +578,7 @@ public class ChatJFrame extends FillitFrame{
 			if (e.getSource() == closeButton) {
 				//frame.dispose();
 				dispose();
-				UseView.remove(model.getNO());
+				FriendListJFrame2.remove(model.getNO());
 			} else if (e.getSource() == minimizationButton) {
 				//frame.setExtendedState(JFrame.ICONIFIED);
 				setExtendedState(JFrame.ICONIFIED);

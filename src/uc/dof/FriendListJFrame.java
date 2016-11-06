@@ -14,8 +14,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -34,6 +36,8 @@ import javax.swing.border.TitledBorder;
 
 import uc.common.MessageBean;
 import uc.common.MessageType;
+import uc.common.domain.GroupTable;
+import uc.common.domain.UserInfo;
 import uc.common.dto.FriendItemModel;
 import uc.dal.ClientServerThread;
 import uc.pub.assembly.CellRenderer;
@@ -85,14 +89,15 @@ public class FriendListJFrame extends JFrame {
 	public Map<String,ChatJFrame> chatWinMap = new HashMap<>();	
 	public Map<String,ChatroomJFrame> roomWinMap = new HashMap<>(); 
 	
-	public FriendListJFrame(String ownerId, Socket socket) {
-		this.owner=ownerId;
-		initialize();
+	public FriendListJFrame(MessageBean ms, Socket socket) {
+		this.owner=ms.getUser().getNickname();
+		initUI();
+		initFriendList(ms);
 		server = new ClientServerThread(owner, socket, this);
 		Thread t = new Thread(server);
 		t.start();		
 	}
-	private void initialize(){
+	private void initUI(){
 		jtabPan = new JTabbedPane();
 		
 		initFrient();		
@@ -314,11 +319,41 @@ public class FriendListJFrame extends JFrame {
 	 * @auther: wutp 2016年10月30日
 	 * @return void
 	 */
-	public void initFriendList(){
-		MessageBean clientBean = new MessageBean();
-		clientBean.setType(MessageType.GET_GROUP_LIST);
-		clientBean.setName(owner);
-		server.sendMessage(clientBean);
+	public void initFriendList(MessageBean ms) {
+		// 初始化好友列表
+		Set<UserInfo> friends = ms.getUsers();
+		Iterator<UserInfo> it = friends.iterator();
+
+		this.inFriends.add(owner + "我");
+		while (it.hasNext()) {
+			UserInfo ele = it.next();
+			if ("1".equals(ele.getStatus())) {
+				if (!owner.equals(ele.getNickname()))
+					this.inFriends.add(ele.getNickname() + "在线");
+
+			} else {
+				this.outFriends.add(ele.getNickname() + "离线");
+			}
+
+		}
+		this.friends.clear();
+		this.friends.addAll(this.inFriends);
+		this.friends.addAll(this.outFriends);
+
+		this.listmodel = new OnlineListModel(this.friends);
+		this.list.setModel(this.listmodel);
+		// 初始化群列表
+		this.groups.clear();
+		Set<GroupTable> group = ms.getGroups();
+		Iterator<GroupTable> git = group.iterator();
+		while (git.hasNext()) {
+			GroupTable g = git.next();
+			this.groups.add(g.getGname());
+		}
+
+		this.grouplistmodel = new OnlineListModel(this.groups);
+		this.grouplist.setModel(this.grouplistmodel);
+
 	}
 	@Deprecated
 	public void upateFriends(MessageBean m) {

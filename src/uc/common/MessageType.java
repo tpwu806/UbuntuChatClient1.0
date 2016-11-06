@@ -79,7 +79,7 @@ public class MessageType {
 	/**
 	 * 更新群
 	 */
-	public static final String GET_GROUP_LIST = "GET_GROUP_LIST";
+	public static final String INIT_FRIEND_LIST = "INIT_FRIEND_LIST";
 	/**
 	 * 更新在线群好友
 	 */
