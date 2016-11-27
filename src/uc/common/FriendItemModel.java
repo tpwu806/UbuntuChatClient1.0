@@ -1,4 +1,4 @@
-package uc.common.dto;
+package uc.common;
 
 import java.io.Serializable;
 
@@ -19,13 +19,19 @@ public class FriendItemModel implements Serializable{
 	private boolean newMessage;
 	private String Signature;
 	private String NO;
+	private String status;
 	
+	public FriendItemModel() {
+		
+	}
+
 	public FriendItemModel(byte[] head,
 			String remarks,
 			String nickName,
 			boolean newMessage,
 			String Signature,
-			String NO){
+			String NO,
+			String status){
 		
 		this.head = head;
 		this.remarks = remarks;
@@ -33,6 +39,7 @@ public class FriendItemModel implements Serializable{
 		this.newMessage = newMessage;
 		this.Signature = Signature;
 		this.NO = NO;
+		this.status = status;
 	}
 
 	public byte[] getHead() {
@@ -82,4 +89,13 @@ public class FriendItemModel implements Serializable{
 	public void setNO(String nO) {
 		NO = nO;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 }

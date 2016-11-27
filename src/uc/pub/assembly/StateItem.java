@@ -3,7 +3,7 @@ package uc.pub.assembly;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
-import uc.common.dto.StateEnum;
+import uc.common.StateEnum;
 
 /**
  * @Description: 

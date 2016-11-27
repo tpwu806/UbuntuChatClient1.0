@@ -1,6 +1,7 @@
-package uc.common.dto;
+package uc.common;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -18,13 +19,44 @@ public class GroupModel implements Serializable{
 	 */
 	private static final long serialVersionUID = -1129594901962565953L;
 	
+	private Integer sno;
 	private String groupName;
+	private Timestamp sdate;//创建时间
+	private Integer uc;//uc号
 	private ArrayList<FriendItemModel> friends = new ArrayList<FriendItemModel>();
 	
 	public GroupModel(String groupName){
 		this.groupName = groupName;
 	}
 	
+	public Integer getSno() {
+		return sno;
+	}
+
+
+	public void setSno(Integer sno) {
+		this.sno = sno;
+	}
+
+
+	public Timestamp getSdate() {
+		return sdate;
+	}
+
+
+	public void setSdate(Timestamp sdate) {
+		this.sdate = sdate;
+	}
+
+
+	public Integer getUc() {
+		return uc;
+	}
+
+
+	public void setUc(Integer uc) {
+		this.uc = uc;
+	}
 	public String getGroupName() {
 		return groupName;
 	}

@@ -13,11 +13,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import uc.common.dto.FriendItemModel;
-import uc.common.dto.GroupModel;
-import uc.common.dto.UserInformation;
-import uc.common.parcel.NewsParcel;
-import uc.common.parcel.ParcelModel;
+import uc.common.FriendItemModel;
+import uc.common.GroupModel;
+import uc.common.UserInformation;
 import uc.pub.assembly.*;
 import uc.pub.tool.ChangeImage;
 import uc.pub.tool.Colors;
@@ -646,10 +644,10 @@ public class FriendListJFrame2 extends FillitFrame{
 		    arrowHover,
 			new ImageIcon("Image\\use\\15.png"),
 			new ImageIcon("Image\\use\\30.png"),
-			 new ImageIcon("Image\\use\\45.png"),
-			 new ImageIcon("Image\\use\\60.png"),
-			 new ImageIcon("Image\\use\\75.png"),
-			 arrowSelectedHover
+			new ImageIcon("Image\\use\\45.png"),
+			new ImageIcon("Image\\use\\60.png"),
+			new ImageIcon("Image\\use\\75.png"),
+			arrowSelectedHover
 	};
 
 	//提供删除窗口的静态方法
@@ -686,16 +684,14 @@ public class FriendListJFrame2 extends FillitFrame{
 			}else if(e.getSource() == minimizationButton){				
 				System.out.println("最小化");
 				//frame.setExtendedState(JFrame.ICONIFIED);	
-				setExtendedState(JFrame.ICONIFIED);	
+				outSetExtendedState(JFrame.ICONIFIED);	
 			}
-		}
-
-		private void setExtendedState(int iconified) {
-			this.setExtendedState(JFrame.ICONIFIED);				
-		}
+		}		
 	};
-	
-	
+	//最小化
+	private void outSetExtendedState(int iconified) {
+		setExtendedState(JFrame.ICONIFIED);				
+	}	
 	//节点的点击监听器
 	private ActionListener nodeActionListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {

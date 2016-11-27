@@ -34,11 +34,11 @@ import javax.swing.ListModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import uc.common.FriendItemModel;
 import uc.common.MessageBean;
 import uc.common.MessageType;
 import uc.common.domain.GroupTable;
 import uc.common.domain.UserInfo;
-import uc.common.dto.FriendItemModel;
 import uc.dal.ClientServerThread;
 import uc.pub.assembly.CellRenderer;
 import uc.pub.assembly.OnlineListModel;
@@ -292,7 +292,7 @@ public class FriendListJFrame extends JFrame {
 				ChatJFrame chatJframe = chatWinMap.get(friendName);
 				//判断是否已经有该面板
 				if(chatJframe==null){
-					FriendItemModel model =new FriendItemModel(null, null, friendName, true, null, null);
+					FriendItemModel model =new FriendItemModel(null, null, friendName, true, null, null,null);
 					chatJframe = new ChatJFrame(model, this);
 					chatJframe.setVisible(true);
 					chatWinMap.put(friendName, chatJframe);

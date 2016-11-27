@@ -1,4 +1,4 @@
-package uc.common.dto;
+package uc.common;
 
 /**
  * @Description: 在线状态

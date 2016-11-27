@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 
 
 /**
- * @Description: 
+ * @Description: 改变图片大小、颜色
  * @author wutp 2016年10月30日
  * @version 1.0
  */

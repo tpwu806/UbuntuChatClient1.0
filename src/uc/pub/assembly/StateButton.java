@@ -10,7 +10,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import uc.common.dto.StateEnum;
+import uc.common.StateEnum;
 
 /**
  * @Description: 状态选择按钮

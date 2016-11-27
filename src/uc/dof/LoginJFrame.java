@@ -17,17 +17,14 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import com.sun.awt.AWTUtilities;
 
+import uc.common.GroupModel;
 import uc.common.MessageBean;
 import uc.common.MessageType;
+import uc.common.StateEnum;
+import uc.common.User;
+import uc.common.UserInformation;
 import uc.common.domain.UserInfo;
-import uc.common.dto.GroupModel;
-import uc.common.dto.StateEnum;
-import uc.common.dto.User;
-import uc.common.dto.UserInformation;
-import uc.common.parcel.ParcelModel;
-import uc.common.parcel.UserThroughParcel;
 import uc.dal.ClinetServer;
-import uc.dal.VerificationUser;
 import uc.pub.assembly.FillitFrame;
 import uc.pub.assembly.HeadPanel;
 import uc.pub.assembly.MainPanel;
@@ -783,47 +780,6 @@ public class LoginJFrame extends FillitFrame {
 			reaction(user);
 		}
 	}
-
-	// 连接服务器进行查询
-	@SuppressWarnings("incomplete-switch")
-	@Deprecated
-	private void reaction2(User user) {
-
-		VerificationUser verfivation = new VerificationUser();
-		ParcelModel message = verfivation.askServer(user);
-
-		switch (message.getMessage()) {
-		case USER_THROUGH:
-			System.out.println("登录成功");
-			// 正式登录
-			UserInformation userInformation = ((UserThroughParcel) message).getUserInformation();
-			FriendListJFrame2 friendListJFrame2 = new FriendListJFrame2(userInformation, verfivation.getSocket());
-			// 修改账户状态
-			user.setAutomaticLogin(automaticLogin.isSelected());
-			user.setRememberPassWord(rememberPassword.isSelected());
-			// 释放该面板
-			// frame.dispose();
-			this.dispose();
-			break;
-		case NOT_THROUGH:
-			System.out.println("该账号不存在或者密码不正确、请您确认后再重新输入");
-			eJect("该账号不存在或者密码不正确、请您确认后再重新输入");
-			break;
-		case LOGGED_IN:
-			System.out.println("您已登录" + user.toString() + "不能重复登录");
-			eJect("您已登录" + user.toString() + "不能重复登录");
-			break;
-		case CONNECTION_FAILED:
-			System.out.println("连接服务器失败");
-			eJect("连接服务器失败，请检查您的网络是否已连接");
-			break;
-		case ERROR:
-			System.out.println("服务器无回应");
-			eJect("服务器无响应,请稍后再试");
-			break;
-		}
-		System.out.println(message.getMessage());
-	}
 	
 	/**
 	 * @Description:处理登陆界面
@@ -831,15 +787,10 @@ public class LoginJFrame extends FillitFrame {
 	 * @return void
 	 */
 	private void reaction(User user){
-		Integer uc = Integer.valueOf(user.toString());
-		String pwd = user.getPassword();
-		
-		UserInfo u = new UserInfo();
-		u.setUc(uc);
-		u.setPwd(pwd);
+
 		MessageBean m = new MessageBean();
 		m.setType(MessageType.SIGN_IN);
-		m.setUser(u);
+		m.setClientUser(user);
 		
 		MessageBean ms = server.sendUserInfoToServer(m);
 		System.out.println(ms.getType());		
@@ -849,7 +800,7 @@ public class LoginJFrame extends FillitFrame {
 			//loginButton.setEnabled(false);
 			//u = ms.getUser();
 			
-			startFriendListJFrame(user,ms, server.getSocket());
+			startFriendListJFrame(user,ms,server.getSocket());
 			
 			user.setAutomaticLogin(automaticLogin.isSelected());
 			user.setRememberPassWord(rememberPassword.isSelected());
@@ -875,10 +826,9 @@ public class LoginJFrame extends FillitFrame {
 	private void startFriendListJFrame(User user,MessageBean ms, Socket socket) {
 		//FriendListJFrame friendJFrame = new FriendListJFrame(ms, socket);
 		
-		UserInformation userInformation =ms.getUserInformation();
+		UserInformation userInformation = ms.getUserInformation();
 		FriendListJFrame2 friendJFrame = new FriendListJFrame2(userInformation, socket);
-		
-		
+				
 		friendJFrame.setVisible(true);
 		
 	}

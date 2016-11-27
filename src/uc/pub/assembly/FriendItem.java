@@ -18,10 +18,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import uc.common.dto.FriendItemModel;
+import uc.common.FriendItemModel;
 import uc.pub.tool.ChangeImage;
 import uc.pub.tool.Colors;
 import uc.pub.tool.Fonts;
+import uc.pub.tool.PictureUtil;
 
 /**
  * @Description: 好友项框架
@@ -83,6 +84,7 @@ public class FriendItem extends JPanel{
 				null,
 				false,
 				null,
+				null,
 				null));
 		public void mousePressed(MouseEvent e){
 			FriendItem pressItem = (FriendItem) e.getSource();
@@ -140,12 +142,16 @@ public class FriendItem extends JPanel{
 		pane11.setOpaque(false);
 		add(pane11);
 		headPanel = new JLabel();
-		headPanel.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(model.getHead()),
+		//将图片转为灰色
+		byte[] head = model.getHead();
+		if("0".equals(model.getStatus())){
+			head = PictureUtil.transformImage(model.getHead());
+		}
+		headPanel.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(head),
 				40,
 				40,
 	    		5));
 		pane11.add(headPanel, "West");
-		
 		//用于头像之后组件的布局
 		createCenterLayout = new JPanel(new GridLayout(2, 1));
 		createCenterLayout.setOpaque(false);

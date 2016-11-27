@@ -36,10 +36,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import uc.common.FriendItemModel;
 import uc.common.MessageBean;
 import uc.common.MessageType;
-import uc.common.dto.FriendItemModel;
-import uc.common.parcel.NewsParcel;
 import uc.pub.assembly.FillitFrame;
 import uc.pub.assembly.GradientPanel;
 import uc.pub.assembly.MainPanel;
@@ -522,7 +521,7 @@ public class ChatJFrame extends FillitFrame{
 		textField.setText("");
 		displayMessage.replaceSelection(content);
 		// 打包
-		NewsParcel parcel = new NewsParcel(sender, senderInformation, resipient, content);
+		///NewsParcel parcel = new NewsParcel(sender, senderInformation, resipient, content);
 		/*try {
 			System.out.println("发送");
 			ObjectOutputStream objectoutputStream = new ObjectOutputStream(socket.getOutputStream());
