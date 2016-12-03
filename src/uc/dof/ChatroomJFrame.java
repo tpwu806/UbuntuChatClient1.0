@@ -40,8 +40,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import uc.common.MessageBean;
+import uc.common.MessageModel;
 import uc.common.MessageType;
-import uc.common.domain.UserInfo;
 import uc.pub.assembly.CellRenderer;
 import uc.pub.assembly.OnlineListModel;
 import uc.pub.tool.DataTool;
@@ -224,7 +224,7 @@ public class ChatroomJFrame extends JFrame {
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Actionlist(e);
+				//Actionlist(e);
 			}
 		});
 	}
@@ -255,11 +255,13 @@ public class ChatroomJFrame extends JFrame {
 
 		MessageBean clientBean = new MessageBean();
 		clientBean.setType(MessageType.GROUP_CHAT);
-		clientBean.setName(name);
+		MessageModel message = new MessageModel();
+		message.setSender(name);
+		message.setRecerver(groupName);
 		String time = DataTool.getTimer();
-		clientBean.setTimer(time);
-		clientBean.setInfo(info);
-		HashSet<String> set = new HashSet<String>();
+		message.setTime(time);
+		message.setInfo(info);
+		/*HashSet<String> set = new HashSet<String>();
 		for(String name : ingFriends){
 			String name2 = name.replace("在线", "");
 			name2.replace("我", "");
@@ -267,7 +269,7 @@ public class ChatroomJFrame extends JFrame {
 		}
 		set.remove(name);
 		clientBean.setClients(set);
-		clientBean.setGroupName(groupName);
+		clientBean.setGroupName(groupName);*/
 		
 		sendMessage(clientBean);
 		// 自己发的内容也要现实在自己的屏幕上面
@@ -320,7 +322,7 @@ public class ChatroomJFrame extends JFrame {
 	 * @auther: wutp 2016年10月15日
 	 * @return void
 	 */
-	private void Actionlist(MouseEvent e) {
+/*	private void Actionlist(MouseEvent e) {
 		List<String> to = list.getSelectedValuesList();
 		if (e.getClickCount() == 2) {
 
@@ -356,11 +358,11 @@ public class ChatroomJFrame extends JFrame {
 				// 判断要发送给谁
 				HashSet<String> set = new HashSet<String>();
 				set.addAll(list.getSelectedValuesList());
-				clientBean.setClients(set);
+				clientBean.setObject(set);;
 				sendMessage(clientBean);
 			}
 		}
-	}
+	}*/
 	/**
 	 * @Description:发送获取群成员请求
 	 * @auther: wutp 2016年10月29日
@@ -369,7 +371,7 @@ public class ChatroomJFrame extends JFrame {
 	public void getGroupFriendsList(){
 		MessageBean clientBean = new MessageBean();
 		clientBean.setType(MessageType.GET_GROUP_FRIEND_LIST);
-		clientBean.setGroupName(groupName);
+		clientBean.setObject(groupName);
 		sendMessage(clientBean);
 	}
 	/**
@@ -380,7 +382,7 @@ public class ChatroomJFrame extends JFrame {
 	 */
 	public void initGroupFriends(MessageBean bean){
 		
-		Set<UserInfo> friends = bean.getUsers();
+		/*Set<UserInfo> friends = (Set<UserInfo>) bean.getObject();
 		Iterator<UserInfo> it = friends.iterator();
 		
 		ingFriends.add(name+"我");
@@ -400,7 +402,7 @@ public class ChatroomJFrame extends JFrame {
 		gFriends.addAll(outgFriends);
 
 		listmodel = new OnlineListModel(gFriends);
-		list.setModel(listmodel);
+		list.setModel(listmodel);*/
 	}
 
 	/**

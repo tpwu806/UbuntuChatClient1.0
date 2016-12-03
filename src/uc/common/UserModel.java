@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author wutp 2016年10月30日
  * @version 1.0
  */
-public class User implements Serializable{
+public class UserModel implements Serializable{
 	/**
 	 * 
 	 */
@@ -20,7 +20,7 @@ public class User implements Serializable{
 	private boolean rememberPassWord = false;//记住密码
 	private boolean automaticLogin = false;//自动登录
 	
-	public User(String user, 
+	public UserModel(String user, 
 			String headURL, 
 			StateEnum state, 
 			boolean rememberPassWord, 

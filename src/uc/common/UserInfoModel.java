@@ -8,14 +8,14 @@ import java.util.ArrayList;
  * @author wutp 2016年10月30日
  * @version 1.0
  */
-public class UserInformation implements Serializable{
+public class UserInfoModel implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1142876585817962444L;
 	
 	//基本账户
-	private final User user;
+	private final UserModel userModel;
 	//昵称
 	private String nickName;
 	//个性签名
@@ -23,16 +23,16 @@ public class UserInformation implements Serializable{
 	//好友列表
 	private ArrayList<GroupModel> friendList;
 	
-	public UserInformation(User user,
+	public UserInfoModel(UserModel userModel,
 			String nickName,
 			ArrayList<GroupModel> friendList){
-		this.user = user;
+		this.userModel = userModel;
 		this.nickName = nickName;
 		this.friendList = friendList;
 	}
 
-	public User getUser() {
-		return user;
+	public UserModel getUser() {
+		return userModel;
 	}
 
 	public String getNickName() {

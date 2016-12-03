@@ -21,9 +21,8 @@ import uc.common.GroupModel;
 import uc.common.MessageBean;
 import uc.common.MessageType;
 import uc.common.StateEnum;
-import uc.common.User;
-import uc.common.UserInformation;
-import uc.common.domain.UserInfo;
+import uc.common.UserModel;
+import uc.common.UserInfoModel;
 import uc.dal.ClinetServer;
 import uc.pub.assembly.FillitFrame;
 import uc.pub.assembly.HeadPanel;
@@ -62,11 +61,11 @@ public class LoginJFrame extends FillitFrame {
 	// 编辑器
 	private UserFiledEdit edit;
 	// 用户组
-	private Vector<User> elements;
+	private Vector<UserModel> elements;
 	// 模型
-	private DefaultComboBoxModel<User> comboBoxModel;
+	private DefaultComboBoxModel<UserModel> comboBoxModel;
 	// 下拉框
-	private JComboBox<User> filluser = null;
+	private JComboBox<UserModel> filluser = null;
 	// 选择更改监听器
 	private UserChangeAdapter userChangeAdapter = null;
 	// 密码输入框
@@ -402,7 +401,7 @@ public class LoginJFrame extends FillitFrame {
 		centerPanel.add(filluser);
 	
 		// 数据模型
-		elements = new Vector<User>();
+		elements = new Vector<UserModel>();
 		readUser();
 		comboBoxModel = new DefaultComboBoxModel(elements);
 	
@@ -436,7 +435,7 @@ public class LoginJFrame extends FillitFrame {
 	
 				if (!input.isEmpty()) {
 	
-					for (final User item : elements) {
+					for (final UserModel item : elements) {
 						// 取得账号用于匹配
 						String value = item.toString();
 						// 判断是否完全匹配
@@ -482,7 +481,7 @@ public class LoginJFrame extends FillitFrame {
 	
 				if (!input.isEmpty()) {
 	
-					for (final User item : elements) {
+					for (final UserModel item : elements) {
 						// 取得账号用于匹配
 						String value = item.toString();
 						// 判断是否匹配
@@ -570,9 +569,9 @@ public class LoginJFrame extends FillitFrame {
 
 	// 读取账户
 	private void readUser() {
-		elements.add(new User("77777", "Image\\Head\\1_100.gif", StateEnum.QME, false, false));
-		elements.add(new User("88888", "Image\\Head\\10.png", StateEnum.BEBUSY, true, false));
-		elements.add(new User("99999", "Image\\Head\\30.png", StateEnum.INVISIBLE, false, true));
+		elements.add(new UserModel("77777", "Image\\Head\\1_100.gif", StateEnum.QME, false, false));
+		elements.add(new UserModel("88888", "Image\\Head\\10.png", StateEnum.BEBUSY, true, false));
+		elements.add(new UserModel("99999", "Image\\Head\\30.png", StateEnum.INVISIBLE, false, true));
 	}
 
 	// 生成提示栏
@@ -674,14 +673,14 @@ public class LoginJFrame extends FillitFrame {
 	// 更新当前账户
 	private void updateUser() {
 
-		if (!(filluser.getSelectedItem() instanceof User)) {
+		if (!(filluser.getSelectedItem() instanceof UserModel)) {
 			return;
 		}
-		User user = (User) filluser.getSelectedItem();
+		UserModel userModel = (UserModel) filluser.getSelectedItem();
 		// 更新当前用户头像
-		headPanel.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(user.getHeadURL()), 82, 82, 10));
+		headPanel.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(userModel.getHeadURL()), 82, 82, 10));
 		// 更改状态按钮
-		switch (user.getState()) {
+		switch (userModel.getState()) {
 		// 代表在线
 		case ONLINE:
 			stateButton.setIcon(onLine.getIcon());
@@ -714,13 +713,13 @@ public class LoginJFrame extends FillitFrame {
 			break;
 		}
 		// 判断是否自动登录
-		if (user.isAutomaticLogin()) {
+		if (userModel.isAutomaticLogin()) {
 			automaticLogin.setSelected(true);
 		} else {
 			automaticLogin.setSelected(false);
 		}
 		// 判断是否记住密码，更改 复选框状态，密码输入框状态
-		if (user.isRememberPassWord()) {
+		if (userModel.isRememberPassWord()) {
 			rememberPassword.setSelected(true);
 			fillcipher.setForeground(Color.black);
 			fillcipher.setEchoChar('●');
@@ -762,22 +761,22 @@ public class LoginJFrame extends FillitFrame {
 		if (ob instanceof String) {
 			// 说明是自主输入的账户那么就有必要重新生成一个账号纪录
 			// 只需在服务器判断登录成功时才将纪录重新写入保存文件中去
-			User user = new User(userNumber, null, state, false, false);
-			user.setPassword(new String(password));
-			reaction(user);
+			UserModel userModel = new UserModel(userNumber, null, state, false, false);
+			userModel.setPassword(new String(password));
+			reaction(userModel);
 	
-		} else if (ob instanceof User) {
+		} else if (ob instanceof UserModel) {
 			// 说明是在原纪录上点击的登录那么就没有必要重新创建一个账号纪录了
 			// 只需在服务器判断登录成功时才将纪录重新写入保存文件中去
-			User user = (User) ob;
-			if (user.isRememberPassWord() && !isModify) {
-				user.setState(state);
-				reaction(user);
+			UserModel userModel = (UserModel) ob;
+			if (userModel.isRememberPassWord() && !isModify) {
+				userModel.setState(state);
+				reaction(userModel);
 				return;
 			}
-			user.setPassword(new String(password));
-			user.setState(state);
-			reaction(user);
+			userModel.setPassword(new String(password));
+			userModel.setState(state);
+			reaction(userModel);
 		}
 	}
 	
@@ -786,24 +785,20 @@ public class LoginJFrame extends FillitFrame {
 	 * @auther: wutp 2016年10月15日
 	 * @return void
 	 */
-	private void reaction(User user){
+	private void reaction(UserModel userModel){
 
 		MessageBean m = new MessageBean();
 		m.setType(MessageType.SIGN_IN);
-		m.setClientUser(user);
-		
+		m.setObject(userModel);
+				
 		MessageBean ms = server.sendUserInfoToServer(m);
 		System.out.println(ms.getType());		
 		switch (ms.getType()) {
 		case MessageType.SIGN_IN_SUCCESS: {
-			System.out.println("登录成功");
-			//loginButton.setEnabled(false);
-			//u = ms.getUser();
-			
-			startFriendListJFrame(user,ms,server.getSocket());
-			
-			user.setAutomaticLogin(automaticLogin.isSelected());
-			user.setRememberPassWord(rememberPassword.isSelected());
+			System.out.println("登录成功");			
+			startFriendListJFrame(userModel,ms,server.getSocket());			
+			userModel.setAutomaticLogin(automaticLogin.isSelected());
+			userModel.setRememberPassWord(rememberPassword.isSelected());
 			dispose();
 			break;
 		}
@@ -823,14 +818,14 @@ public class LoginJFrame extends FillitFrame {
 		}
 	}
 
-	private void startFriendListJFrame(User user,MessageBean ms, Socket socket) {
-		//FriendListJFrame friendJFrame = new FriendListJFrame(ms, socket);
-		
-		UserInformation userInformation = ms.getUserInformation();
-		FriendListJFrame2 friendJFrame = new FriendListJFrame2(userInformation, socket);
-				
-		friendJFrame.setVisible(true);
-		
+	private void startFriendListJFrame(UserModel userModel,MessageBean ms, Socket socket) {
+		if(ms.getObject() != null){
+			UserInfoModel userInfoModel = (UserInfoModel) ms.getObject();
+			FriendListJFrame friendJFrame = new FriendListJFrame(userInfoModel, socket);			
+			friendJFrame.setVisible(true);
+		}else{
+			eJect("信息异常，请重新登录！");
+		}	
 	}
 
 	/**
@@ -982,9 +977,9 @@ class IconRenderer extends JLabel implements ListCellRenderer<Object> {
 
 	public Component getListCellRendererComponent(JList<?> list, Object obj, int row, boolean sel, boolean hasFocus) {
 
-		User user = (User) obj;
-		setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(user.getHeadURL()), 42, 42, 40, 40, 1, 1, 5));// 设置图片
-		setText(user.toString());// 设置文本
+		UserModel userModel = (UserModel) obj;
+		setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(userModel.getHeadURL()), 42, 42, 40, 40, 1, 1, 5));// 设置图片
+		setText(userModel.toString());// 设置文本
 
 		setBorder(new LineBorder(Color.white));// 绘制边框
 

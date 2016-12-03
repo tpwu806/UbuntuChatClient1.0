@@ -38,6 +38,7 @@ import javax.swing.text.Document;
 
 import uc.common.FriendItemModel;
 import uc.common.MessageBean;
+import uc.common.MessageModel;
 import uc.common.MessageType;
 import uc.pub.assembly.FillitFrame;
 import uc.pub.assembly.GradientPanel;
@@ -512,8 +513,8 @@ public class ChatJFrame extends FillitFrame{
 	// 传递数据
 	@Deprecated
 	public void sendOut() {
-		String sender = FriendListJFrame2.user.getUser().toString();
-		String senderInformation = FriendListJFrame2.user.getNickName() + " "
+		String sender = FriendListJFrame.user.getUser().toString();
+		String senderInformation = FriendListJFrame.user.getNickName() + " "
 				+ dateFormat.format(Calendar.getInstance().getTime()) + "\n";
 		displayMessage.replaceSelection(senderInformation);
 		String resipient = model.getNO();
@@ -534,7 +535,8 @@ public class ChatJFrame extends FillitFrame{
 	
 	// 写一个方法，让它显示消息
 	public void showMessage(MessageBean m) {
-		String info = m.getName() + ":" + m.getInfo() + "\r\n";
+		MessageModel message = (MessageModel) m.getObject();
+		String info = message.getSender() + ":" + message.getInfo() + "\r\n";
 		//this.jta.append(info);
 		try {
 			document.insertString(document.getLength(), info, null);
@@ -547,10 +549,12 @@ public class ChatJFrame extends FillitFrame{
 		
 		MessageBean m = new MessageBean();
 		m.setType(MessageType.SINGLETON_CHAT);
-		m.setName(MainJFrame.owner);
-		m.setFriendName(model.getNickName());
-		m.setInfo(textField.getText().trim());
-		m.setTimer(new java.util.Date().toString());
+		MessageModel message = new MessageModel();
+		message.setSender(FriendListJFrame.user.getUser().toString());
+		message.setRecerver(model.getNickName());
+		message.setInfo(textField.getText().trim());
+		message.setTime(new java.util.Date().toString());
+		m.setObject(message);
 		sendMessage(m);
 		displayMessage.replaceSelection(new java.util.Date().toString() + " 我:\r\n" + textField.getText().trim() + "\r\n");
 		textField.setText(null);
@@ -577,7 +581,7 @@ public class ChatJFrame extends FillitFrame{
 			if (e.getSource() == closeButton) {
 				//frame.dispose();
 				dispose();
-				FriendListJFrame2.remove(model.getNO());
+				FriendListJFrame.remove(model.getNO());
 			} else if (e.getSource() == minimizationButton) {
 				//frame.setExtendedState(JFrame.ICONIFIED);
 				setExtendedState(JFrame.ICONIFIED);

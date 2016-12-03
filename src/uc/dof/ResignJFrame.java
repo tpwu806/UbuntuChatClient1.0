@@ -153,8 +153,8 @@ public class ResignJFrame extends JFrame {
 					
 		MessageBean m = new MessageBean();
 		m.setType(MessageType.SIGN_UP);
-		m.setName(u_name);
-		m.setPwd(u_pwd);
+		//m.setName(u_name);
+		//m.setPwd(u_pwd);
 		
 		MessageBean ms = server.sendUserInfoToServer(m);
 					
