@@ -210,7 +210,7 @@ public class FriendListJFrame extends FillitFrame{
 		JPanel pane3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 7, 0));
 		pane3.setOpaque(false);
 		pane2.add(pane3);
-		title = new JLabel("warau");
+		title = new JLabel("uc");
 		title.setFont(new Font("微软雅黑", 0, 18));
 		pane3.add(title);
 		
@@ -538,8 +538,7 @@ public class FriendListJFrame extends FillitFrame{
 				0,
 				1,
 				Color.black));
-		
-		
+				
 		friendPanel = new JPanel(new VerlicelColumn(5)){
 			/**
 			 * 
@@ -567,6 +566,10 @@ public class FriendListJFrame extends FillitFrame{
 			friendPanel.add(gropContainer);
 		}
 		forCard.add("friendsTab", scrollPane1);
+		if(!isFrist){
+			forCard.setVisible(false);
+			forCard.setVisible(true);
+		}
 	}
 
 	/**
@@ -837,6 +840,25 @@ public class FriendListJFrame extends FillitFrame{
 	public void setBg(){
 		//**** 只需要更改 Bg的值就可以达成更改背景的效果
 	}
+	/**
+	 * @Description:更新好友信息
+	 * @auther: wutp 2016年12月4日
+	 * @return void
+	 */
+	public void updateFriend(String uid) {
+		ArrayList<FriendGroupModel> fgList= FriendListJFrame.user.getFriendList();
+		for(FriendGroupModel fgModel : fgList){
+			ArrayList<FriendItemModel> friends = fgModel.getFriends();
+			for(FriendItemModel f : friends){
+				if(uid.equals(f.getNO()))
+					f.setStatus("1");
+				createFriendPanel(false);
+			}
+		}
+		
+	}
+
+
 	//关闭资源
 	public void close(){
 		try {

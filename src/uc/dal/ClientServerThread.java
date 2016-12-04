@@ -61,7 +61,7 @@ public class ClientServerThread implements Runnable {
 				System.out.println("Socket Type: "+bean.getType());
 				switch (bean.getType()) {					
 				case MessageType.SERVER_UPDATE_FRIENDS: {
-					//ActionServerUpdateFriends(bean);					
+					ActionServerUpdateFriend(bean);					
 					break;
 				}
 				case MessageType.GET_GROUP_FRIEND_LIST: {
@@ -117,6 +117,21 @@ public class ClientServerThread implements Runnable {
 
 	}
 	/**
+	 * @Description:更新好友
+	 * @auther: wutp 2016年12月4日
+	 * @param bean
+	 * @return void
+	 */
+	private void ActionServerUpdateFriend(MessageBean bean) {
+		try{
+			String uid = bean.getObject().toString();
+			if(uid != null && !"".equals(uid))
+				UCWindow.updateFriend(uid);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * @Description:更新群好友
 	 * @auther: wutp 2016年10月29日
 	 * @param bean
@@ -134,8 +149,8 @@ public class ClientServerThread implements Runnable {
 			e.printStackTrace();
 		}
 		
-	}
-	*//**
+	}*/
+	/**
 	 * @Description:
 	 * @auther: wutp 2016年10月23日
 	 * @param bean

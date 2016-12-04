@@ -796,7 +796,7 @@ public class LoginJFrame extends FillitFrame {
 		switch (ms.getType()) {
 		case MessageType.SIGN_IN_SUCCESS: {
 			System.out.println("登录成功");			
-			startFriendListJFrame(userModel,ms,server.getSocket());			
+			startFriendListJFrame(ms,server.getSocket());			
 			userModel.setAutomaticLogin(automaticLogin.isSelected());
 			userModel.setRememberPassWord(rememberPassword.isSelected());
 			dispose();
@@ -818,7 +818,7 @@ public class LoginJFrame extends FillitFrame {
 		}
 	}
 
-	private void startFriendListJFrame(UserModel userModel,MessageBean ms, Socket socket) {
+	private void startFriendListJFrame(MessageBean ms, Socket socket) {
 		if(ms.getObject() != null){
 			UserInfoModel userInfoModel = (UserInfoModel) ms.getObject();
 			FriendListJFrame friendJFrame = new FriendListJFrame(userInfoModel, socket);			

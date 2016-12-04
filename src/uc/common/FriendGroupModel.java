@@ -19,23 +19,23 @@ public class FriendGroupModel implements Serializable{
 	 */
 	private static final long serialVersionUID = -1129594901962565953L;
 	
-	private Integer sno;
+	private String sid;
 	private String groupName;
 	private Timestamp sdate;//创建时间
-	private Integer uc;//uc号
+	private String uid;//uc号
 	private ArrayList<FriendItemModel> friends = new ArrayList<FriendItemModel>();
 	
 	public FriendGroupModel(String groupName){
 		this.groupName = groupName;
 	}
 	
-	public Integer getSno() {
-		return sno;
+	public String getSid() {
+		return sid;
 	}
 
 
-	public void setSno(Integer sno) {
-		this.sno = sno;
+	public void setSid(String sid) {
+		this.sid = sid;
 	}
 
 
@@ -49,13 +49,13 @@ public class FriendGroupModel implements Serializable{
 	}
 
 
-	public Integer getUc() {
-		return uc;
+	public String getUid() {
+		return uid;
 	}
 
 
-	public void setUc(Integer uc) {
-		this.uc = uc;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getGroupName() {
 		return groupName;
@@ -179,5 +179,14 @@ public class FriendGroupModel implements Serializable{
 
 	public List<FriendItemModel> subList(int fromIndex, int toIndex) {
 		return friends.subList(fromIndex, toIndex);
+	}
+
+	public ArrayList<FriendItemModel> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(ArrayList<FriendItemModel> friends) {
+		this.friends = friends;
 	}	
+	
 }
