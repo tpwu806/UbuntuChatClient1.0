@@ -1,4 +1,4 @@
-package uc.pub.tool;
+package uc.pub.assembly;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * @Description: 
+ * @Description: 好友列表垂直布局
  * @author wutp 2016年10月30日
  * @version 1.0
  */

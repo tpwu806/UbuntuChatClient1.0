@@ -2,8 +2,6 @@ package uc.pub.assembly;
 
 import javax.swing.*;
 
-import uc.pub.tool.VerlicelColumn;
-
 import java.awt.*;
 
 /**

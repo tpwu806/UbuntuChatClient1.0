@@ -9,7 +9,7 @@ import javax.swing.Icon;
 import javax.swing.JToggleButton;
 
 /**
- * @Description: 
+ * @Description: 好友、群、聊天记录
  * @author wutp 2016年10月30日
  * @version 1.0
  */

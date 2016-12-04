@@ -13,20 +13,22 @@ public class UserModel implements Serializable{
 	 */
 	private static final long serialVersionUID = -84845435813766646L;
 	
-	private String user;//用户uc
+	private String ucId;//用户uc
 	private String password;//密码
 	private String headURL;//头像
 	private StateEnum state;//状态
 	private boolean rememberPassWord = false;//记住密码
-	private boolean automaticLogin = false;//自动登录
+	private boolean automaticLogin = false;//自动登录	
+	private String nickName;//昵称	
+	private String signature;//个性签名
 	
-	public UserModel(String user, 
+	public UserModel(String ucId, 
 			String headURL, 
 			StateEnum state, 
 			boolean rememberPassWord, 
 			boolean automaticLogin) {
 		
-		this.user = user;
+		this.ucId = ucId;
 		this.headURL = headURL;
 		this.state = state;
 		this.rememberPassWord = rememberPassWord;
@@ -73,7 +75,30 @@ public class UserModel implements Serializable{
 		this.password = password;
 	}
 
+	public String getUcId() {
+		return ucId;
+	}
+
+	public void setUcId(String ucId) {
+		this.ucId = ucId;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}	
 	public String toString(){
-		return user;
+		return ucId;
 	}
 }

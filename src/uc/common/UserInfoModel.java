@@ -15,47 +15,36 @@ public class UserInfoModel implements Serializable{
 	private static final long serialVersionUID = -1142876585817962444L;
 	
 	//基本账户
-	private final UserModel userModel;
-	//昵称
-	private String nickName;
-	//个性签名
-	private String signature;
-	//好友列表
-	private ArrayList<GroupModel> friendList;
+	private final UserModel userModel;	
+	//好友分组
+	private ArrayList<FriendGroupModel> friendList;
+	//群分组
+	private ArrayList<CrowdGroupModel> groupsList;
 	
 	public UserInfoModel(UserModel userModel,
-			String nickName,
-			ArrayList<GroupModel> friendList){
+			ArrayList<FriendGroupModel> friendList){
 		this.userModel = userModel;
-		this.nickName = nickName;
 		this.friendList = friendList;
 	}
 
-	public UserModel getUser() {
+	public UserModel getUserModel() {
 		return userModel;
 	}
 
-	public String getNickName() {
-		return nickName;
-	}
-
-	public String getSignature() {
-		return signature;
-	}
-
-	public ArrayList<GroupModel> getFriendList() {
+	public ArrayList<FriendGroupModel> getFriendList() {
 		return friendList;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
-
-	public void setFriendList(ArrayList<GroupModel> friendList) {
+	public void setFriendList(ArrayList<FriendGroupModel> friendList) {
 		this.friendList = friendList;
-	}	
+	}
+
+	public ArrayList<CrowdGroupModel> getGroupsList() {
+		return groupsList;
+	}
+
+	public void setGroupsList(ArrayList<CrowdGroupModel> groupsList) {
+		this.groupsList = groupsList;
+	}
+	
 }

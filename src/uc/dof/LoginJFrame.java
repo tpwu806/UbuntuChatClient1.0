@@ -437,7 +437,7 @@ public class LoginJFrame extends FillitFrame {
 	
 					for (final UserModel item : elements) {
 						// 取得账号用于匹配
-						String value = item.toString();
+						String value = item.getUcId();
 						// 判断是否完全匹配
 						// 更新中的值多尽量在 子线程之前计算出来给其直接使用，减少其运行时间，因为觉得运行太长会出问题
 						if (value.equals(input)) {
@@ -483,7 +483,7 @@ public class LoginJFrame extends FillitFrame {
 	
 					for (final UserModel item : elements) {
 						// 取得账号用于匹配
-						String value = item.toString();
+						String value = item.getUcId();
 						// 判断是否匹配
 						// 更新中的值多尽量在 子线程之前计算出来给其直接使用，减少其运行时间，因为觉得运行太长会出问题
 						if (value.startsWith(input)) {
@@ -871,11 +871,11 @@ public class LoginJFrame extends FillitFrame {
 			}
 		}
 
-		private void setExtendedState(int iconified) {
-			this.setExtendedState(JFrame.ICONIFIED);
-		}
+		
 	};
-
+	public void setExtendedState(int iconified) {
+		this.setExtendedState(JFrame.ICONIFIED);
+	}
 	/*
 	 * 密码输入框的焦点监听器
 	 */
@@ -979,7 +979,7 @@ class IconRenderer extends JLabel implements ListCellRenderer<Object> {
 
 		UserModel userModel = (UserModel) obj;
 		setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(userModel.getHeadURL()), 42, 42, 40, 40, 1, 1, 5));// 设置图片
-		setText(userModel.toString());// 设置文本
+		setText(userModel.getUcId());// 设置文本
 
 		setBorder(new LineBorder(Color.white));// 绘制边框
 

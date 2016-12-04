@@ -513,8 +513,8 @@ public class ChatJFrame extends FillitFrame{
 	// 传递数据
 	@Deprecated
 	public void sendOut() {
-		String sender = FriendListJFrame.user.getUser().toString();
-		String senderInformation = FriendListJFrame.user.getNickName() + " "
+		String sender = FriendListJFrame.user.getUserModel().toString();
+		String senderInformation = FriendListJFrame.user.getUserModel().getNickName() + " "
 				+ dateFormat.format(Calendar.getInstance().getTime()) + "\n";
 		displayMessage.replaceSelection(senderInformation);
 		String resipient = model.getNO();
@@ -550,7 +550,7 @@ public class ChatJFrame extends FillitFrame{
 		MessageBean m = new MessageBean();
 		m.setType(MessageType.SINGLETON_CHAT);
 		MessageModel message = new MessageModel();
-		message.setSender(FriendListJFrame.user.getUser().toString());
+		message.setSender(FriendListJFrame.user.getUserModel().toString());
 		message.setRecerver(model.getNickName());
 		message.setInfo(textField.getText().trim());
 		message.setTime(new java.util.Date().toString());

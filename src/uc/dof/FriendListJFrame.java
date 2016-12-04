@@ -11,9 +11,12 @@ import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import uc.common.FriendGroupModel;
 import uc.common.FriendItemModel;
 import uc.common.GroupModel;
 import uc.common.UserInfoModel;
@@ -23,7 +26,6 @@ import uc.pub.assembly.*;
 import uc.pub.tool.ChangeImage;
 import uc.pub.tool.Colors;
 import uc.pub.tool.Fonts;
-import uc.pub.tool.VerlicelColumn;
 
 /**
  * @Description: 主窗口 好友列表
@@ -105,11 +107,17 @@ public class FriendListJFrame extends FillitFrame{
 	private static HashMap<String, ChatJFrame> chatJFrames = new HashMap<String, ChatJFrame>();
 
 	// 具体面板
-	private CardLayout cardLayout;
-	private JPanel forCard;
-	private JScrollPane scrollPane;
+	private CardLayout cardLayout, cardLayout1, cardLayout2, cardLayout3;
+	private JPanel forCard,forCard1,forCard2,forCard3;
+	//private JScrollPane scrollPane;
+	private JScrollPane scrollPane1;
+	private JScrollPane scrollPane2;
+	private JScrollPane scrollPane3;
 	// 好友面板
-	private JPanel friendPanel;
+	//private JPanel friendPanel;
+	private JPanel friendPanel1;
+	private JPanel friendPanel2;
+	private JPanel friendPanel3;
 
 	// 底部
 	private JPanel forSouth;
@@ -139,7 +147,7 @@ public class FriendListJFrame extends FillitFrame{
 		FriendListJFrame.user = user;
 		this.socket = socket;		
 		createFrame();
-		server = new ClientServerThread(user.getNickName(), socket, this);
+		server = new ClientServerThread(user.getUserModel().getNickName(), socket, this);
 		Thread t = new Thread(server);
 		t.start();
 		//new Receive().start();
@@ -251,7 +259,7 @@ public class FriendListJFrame extends FillitFrame{
 		headPanel.setHeadBorder(new ImageIcon("Image\\use\\Padding4Normal.png"));
 		headPanel.setPreferredSize(new Dimension(66, 66));
 		headPanel.setHorizontalAlignment(SwingConstants.CENTER);
-		headPanel.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(user.getUser().getHeadURL()),
+		headPanel.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(user.getUserModel().getHeadURL()),
 				62,
 				62,
 	    		7));
@@ -276,7 +284,7 @@ public class FriendListJFrame extends FillitFrame{
 		stateButton.add(arrow);
 		pane6.add(stateButton);
 		//昵称
-		nickName = new JLabel(user.getNickName());
+		nickName = new JLabel(user.getUserModel().getNickName());
 		nickName.setFont(new Font("微软雅黑", 0, 15));
 		nickName.setBounds(20, 34, 100, 15);
 		pane6.add(nickName);
@@ -288,7 +296,7 @@ public class FriendListJFrame extends FillitFrame{
 		JPanel pane12 = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 1));
 		pane12.setOpaque(false);
 		pane5.add(pane12, "Center");
-		String content = user.getSignature();
+		String content = user.getUserModel().getSignature();
 		if(content == null){
 			signatureField = new JTextField("编辑个性签名");
 		}else{
@@ -451,7 +459,7 @@ public class FriendListJFrame extends FillitFrame{
 		//选项卡组
 		crateTabs();
 		//好友面板
-		createFriendPanel();
+		initForCard();
 	}
 
 
@@ -467,25 +475,166 @@ public class FriendListJFrame extends FillitFrame{
 		friendsTab = new Tab(new ImageIcon("Image\\use\\icon_contacts_normal.png"), true);
 		friendsTab.setSelectedIcon(new ImageIcon("Image\\use\\icon_contacts_selected.png"));
 		friendsTab.setToolTipText("联系人");
+		friendsTab.addActionListener(actionAdapter);
 		forTab.add(friendsTab);
 		buttonGroup.add(friendsTab);
 		//群/讨论组
 		groupTab = new Tab(new ImageIcon("Image\\use\\icon_group_normal.png"));
 		groupTab.setSelectedIcon(new ImageIcon("Image\\use\\icon_group_selected.png"));
 		groupTab.setToolTipText("群/讨论组");
+		groupTab.addActionListener(actionAdapter);
 		forTab.add(groupTab);
 		buttonGroup.add(groupTab);
 		//会话
 		conversationTab = new Tab(new ImageIcon("Image\\use\\icon_last_normal.png"));
 		conversationTab.setSelectedIcon(new ImageIcon("Image\\use\\icon_last_selected.png"));
 		conversationTab.setToolTipText("会话");
+		conversationTab.addActionListener(actionAdapter);
 		forTab.add(conversationTab);
 		buttonGroup.add(conversationTab);
+	
 	}
 
+	private void initForCard(){
+		cardLayout = new CardLayout();
+		forCard = new JPanel(cardLayout);
+		forCard.setOpaque(false);
+		forCenter.add(forCard, "Center");
+		
+		createFriendPanel(true);
+		createGroupPanel(true);
+		createConversationPanel(true);
 
+		cardLayout.show(forCard, "friendsTab");
+	}
+	private void createFriendPanel(boolean isFrist){
+		cardLayout1 = new CardLayout();
+		forCard1 = new JPanel(cardLayout1);
+		forCard1.setOpaque(false);
+		scrollPane1 = new JScrollPane(forCard1,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane1.setOpaque(false);
+		scrollPane1.getViewport().setOpaque(false);
+		scrollPane1.setBorder(BorderFactory.createMatteBorder(0,
+				1,
+				0,
+				1,
+				Color.black));
+		
+		
+		friendPanel1 = new JPanel(new VerlicelColumn(5)){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2549744010310864813L;
+			public void paintComponent(Graphics g){
+				g.setColor(new Color(255,255,255,235));
+				g.fillRect(0, 0, getWidth(), getHeight());
+				super.paintComponent(g);
+			}
+		};
+		friendPanel1.setOpaque(false);
+		forCard1.add(friendPanel1);
+		
+		ArrayList<FriendGroupModel> groups = user.getFriendList();
+		for(FriendGroupModel group : groups){
+			GroupContainer gropContainer = createGroupNode(group.getGroupName());
+			int length = group.size();
+			for(int i=0; i<length; i++){
+				FriendItemModel friendModel = group.get(i);	
+				FriendItem friend = new FriendItem(friendModel);
+				gropContainer.addMember(friend);
+				friend.addMouseListener(friendItemMouseAdapter);
+			}
+			friendPanel1.add(gropContainer);
+		}
+		forCard.add("friendsTab", scrollPane1);
+	}
+
+	private void createGroupPanel(boolean isFrist) {
+		cardLayout2 = new CardLayout();
+		forCard2 = new JPanel(cardLayout2);
+		forCard2.setOpaque(false);
+		scrollPane2 = new JScrollPane(forCard2, 
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane2.setOpaque(false);
+		scrollPane2.getViewport().setOpaque(false);
+		scrollPane2.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.black));
+
+		friendPanel2 = new JPanel(new VerlicelColumn(5)) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2549744010310864813L;
+
+			public void paintComponent(Graphics g) {
+				g.setColor(new Color(255, 255, 255, 235));
+				g.fillRect(0, 0, getWidth(), getHeight());
+				super.paintComponent(g);
+			}
+		};
+		friendPanel2.setOpaque(false);
+		forCard2.add(friendPanel2);
+
+		ArrayList<FriendGroupModel> groups = user.getFriendList();
+		for (FriendGroupModel group : groups) {
+			GroupContainer gropContainer = createGroupNode(group.getGroupName());
+			int length = group.size();
+			for (int i = 0; i < length; i++) {
+				FriendItemModel friendModel = group.get(i);
+				FriendItem friend = new FriendItem(friendModel);
+				gropContainer.addMember(friend);
+				friend.addMouseListener(friendItemMouseAdapter);
+			}
+			friendPanel2.add(gropContainer);
+		}
+		forCard.add("groupTab", scrollPane2);
+	}
+
+	private void createConversationPanel(boolean isFrist) {
+		cardLayout3 = new CardLayout();
+		forCard3 = new JPanel(cardLayout3);
+		forCard3.setOpaque(false);
+		scrollPane3 = new JScrollPane(forCard3, 
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane3.setOpaque(false);
+		scrollPane3.getViewport().setOpaque(false);
+		scrollPane3.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.black));
+
+		friendPanel3 = new JPanel(new VerlicelColumn(5)) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2549744010310864813L;
+
+			public void paintComponent(Graphics g) {
+				g.setColor(new Color(255, 255, 255, 235));
+				g.fillRect(0, 0, getWidth(), getHeight());
+				super.paintComponent(g);
+			}
+		};
+		friendPanel3.setOpaque(false);
+		forCard3.add(friendPanel3);
+
+		ArrayList<FriendGroupModel> groups = user.getFriendList();
+		for (FriendGroupModel group : groups) {
+			GroupContainer gropContainer = createGroupNode(group.getGroupName());
+			int length = group.size();
+			for (int i = 0; i < length; i++) {
+				FriendItemModel friendModel = group.get(i);
+				FriendItem friend = new FriendItem(friendModel);
+				gropContainer.addMember(friend);
+				friend.addMouseListener(friendItemMouseAdapter);
+			}
+			friendPanel3.add(gropContainer);
+		}
+		forCard.add("conversationTab", scrollPane3);
+	}
 	//构建
-	private void createFriendPanel(){
+	/*private void createFriendPanel(){
 		cardLayout = new CardLayout();
 		forCard = new JPanel(cardLayout);
 		forCard.setOpaque(false);
@@ -502,9 +651,9 @@ public class FriendListJFrame extends FillitFrame{
 		forCenter.add(scrollPane, "Center");
 		
 		friendPanel = new JPanel(new VerlicelColumn(5)){
-			/**
+			*//**
 			 * 
-			 */
+			 *//*
 			private static final long serialVersionUID = 2549744010310864813L;
 			public void paintComponent(Graphics g){
 				g.setColor(new Color(255,255,255,235));
@@ -527,7 +676,7 @@ public class FriendListJFrame extends FillitFrame{
 			}
 			friendPanel.add(gropContainer);
 		}
-	}
+	}*/
 
 
 	//添加节点
@@ -681,6 +830,86 @@ public class FriendListJFrame extends FillitFrame{
 	}
 
 
+	/**
+	 * @Description:打开好友聊天界面
+	 * @auther: wutp 2016年12月2日
+	 * @param e
+	 * @return void
+	 */
+	private void ActionFriendlist(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+			final FriendItem selectedItem = (FriendItem) e.getSource();
+			if (selectedItem.getNo() == FriendListJFrame.user.getUserModel().toString()) {
+				JOptionPane.showMessageDialog(getContentPane(), "不能和自己聊天");
+				return;
+			}
+			if(selectedItem.getModel().getStatus().equals("1")){
+				ChatJFrame chetPanel = chatJFrames.get(selectedItem.getNo());
+				// 判断是否已经有该面板
+				if (chetPanel == null) {
+					FriendItemModel model = selectedItem.getModel();
+					chetPanel = new ChatJFrame(model, this);
+					chatJFrames.put(selectedItem.getNo(), chetPanel);
+				} else {
+					chetPanel.textFieldRequestFocus();
+				}
+			}else{
+				JOptionPane.showMessageDialog(getContentPane(), "不能和离线好友聊天");
+				return;
+			}			
+		}	
+	}
+
+
+	//播放展开效果
+	private void openEffect(final JToggleButton pressButton){
+		GroupContainer gropContainer = (GroupContainer) pressButton.getParent();
+		gropContainer.expand();
+		Thread t = new Thread(){
+			public void run(){
+				for(ImageIcon img: arrows){
+					pressButton.setIcon(img);
+					try {
+						Thread.sleep(15);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		t.start();	
+	}
+
+
+	//关闭效果
+	private void closeEffect(final JToggleButton pressButton){
+		GroupContainer gropContainer = (GroupContainer) pressButton.getParent();
+		gropContainer.collapse();
+		Thread t = new Thread(){
+			public void run(){
+				ImageIcon img;
+				int length = arrows.length;
+				for(int i=length-1; i>=0;i--){
+					img = arrows[i];
+					pressButton.setIcon(img);
+					try {
+						Thread.sleep(15);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		t.start();	
+	}
+
+
+	//最小化
+	private void outSetExtendedState(int iconified) {
+		setExtendedState(JFrame.ICONIFIED);				
+	}
+
+
 	/*
 	 * 按钮专用的监听器
 	 */
@@ -691,13 +920,18 @@ public class FriendListJFrame extends FillitFrame{
 			}else if(e.getSource() == minimizationButton){				
 				System.out.println("最小化");
 				outSetExtendedState(JFrame.ICONIFIED);	
+			}else if(e.getSource() == friendsTab){
+				System.out.println("friendsTab");
+				cardLayout.show(forCard, "friendsTab");
+			}else if(e.getSource() == groupTab){
+				System.out.println("groupTab");
+				cardLayout.show(forCard, "groupTab");
+			}else if(e.getSource() == conversationTab){
+				System.out.println("conversationTab");
+				cardLayout.show(forCard, "conversationTab");
 			}
 		}		
 	};
-	//最小化
-	private void outSetExtendedState(int iconified) {
-		setExtendedState(JFrame.ICONIFIED);				
-	}	
 	//节点的点击监听器
 	private ActionListener nodeActionListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
@@ -757,120 +991,4 @@ public class FriendListJFrame extends FillitFrame{
 			ActionFriendlist(e);
 		}
 	};
-	/**
-	 * @Description:打开好友聊天界面
-	 * @auther: wutp 2016年12月2日
-	 * @param e
-	 * @return void
-	 */
-	private void ActionFriendlist(MouseEvent e) {
-		if (e.getClickCount() == 2) {
-			final FriendItem selectedItem = (FriendItem) e.getSource();
-			if (selectedItem.getNo() == FriendListJFrame.user.getUser().toString()) {
-				JOptionPane.showMessageDialog(getContentPane(), "不能和自己聊天");
-				return;
-			}
-			if(selectedItem.getModel().getStatus().equals("1")){
-				ChatJFrame chetPanel = chatJFrames.get(selectedItem.getNo());
-				// 判断是否已经有该面板
-				if (chetPanel == null) {
-					FriendItemModel model = selectedItem.getModel();
-					chetPanel = new ChatJFrame(model, this);
-					chatJFrames.put(selectedItem.getNo(), chetPanel);
-				} else {
-					chetPanel.textFieldRequestFocus();
-				}
-			}else{
-				JOptionPane.showMessageDialog(getContentPane(), "不能和离线好友聊天");
-				return;
-			}			
-		}	
-	}
-	//播放展开效果
-	private void openEffect(final JToggleButton pressButton){
-		GroupContainer gropContainer = (GroupContainer) pressButton.getParent();
-		gropContainer.expand();
-		Thread t = new Thread(){
-			public void run(){
-				for(ImageIcon img: arrows){
-					pressButton.setIcon(img);
-					try {
-						Thread.sleep(15);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		t.start();	
-	}
-	//关闭效果
-	private void closeEffect(final JToggleButton pressButton){
-		GroupContainer gropContainer = (GroupContainer) pressButton.getParent();
-		gropContainer.collapse();
-		Thread t = new Thread(){
-			public void run(){
-				ImageIcon img;
-				int length = arrows.length;
-				for(int i=length-1; i>=0;i--){
-					img = arrows[i];
-					pressButton.setIcon(img);
-					try {
-						Thread.sleep(15);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		t.start();	
-	}
-	/**
-	 * @Description: 内部类线程
-	 * @author wutp 2016年10月31日
-	 * @version 1.0
-	 */
-	/*class Receive extends Thread{
-		public void run(){
-			ParcelModel parcel;
-			while(true){
-				try {
-					objectInputStream = new ObjectInputStream(socket.getInputStream());
-					try {
-						parcel = (ParcelModel)objectInputStream.readObject();
-						switch(parcel.getMessage()){
-						case NEWS:
-							NewsParcel newsParcel = (NewsParcel) parcel;
-							String sender = newsParcel.getSender();
-							ChatJFrame chatJFrame = chatJFrames.get(sender);
-							//如果没有该面板则创建一个
-							if(chatJFrame == null){
-								ArrayList<GroupModel> groups = user.getFriendList();
-								for(GroupModel group : groups){
-									int length = group.size();
-									for(int i=0; i<length; i++){
-										FriendItemModel friendModel = group.get(i);	
-										if(friendModel.getNO().equals(sender)){
-											chatJFrame = new ChatJFrame(friendModel, socket);
-											chatJFrames.put(friendModel.getNO(), chatJFrame);										
-										}
-									}
-								}
-							}
-							//向其中插入内容
-							chatJFrame.insertString(newsParcel.getSenderInformation(), null);
-							chatJFrame.insertString((String)newsParcel.getContent(), null);
-							break;
-						default:
-							break;
-						}
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}*/
 }
