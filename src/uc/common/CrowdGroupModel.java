@@ -1,12 +1,7 @@
 package uc.common;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * @Description: 群分组
@@ -19,28 +14,31 @@ public class CrowdGroupModel implements Serializable{
 	 */
 	private static final long serialVersionUID = -1129594901962565953L;
 	
-	private String cno;//群分组编号
-	private String cName;//群分组名称
+	private String cid;//群分组编号
+	private String cname;//群分组名称
 	private ArrayList<GroupModel> groupList = new ArrayList<GroupModel>();//群列表
 	
-	public CrowdGroupModel(String cName){
-		this.cName = cName;
+	public CrowdGroupModel(){
+	
+	}
+	public CrowdGroupModel(String cname){
+		this.cname = cname;
 	}
 
-	public String getCno() {
-		return cno;
+	public String getCid() {
+		return cid;
 	}
 
-	public void setCno(String cno) {
-		this.cno = cno;
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
 
-	public String getcName() {
-		return cName;
+	public String getCname() {
+		return cname;
 	}
 
-	public void setcName(String cName) {
-		this.cName = cName;
+	public void setCname(String cname) {
+		this.cname = cname;
 	}
 
 	public ArrayList<GroupModel> getGroupList() {

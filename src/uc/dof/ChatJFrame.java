@@ -8,7 +8,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.LinearGradientPaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +15,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.text.DateFormat;
 import java.util.Calendar;
 
@@ -46,7 +42,7 @@ import uc.pub.assembly.MainPanel;
 import uc.pub.assembly.SenioButton;
 import uc.pub.tool.ChangeImage;
 import uc.pub.tool.Fonts;
-import uc.pub.tool.Images;
+import uc.pub.tool.ImagesFunction;
 
 /**
  * @Description:
@@ -170,7 +166,7 @@ public class ChatJFrame extends FillitFrame{
 		if (model.getHead() != null) {
 			forHead.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(model.getHead()), 42, 42, 5));
 		} else {
-			forHead.setIcon(ChangeImage.roundedCornerIcon(Images.defaultHead, 42, 42, 5));
+			forHead.setIcon(ChangeImage.roundedCornerIcon(ImagesFunction.defaultHead, 42, 42, 5));
 		}
 		pane2.add(forHead);
 
@@ -399,7 +395,7 @@ public class ChatJFrame extends FillitFrame{
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					System.out.println("send");
-					actionPerformed();
+					actionSend();
 				}
 			}
 
@@ -423,9 +419,11 @@ public class ChatJFrame extends FillitFrame{
 
 		closeButton2 = new JButton("关闭(C)");
 		closeButton2.setFocusPainted(false);
+		closeButton2.addActionListener(actionAdapter);
 		pane7.add(closeButton2);
 		sendButton = new JButton("发送(S)");
 		sendButton.setFocusPainted(false);
+		sendButton.addActionListener(actionAdapter);
 		pane7.add(sendButton);
 	}
 
@@ -545,8 +543,12 @@ public class ChatJFrame extends FillitFrame{
 		}
 	}
 
-	public void actionPerformed() {
-		
+	/**
+	 * @Description:处理发送信息事件
+	 * @auther: wutp 2016年12月4日
+	 * @return void
+	 */
+	public void actionSend() {		
 		MessageBean m = new MessageBean();
 		m.setType(MessageType.SINGLETON_CHAT);
 		MessageModel message = new MessageModel();
@@ -559,8 +561,6 @@ public class ChatJFrame extends FillitFrame{
 		displayMessage.replaceSelection(new java.util.Date().toString() + " 我:\r\n" + textField.getText().trim() + "\r\n");
 		textField.setText(null);
 		textField.requestFocus();
-	
-
 	}
 		
 	/**
@@ -578,13 +578,13 @@ public class ChatJFrame extends FillitFrame{
 	 */
 	private ActionListener actionAdapter = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == closeButton) {
-				//frame.dispose();
+			if (e.getSource() == closeButton || e.getSource() == closeButton2) {
 				dispose();
-				FriendListJFrame.remove(model.getNO());
+				FriendListJFrame.removeChatJFrame(model.getNO());
 			} else if (e.getSource() == minimizationButton) {
-				//frame.setExtendedState(JFrame.ICONIFIED);
 				setExtendedState(JFrame.ICONIFIED);
+			}else if(e.getSource() == sendButton){
+				actionSend();
 			}
 		}
 	};

@@ -1,12 +1,7 @@
 package uc.common;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * @Description: 群
@@ -21,14 +16,27 @@ public class GroupModel implements Serializable{
 	
 	private String gid;
 	private String groupName;
-	private Timestamp gdate;//创建时间
+	private Object gdate;//创建时间
+	private byte[] picture;//群头像
 	private String power;//群权限
 	private ArrayList<FriendItemModel> friends = new ArrayList<FriendItemModel>();//成员列表
 	
+	public GroupModel(){
+		
+	}
 	public GroupModel(String groupName){
 		this.groupName = groupName;
 	}
 
+	public GroupModel(String gid, String groupName, Object gdate, byte[] picture, String power,
+			ArrayList<FriendItemModel> friends) {
+		this.gid = gid;
+		this.groupName = groupName;
+		this.gdate = gdate;
+		this.picture = picture;
+		this.power = power;
+		this.friends = friends;
+	}
 	public String getGid() {
 		return gid;
 	}
@@ -45,14 +53,20 @@ public class GroupModel implements Serializable{
 		this.groupName = groupName;
 	}
 
-	public Timestamp getGdate() {
+	public Object getGdate() {
 		return gdate;
 	}
 
-	public void setGdate(Timestamp gdate) {
+	public void setGdate(Object gdate) {
 		this.gdate = gdate;
 	}
 
+	public byte[] getPicture() {
+		return picture;
+	}
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
 	public String getPower() {
 		return power;
 	}

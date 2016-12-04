@@ -22,9 +22,11 @@ public class UserInfoModel implements Serializable{
 	private ArrayList<CrowdGroupModel> groupsList;
 	
 	public UserInfoModel(UserModel userModel,
-			ArrayList<FriendGroupModel> friendList){
+			ArrayList<FriendGroupModel> friendList,
+			ArrayList<CrowdGroupModel> groupsList){
 		this.userModel = userModel;
 		this.friendList = friendList;
+		this.groupsList = groupsList;
 	}
 
 	public UserModel getUserModel() {

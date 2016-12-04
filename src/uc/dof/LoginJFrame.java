@@ -32,7 +32,7 @@ import uc.pub.assembly.StateItem;
 import uc.pub.tool.ChangeImage;
 import uc.pub.tool.Colors;
 import uc.pub.tool.Fonts;
-import uc.pub.tool.Images;
+import uc.pub.tool.ImagesFunction;
 
 /**
  * @Description: 读取账号纪录功能没写 未将自定义按钮改成普通按钮的版本
@@ -539,7 +539,7 @@ public class LoginJFrame extends FillitFrame {
 		edit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				boder.setIcon(Images.blueBorder);
+				boder.setIcon(ImagesFunction.blueBorder);
 			}
 	
 			@Override
@@ -555,7 +555,7 @@ public class LoginJFrame extends FillitFrame {
 		fillcipher.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				boder2.setIcon(Images.blueBorder);
+				boder2.setIcon(ImagesFunction.blueBorder);
 			}
 	
 			@Override
@@ -624,7 +624,7 @@ public class LoginJFrame extends FillitFrame {
 	// 重置面板上的值
 	private void reSet() {
 		// 重置头像
-		headPanel.setIcon(ChangeImage.roundedCornerIcon(Images.defaultHead, 82, 82, 10));
+		headPanel.setIcon(ChangeImage.roundedCornerIcon(ImagesFunction.defaultHead, 82, 82, 10));
 		// 重置密码框
 		emptyFillcipher();
 		// 重置复选框

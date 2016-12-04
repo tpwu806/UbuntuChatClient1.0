@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +40,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import uc.common.FriendItemModel;
+import uc.common.GroupModel;
 import uc.common.MessageBean;
 import uc.common.MessageModel;
 import uc.common.MessageType;
@@ -74,25 +77,27 @@ public class ChatroomJFrame extends JFrame {
 	private JButton sendButton;// 发送按钮
 	private JButton closeButton;// 关闭按钮
 
-	private FriendListJFrame WIN;
-	private  String name;
-	private String groupName;
+	//private FriendListJFrame WIN;
+	//private  String name;
+	//private String groupName;
+	GroupModel model;
+	FriendListJFrame WIN;
 	/**
 	 * Create the frame.
 	 */	
-	public ChatroomJFrame(String u_name, String groupName,FriendListJFrame jf) {
-		// 赋值
-		this.name = u_name;
-		this.groupName=groupName;
-		this.WIN=jf;
-		
-		init();
-
+	public ChatroomJFrame(GroupModel model, FriendListJFrame friendListJFrame) {
+		this.model = model;
+		this.WIN = friendListJFrame;
+		initUI();
 	}
 
-	private void init() {
+	private void initUI() {
 
 		gFriends = new Vector<String>();
+		ArrayList<FriendItemModel> sList = this.model.getFriends();
+		for(FriendItemModel f : sList){
+			gFriends.add(f.getNickName());
+		}
 		
 		/*SwingUtilities.updateComponentTreeUI(this);		 
 		try { 
@@ -103,7 +108,7 @@ public class ChatroomJFrame extends JFrame {
 		} 	*/	
 		 
 
-		setTitle(groupName);
+		setTitle(this.model.getGroupName());
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(200, 100, 688, 510);
@@ -158,7 +163,7 @@ public class ChatroomJFrame extends JFrame {
 		list.setCellRenderer(new CellRenderer());
 		list.setOpaque(false);
 		Border etch = BorderFactory.createEtchedBorder();
-		list.setBorder(BorderFactory.createTitledBorder(etch, "<" + groupName + ">" + "在线客户:", TitledBorder.LEADING,
+		list.setBorder(BorderFactory.createTitledBorder(etch, "<" + this.model.getGroupName() + ">" + "在线客户:", TitledBorder.LEADING,
 				TitledBorder.TOP, new Font("sdf", Font.BOLD, 20), Color.green));
 
 		JScrollPane onlineJScrollPane = new JScrollPane(list);
@@ -256,8 +261,8 @@ public class ChatroomJFrame extends JFrame {
 		MessageBean clientBean = new MessageBean();
 		clientBean.setType(MessageType.GROUP_CHAT);
 		MessageModel message = new MessageModel();
-		message.setSender(name);
-		message.setRecerver(groupName);
+		message.setSender(this.WIN.user.toString());
+		message.setRecerver(this.model.getGid());
 		String time = DataTool.getTimer();
 		message.setTime(time);
 		message.setInfo(info);
@@ -371,7 +376,7 @@ public class ChatroomJFrame extends JFrame {
 	public void getGroupFriendsList(){
 		MessageBean clientBean = new MessageBean();
 		clientBean.setType(MessageType.GET_GROUP_FRIEND_LIST);
-		clientBean.setObject(groupName);
+		clientBean.setObject(this.model.getGid());
 		sendMessage(clientBean);
 	}
 	/**
@@ -403,6 +408,16 @@ public class ChatroomJFrame extends JFrame {
 
 		listmodel = new OnlineListModel(gFriends);
 		list.setModel(listmodel);*/
+	}
+
+	/**
+	 * @Description:获取焦点
+	 * @auther: wutp 2016年12月4日
+	 * @return void
+	 */
+	public void textFieldRequestFocus() {
+		this.setExtendedState(JFrame.NORMAL);
+		sendJTextArea.requestFocus();		
 	}
 
 	/**
