@@ -18,6 +18,7 @@ import uc.common.FriendGroupModel;
 import uc.common.FriendItemModel;
 import uc.common.GroupModel;
 import uc.common.UserInfoModel;
+import uc.common.UserModel;
 import uc.dal.ClientServerThread;
 import uc.pub.assembly.*;
 import uc.pub.tool.ChangeImage;
@@ -845,14 +846,18 @@ public class FriendListJFrame extends FillitFrame{
 	 * @auther: wutp 2016年12月4日
 	 * @return void
 	 */
-	public void updateFriend(String uid) {
+	public void updateFriend(UserModel u) {
 		ArrayList<FriendGroupModel> fgList= FriendListJFrame.user.getFriendList();
 		for(FriendGroupModel fgModel : fgList){
 			ArrayList<FriendItemModel> friends = fgModel.getFriends();
 			for(FriendItemModel f : friends){
-				if(uid.equals(f.getNO()))
+				if(u.getUcId().equals(f.getNO())){
 					f.setStatus("1");
-				createFriendPanel(false);
+					f.setHead(u.getHeadURL());
+					f.setSignature("上线了");
+					createFriendPanel(false);
+					break;
+				}
 			}
 		}
 		

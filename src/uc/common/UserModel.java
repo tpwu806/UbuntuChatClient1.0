@@ -15,7 +15,7 @@ public class UserModel implements Serializable{
 	
 	private String ucId;//用户uc
 	private String password;//密码
-	private String headURL;//头像
+	private byte[] headURL;//头像
 	private StateEnum state;//状态
 	private boolean rememberPassWord = false;//记住密码
 	private boolean automaticLogin = false;//自动登录	
@@ -23,7 +23,7 @@ public class UserModel implements Serializable{
 	private String signature;//个性签名
 	
 	public UserModel(String ucId, 
-			String headURL, 
+			byte[] headURL, 
 			StateEnum state, 
 			boolean rememberPassWord, 
 			boolean automaticLogin) {
@@ -35,11 +35,11 @@ public class UserModel implements Serializable{
 		this.automaticLogin = automaticLogin;
 	}
 
-	public String getHeadURL() {
+	public byte[] getHeadURL() {
 		return headURL;
 	}
 
-	public void setHeadURL(String headURL) {
+	public void setHeadURL(byte[] headURL) {
 		this.headURL = headURL;
 	}
 

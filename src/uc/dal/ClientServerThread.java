@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 
 import uc.common.MessageBean;
 import uc.common.MessageType;
+import uc.common.UserModel;
 import uc.dof.ChatJFrame;
 import uc.dof.ChatroomJFrame;
 import uc.dof.FriendListJFrame;
@@ -125,8 +126,10 @@ public class ClientServerThread implements Runnable {
 	private void ActionServerUpdateFriend(MessageBean bean) {
 		try{
 			String uid = bean.getObject().toString();
-			if(uid != null && !"".equals(uid))
-				UCWindow.updateFriend(uid);
+			if(uid != null && !"".equals(uid)){
+				UserModel u= (UserModel) bean.getObject();
+				UCWindow.updateFriend(u);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}

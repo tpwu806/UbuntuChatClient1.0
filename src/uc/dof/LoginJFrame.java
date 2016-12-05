@@ -569,9 +569,9 @@ public class LoginJFrame extends FillitFrame {
 
 	// 读取账户
 	private void readUser() {
-		elements.add(new UserModel("77777", "Image\\Head\\1_100.gif", StateEnum.QME, false, false));
-		elements.add(new UserModel("88888", "Image\\Head\\10.png", StateEnum.BEBUSY, true, false));
-		elements.add(new UserModel("99999", "Image\\Head\\30.png", StateEnum.INVISIBLE, false, true));
+		elements.add(new UserModel("77777", ImagesFunction.getImage("Image\\Head\\1_100.gif"), StateEnum.QME, false, false));
+		elements.add(new UserModel("88888", ImagesFunction.getImage("Image\\Head\\10.png"), StateEnum.BEBUSY, true, false));
+		elements.add(new UserModel("99999", ImagesFunction.getImage("Image\\Head\\30.png"), StateEnum.INVISIBLE, false, true));
 	}
 
 	// 生成提示栏
