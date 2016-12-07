@@ -526,6 +526,14 @@ public class FriendListJFrame extends FillitFrame{
 	 * @return void
 	 */
 	private void createFriendPanel(boolean isFrist){
+		if(!isFrist){
+			forCard.remove(scrollPane1);
+			scrollPane1.remove(forCard1);
+			forCard1.remove(friendPanel);
+			forCard.invalidate();
+			forCard.setVisible(true);
+			//this.repaint();
+		}
 		cardLayout1 = new CardLayout();
 		forCard1 = new JPanel(cardLayout1);
 		forCard1.setOpaque(false);
@@ -568,8 +576,11 @@ public class FriendListJFrame extends FillitFrame{
 		}
 		forCard.add("friendsTab", scrollPane1);
 		if(!isFrist){
-			forCard.setVisible(false);
+			forCard.setVisible(false);			
+			forCard.invalidate();
 			forCard.setVisible(true);
+			cardLayout.show(forCard, "friendsTab");
+			this.repaint();
 		}
 	}
 
