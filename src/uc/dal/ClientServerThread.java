@@ -23,6 +23,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import uc.common.MessageBean;
+import uc.common.MessageModel;
 import uc.common.MessageType;
 import uc.common.UserModel;
 import uc.dof.ChatJFrame;
@@ -92,7 +93,7 @@ public class ClientServerThread implements Runnable {
 					break;
 				}
 				case MessageType.SINGLETON_CHAT: {
-					//ActionSingletonChat(bean);
+					ActionSingletonChat(bean);
 					break;
 				}
 				default: {
@@ -273,16 +274,19 @@ public class ClientServerThread implements Runnable {
 	 * @auther: wutp 2016年10月16日
 	 * @param bean
 	 * @return void
-	 *//*
+	 */
 	private void ActionSingletonChat(MessageBean bean){
-		ChatJFrame chatJFrame = UCWindow.chatWinMap.get(bean.getName());
-		
-		if(chatJFrame != null){
-			chatJFrame.showMessage(bean);
-		}else{//待实现消息盒子
-			System.out.println("您有新消息，请查收" + bean.getInfo());
+		if(bean.getObject() != null){
+			MessageModel m = (MessageModel) bean.getObject();
+			ChatJFrame chatJFrame = FriendListJFrame.chatJFrames.get(m.getSender());		
+			if(chatJFrame != null){
+				chatJFrame.showMessage(m);
+			}else{//待实现消息盒子
+				System.out.println("您有新消息，请查收" + m.getInfo().toString());
+			}
 		}
-	}*/
+		
+	}
 	
 	private void ActionFileRequetion(MessageBean bean){
 		/*// 由于等待目标客户确认是否接收文件是个阻塞状态，所以这里用线程处理

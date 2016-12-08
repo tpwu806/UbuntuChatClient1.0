@@ -1,6 +1,7 @@
 package uc.dof;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -16,6 +17,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -32,33 +34,38 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import uc.common.FriendGroupModel;
 import uc.common.FriendItemModel;
+import uc.common.GroupModel;
 import uc.common.MessageBean;
 import uc.common.MessageModel;
 import uc.common.MessageType;
 import uc.pub.assembly.FillitFrame;
+import uc.pub.assembly.FriendItem;
 import uc.pub.assembly.GradientPanel;
+import uc.pub.assembly.GroupContainer;
+import uc.pub.assembly.GroupUserItem;
 import uc.pub.assembly.MainPanel;
 import uc.pub.assembly.SenioButton;
+import uc.pub.assembly.VerlicelColumn;
 import uc.pub.tool.ChangeImage;
 import uc.pub.tool.Fonts;
 import uc.pub.tool.ImagesFunction;
 
 /**
- * @Description:
- * @author wutp 2016年10月16日
+ * @Description:群 
+ * @author wutp 2016年12月8日
  * @version 1.0
- * @author wutp 2016年10月30日
- * @version 1.6
  */
-public class ChatJFrame extends FillitFrame{
+public class RoomJFrame extends FillitFrame{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	// 好友的状态模型
-	private FriendItemModel model;
+	private GroupModel model;
+	private FriendListJFrame MainJFrame;
 	// 与服务器的连接
 	//private Socket socket;
 
@@ -117,10 +124,13 @@ public class ChatJFrame extends FillitFrame{
 	// 右边栏
 	private GradientPanel eastPane;
 
-	private FriendListJFrame MainJFrame;
+	private CardLayout cardLayout ;
+	private JPanel forCard ;
+	private JScrollPane scrollPane1 ;
+	private JPanel friendPanel ;
 	// 构建
-	public ChatJFrame(FriendItemModel model, FriendListJFrame fj) {
-		super(591, 482, 9, 9);
+	public RoomJFrame(GroupModel model, FriendListJFrame fj) {
+		super(691, 582, 9, 9);
 		this.model = model;
 		this.MainJFrame=fj;
 		//this.socket = socket;
@@ -163,8 +173,8 @@ public class ChatJFrame extends FillitFrame{
 		// 头像
 		forHead = new JLabel();
 		forHead.setPreferredSize(new Dimension(42, 42));
-		if (model.getHead() != null) {
-			forHead.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(model.getHead()), 42, 42, 5));
+		if (model.getPicture() != null) {
+			forHead.setIcon(ChangeImage.roundedCornerIcon(new ImageIcon(model.getPicture()), 42, 42, 5));
 		} else {
 			forHead.setIcon(ChangeImage.roundedCornerIcon(ImagesFunction.defaultHead, 42, 42, 5));
 		}
@@ -176,7 +186,7 @@ public class ChatJFrame extends FillitFrame{
 		pane1.add(pane3, "Center");
 
 		// 查看对方资料按钮
-		seeInformation = new JLabel(model.getNickName());
+		seeInformation = new JLabel(model.getGroupName());
 		seeInformation.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		seeInformation.setFont(new Font("微软雅黑", 0, 20));
 		seeInformation.setBounds(0, 8, 200, 23);
@@ -189,7 +199,7 @@ public class ChatJFrame extends FillitFrame{
 		seeZone.setBounds(0, 34, 16, 16);
 		pane3.add(seeZone);
 
-		survey = new JLabel(model.getSignature());
+		survey = new JLabel("朋友、同学");
 		survey.setFont(Fonts.MicrosoftAccor12);
 		survey.setBounds(20, 34, 100, 15);
 		pane3.add(survey);
@@ -440,17 +450,55 @@ public class ChatJFrame extends FillitFrame{
 		pane.add(eastPane);
 
 		JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		p1.setPreferredSize(new Dimension(142, 228));
+		p1.setPreferredSize(new Dimension(142, 128));
 		eastPane.add(p1, "North");
 		JLabel i2 = new JLabel(new ImageIcon("Image\\MainPanel\\NoviceGuide\\qshow.jpg"));
 		p1.add(i2);
 
-		JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		p2.setPreferredSize(new Dimension(142, 142));
-		eastPane.add(p2, "South");
-		JLabel i1 = new JLabel(new ImageIcon("Image\\MainPanel\\NoviceGuide\\qshow.jpg"));
-		p2.add(i1);
-
+		//JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		//p2.setPreferredSize(new Dimension(142, 242));
+		
+		/*JLabel i1 = new JLabel(new ImageIcon("Image\\MainPanel\\NoviceGuide\\qshow.jpg"));
+		p2.add(i1);*/
+		
+		/*****************************************************/
+		
+		
+				
+		friendPanel = new JPanel(new VerlicelColumn(5)){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2549744010310864813L;
+			public void paintComponent(Graphics g){
+				g.setColor(new Color(255,255,255,235));
+				g.fillRect(0, 0, getWidth(), getHeight());
+				super.paintComponent(g);
+			}
+		};
+		friendPanel.setOpaque(false);
+		
+		scrollPane1 = new JScrollPane(friendPanel);
+		scrollPane1.setOpaque(false);
+		scrollPane1.getViewport().setOpaque(false);
+		scrollPane1.setBorder(BorderFactory.createMatteBorder(0,
+				1,
+				0,
+				1,
+				Color.black));
+		ArrayList<FriendItemModel> friends = model.getFriends();
+		for(FriendItemModel user : friends){			
+			GroupUserItem gUserItem = new GroupUserItem(user);	
+			friendPanel.add(gUserItem);
+			//gUserItem.addMouseListener(mouseAdapter);
+		}
+		
+		//p2.add(scrollPane1);
+		scrollPane1.setVisible(true);
+		eastPane.add(scrollPane1, "South");
+		/*****************************************************/
+		
+		
 		// 折叠按钮
 		GradientPanel forTelescopicButton = new GradientPanel(new BorderLayout());
 		forTelescopicButton.setGradientColor(new Color(255, 255, 255, 205), new Color(255, 255, 255, 150));
@@ -515,7 +563,7 @@ public class ChatJFrame extends FillitFrame{
 		String senderInformation = FriendListJFrame.user.getUserModel().getNickName() + " "
 				+ dateFormat.format(Calendar.getInstance().getTime()) + "\n";
 		displayMessage.replaceSelection(senderInformation);
-		String resipient = model.getNO();
+		String resipient = model.getGid();
 		String content = textField.getText() + "\n";
 		textField.setText("");
 		displayMessage.replaceSelection(content);
@@ -557,7 +605,7 @@ public class ChatJFrame extends FillitFrame{
 		m.setType(MessageType.SINGLETON_CHAT);
 		MessageModel message = new MessageModel();
 		message.setSender(FriendListJFrame.user.getUserModel().toString());
-		message.setRecerver(model.getNO());
+		message.setRecerver(model.getGid());
 		message.setInfo(textField.getText().trim());
 		message.setTime(new java.util.Date().toString());
 		m.setObject(message);
@@ -584,7 +632,7 @@ public class ChatJFrame extends FillitFrame{
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == closeButton || e.getSource() == closeButton2) {
 				dispose();
-				FriendListJFrame.removeChatJFrame(model.getNO());
+				FriendListJFrame.removeChatJFrame(model.getGid());
 			} else if (e.getSource() == minimizationButton) {
 				setExtendedState(JFrame.ICONIFIED);
 			}else if(e.getSource() == sendButton){
@@ -593,12 +641,4 @@ public class ChatJFrame extends FillitFrame{
 		}
 	};
 
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		//ChatJFrame chatJFrame = new ChatJFrame(new FriendItemModel(null, null, null, true, null, null), new Socket());
-	}
 }

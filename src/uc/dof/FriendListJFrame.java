@@ -43,8 +43,8 @@ public class FriendListJFrame extends FillitFrame{
 	// 与服务器保持连接读取服务器发来的信息
 	public ClientServerThread server;
 	// 管理聊天面板
-	private static ConcurrentHashMap<String, ChatJFrame> chatJFrames = new ConcurrentHashMap<String, ChatJFrame>();
-	private static ConcurrentHashMap<String, ChatroomJFrame> roomJFrames = new ConcurrentHashMap<String, ChatroomJFrame>();
+	public static ConcurrentHashMap<String, ChatJFrame> chatJFrames = new ConcurrentHashMap<String, ChatJFrame>();
+	public static ConcurrentHashMap<String, RoomJFrame> roomJFrames = new ConcurrentHashMap<String, RoomJFrame>();
 	
 	// 头部
 	private JPanel forTop;
@@ -149,7 +149,7 @@ public class FriendListJFrame extends FillitFrame{
 			new ImageIcon("Image\\use\\75.png"),
 			arrowSelectedHover
 	};
-
+	
 	public FriendListJFrame(UserInfoModel user, Socket socket){
 		super(280, 678, 7, 7);
 		FriendListJFrame.user = user;
@@ -314,28 +314,9 @@ public class FriendListJFrame extends FillitFrame{
 		signatureField.setPreferredSize(new Dimension(130, 22));
 		pane12.add(signatureField, "Center");
 		//经过边框的实现
-		signatureField.addMouseListener(new MouseAdapter(){
-			private final LineBorder border = new LineBorder(Colors.greyColor);
-			public void mouseEntered(MouseEvent e){
-				signatureField.setBorder(border);
-			}
-			public void mouseExited(MouseEvent e){
-				signatureField.setBorder(null);
-			}
-		});
+		signatureField.addMouseListener(mouseAdapter);
 		//默认显示的实现
-		signatureField.addFocusListener(new FocusListener(){			
-			public void focusGained(FocusEvent e) {
-				if(defaultSignature){
-					signatureField.setText("");
-				}
-			}
-			public void focusLost(FocusEvent e) {
-				if(signatureField.getText().isEmpty()){
-					signatureField.setText("编辑个性签名");
-				}
-			}
-		});
+		signatureField.addFocusListener(focusListener);
 		//
 		JPanel pane7 = new JPanel(new BorderLayout());
 		pane7.setOpaque(false);
@@ -369,7 +350,7 @@ public class FriendListJFrame extends FillitFrame{
 	}
 
 
-	//构建
+	//构建收索区
 	private void createSearchBar(){
 		JPanel pane13 = new JPanel(new BorderLayout());
 		pane13.setOpaque(false);
@@ -413,30 +394,9 @@ public class FriendListJFrame extends FillitFrame{
 				0,
 				0));
 		searchBar.add(searchField);
-		searchField.addMouseListener(new MouseAdapter(){
-			public void mousePressed(MouseEvent e){
-				if(swiching){
-					swiching = false;
-					searchBar.setText("");
-					auxiliaryButton.setEnabled(true);
-					searchBar.setOpaque(true);
-				}
-			}
-		});
-		searchField.getDocument().addDocumentListener(new DocumentListener(){
-			public void insertUpdate(DocumentEvent e) {
-				if(swiching){
-					swiching = false;
-					searchBar.setText("");
-					auxiliaryButton.setEnabled(true);
-					searchBar.setOpaque(true);
-				}
-			}
-			public void removeUpdate(DocumentEvent e) {
-			}
-			public void changedUpdate(DocumentEvent e) {
-			}
-		});
+		searchField.addMouseListener(mouseAdapter);
+		
+		searchField.getDocument().addDocumentListener(documentListener);
 		//关闭按钮
 		auxiliaryButton = new JButton(new ImageIcon("Image\\use\\search.png"));
 		auxiliaryButton.setDisabledIcon(new ImageIcon("Image\\use\\search_Disable.png"));
@@ -446,15 +406,7 @@ public class FriendListJFrame extends FillitFrame{
 		auxiliaryButton.setFocusPainted(false);
 		searchBar.add(auxiliaryButton, "East");
 		//添加监听
-		auxiliaryButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				auxiliaryButton.setEnabled(false);
-				swiching = true;
-				searchField.setText("");
-				searchBar.setText(" 搜索：联系人、讨论组、群、企业");
-				searchBar.setOpaque(false);
-			}			
-		});
+		auxiliaryButton.addActionListener(actionAdapter);
 	}
 
 
@@ -518,6 +470,7 @@ public class FriendListJFrame extends FillitFrame{
 		createConversationPanel(true);
 
 		cardLayout.show(forCard, "friendsTab");
+		
 	}
 	/**
 	 * @Description:好友面板
@@ -570,7 +523,7 @@ public class FriendListJFrame extends FillitFrame{
 				FriendItemModel friendModel = group.get(i);	
 				FriendItem friend = new FriendItem(friendModel);
 				gropContainer.addMember(friend);
-				friend.addMouseListener(friendItemMouseAdapter);
+				friend.addMouseListener(mouseAdapter);
 			}
 			friendPanel.add(gropContainer);
 		}
@@ -624,7 +577,7 @@ public class FriendListJFrame extends FillitFrame{
 				GroupModel gModel = crowd.getGroupList().get(i);
 				GroupItem group = new GroupItem(gModel);
 				gropContainer.addMember(group);
-				group.addMouseListener(groupItemMouseAdapter);
+				group.addMouseListener(mouseAdapter);
 			}
 			groupPanel.add(gropContainer);
 		}
@@ -671,7 +624,7 @@ public class FriendListJFrame extends FillitFrame{
 				FriendItemModel friendModel = group.get(i);
 				FriendItem friend = new FriendItem(friendModel);
 				gropContainer.addMember(friend);
-				friend.addMouseListener(friendItemMouseAdapter);
+				friend.addMouseListener(mouseAdapter);
 			}
 			friendPanel3.add(gropContainer);
 		}
@@ -753,9 +706,9 @@ public class FriendListJFrame extends FillitFrame{
 		node.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 0));	
 		node.setPreferredSize(new Dimension(0, 25));
 		node.setHorizontalAlignment(SwingConstants.LEFT);
-		node.addActionListener(nodeActionListener);
+		node.addActionListener(actionAdapter);
 		node.addKeyListener(nodeKeyAdapter);
-		node.addFocusListener(nodeFocusListener);
+		node.addFocusListener(focusListener);
 		
 		return new GroupContainer(node);
 	}
@@ -923,21 +876,20 @@ public class FriendListJFrame extends FillitFrame{
 	 * @return void
 	 */
 	private void ActionGroupList(MouseEvent e) {
-		final GroupItem selectedItem = (GroupItem) e.getSource();
-		
+		final GroupItem selectedItem = (GroupItem) e.getSource();		
 		if(selectedItem.getModel() != null){
-			ChatroomJFrame roomPanel = roomJFrames.get(selectedItem.getGid());
+			RoomJFrame roomPanel = roomJFrames.get(selectedItem.getGid());
 			// 判断是否已经有该面板
 			if (roomPanel == null) {
 				GroupModel model = selectedItem.getModel();
-				roomPanel = new ChatroomJFrame(model, this);
+				roomPanel = new RoomJFrame(model, this);
 				roomPanel.setVisible(true);
 				roomJFrames.put(selectedItem.getGid(), roomPanel);
 			} else {
 				roomPanel.textFieldRequestFocus();
 			}
 		}else{
-			JOptionPane.showMessageDialog(getContentPane(), "不能和离线好友聊天");
+			JOptionPane.showMessageDialog(getContentPane(), "群信息异常");
 			return;
 		}		
 		
@@ -998,24 +950,71 @@ public class FriendListJFrame extends FillitFrame{
 	 */
 	private ActionListener actionAdapter = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(e.getSource() == closeButton){				
-				System.exit(0);				
-			}else if(e.getSource() == minimizationButton){				
-				System.out.println("最小化");
-				outSetExtendedState(JFrame.ICONIFIED);	
-			}else if(e.getSource() == friendsTab){
-				System.out.println("friendsTab");
-				cardLayout.show(forCard, "friendsTab");
-			}else if(e.getSource() == groupTab){
-				System.out.println("groupTab");
-				cardLayout.show(forCard, "groupTab");
-			}else if(e.getSource() == conversationTab){
-				System.out.println("conversationTab");
-				cardLayout.show(forCard, "conversationTab");
-			}
+			//Tab
+			if(e.getSource() instanceof Tab){
+				if(e.getSource() == friendsTab){
+					System.out.println("friendsTab");
+					cardLayout.show(forCard, "friendsTab");
+				}else if(e.getSource() == groupTab){
+					System.out.println("groupTab");
+					cardLayout.show(forCard, "groupTab");
+				}else if(e.getSource() == conversationTab){
+					System.out.println("conversationTab");
+					cardLayout.show(forCard, "conversationTab");
+				}
+			//节点的点击监听器
+			}else if(e.getSource() instanceof JToggleButton){
+				JToggleButton pressButton = (JToggleButton) e.getSource();
+				pressButton.setRolloverIcon(null);
+				if(pressButton.getModel().isSelected()){
+					openEffect(pressButton);
+				}else{
+					closeEffect(pressButton);
+				}
+			//JButton
+			}else if(e.getSource() instanceof JButton){
+				if(e.getSource() == closeButton){				
+					System.exit(0);				
+				}else if(e.getSource() == minimizationButton){				
+					System.out.println("最小化");
+					outSetExtendedState(JFrame.ICONIFIED);	
+				}else if(e.getSource() == auxiliaryButton){
+					auxiliaryButton.setEnabled(false);
+					swiching = true;
+					searchField.setText("");
+					searchBar.setText(" 搜索：联系人、讨论组、群、企业");
+					searchBar.setOpaque(false);
+				}
+			}			
 		}		
 	};
-	//节点的点击监听器
+	//双击创建聊天面板
+	private MouseAdapter mouseAdapter = new MouseAdapter(){
+		public void mouseClicked(MouseEvent e){
+			if(e.getSource() instanceof FriendItem){
+				ActionFriendList(e);
+			}else if(e.getSource() instanceof GroupItem){
+				ActionGroupList(e);
+			}
+		}
+		public void mousePressed(MouseEvent e){
+			if(swiching){
+				swiching = false;
+				searchBar.setText("");
+				auxiliaryButton.setEnabled(true);
+				searchBar.setOpaque(true);
+			}
+		}
+		private final LineBorder border = new LineBorder(Colors.greyColor);
+		public void mouseEntered(MouseEvent e){
+			signatureField.setBorder(border);
+		}
+		public void mouseExited(MouseEvent e){
+			signatureField.setBorder(null);
+		}
+	};
+
+	/*//节点的点击监听器
 	private ActionListener nodeActionListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
 			JToggleButton pressButton = (JToggleButton) e.getSource();
@@ -1026,7 +1025,7 @@ public class FriendListJFrame extends FillitFrame{
 				closeEffect(pressButton);
 			}
 		}
-	};
+	};*/
 	//节点ENTER键的监听器
 	private KeyAdapter nodeKeyAdapter = new KeyAdapter(){
 		public void keyPressed(KeyEvent e){
@@ -1044,44 +1043,56 @@ public class FriendListJFrame extends FillitFrame{
 		}
 	};
 	//节点的焦点监听器
-	private FocusListener nodeFocusListener = new FocusListener(){
-		public void focusGained(FocusEvent e) {}
+	private FocusListener focusListener = new FocusListener(){
+		
+		public void focusGained(FocusEvent e) {
+			if(e.getSource() instanceof JTextField){
+				if(defaultSignature){
+					signatureField.setText("");
+				}
+			}			
+		}
 		public void focusLost(FocusEvent e){
-			final JToggleButton pressButton = (JToggleButton) e.getSource();
-			if(pressButton.getModel().isSelected()){
-				Thread t = new Thread(){
-					public void run(){
-						pressButton.setSelectedIcon(arrowSelected);
-						pressButton.setRolloverSelectedIcon(arrowSelectedHover);
-					}
-				};
-				t.start();
-			}else{
-				Thread t = new Thread(){
-					public void run(){
-						pressButton.setIcon(arrow);
-						pressButton.setRolloverIcon(arrowHover);
-					}
-				};
-				t.start();
-			}				
+			if(e.getSource() instanceof JTextField){
+				if(signatureField.getText().isEmpty()){
+					signatureField.setText("编辑个性签名");
+				}
+			}else if(e.getSource() instanceof JToggleButton){
+				final JToggleButton pressButton = (JToggleButton) e.getSource();
+				if(pressButton.getModel().isSelected()){
+					Thread t = new Thread(){
+						public void run(){
+							pressButton.setSelectedIcon(arrowSelected);
+							pressButton.setRolloverSelectedIcon(arrowSelectedHover);
+						}
+					};
+					t.start();
+				}else{
+					Thread t = new Thread(){
+						public void run(){
+							pressButton.setIcon(arrow);
+							pressButton.setRolloverIcon(arrowHover);
+						}
+					};
+					t.start();
+				}	
+			}
+						
 		}
 	};
 
-	//双击创建聊天面板
-	private MouseAdapter friendItemMouseAdapter = new MouseAdapter(){
-		public void mouseClicked(MouseEvent e){
-			if (e.getClickCount() == 2) {
-				ActionFriendList(e);
+	private  TDocumentListener documentListener = new TDocumentListener() {
+		public void insertUpdate(DocumentEvent e) {
+			if(swiching){
+				swiching = false;
+				searchBar.setText("");
+				auxiliaryButton.setEnabled(true);
+				searchBar.setOpaque(true);
 			}
 		}
-	};
-	//双击创建聊天面板
-	private MouseAdapter groupItemMouseAdapter = new MouseAdapter(){
-		public void mouseClicked(MouseEvent e){
-			if (e.getClickCount() == 2) {
-				ActionGroupList(e);
-			}
-		}		
+		public void removeUpdate(DocumentEvent e) {
+		}
+		public void changedUpdate(DocumentEvent e) {
+		}
 	};
 }
